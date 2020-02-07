@@ -1,0 +1,108 @@
+@model CloudTrixApp.Models.TaskAssignment
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Task Management</a></li>
+            <li class="active">Create Task Assignment</li>
+        </ol>
+    </section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Task Assignment </h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.TaskAssignmentID)
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="AssignmentDate">Assignment Date</label>
+                                            @Html.TextBoxFor(model => model.AssignmentDate, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.AssignmentDate)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="TaskName">Task Name</label>
+                                            @Html.DropDownList("TaskID", null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TaskID)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="EmployeeID">Employee Name</label>
+                                            @Html.DropDownList("EmployeeID", null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.EmployeeID)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="TaskStateID">Task State Name</label>
+                                            @Html.DropDownList("TaskStateID", null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TaskStateID)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            <input type="submit" value="Create" class="btn btn-success" />
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#AssignmentDate').addClass('form-control');
+            $('#AssignmentDate').addClass('form-control');
+            $("#AssignmentDate").datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: '0y'
+            });
+        });
+    </script>
+}
+

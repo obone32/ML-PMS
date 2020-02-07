@@ -1,0 +1,63 @@
+@model CloudTrixApp.Models.TaskState
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Task Management</a></li>
+            <li class="active">Details Tasks State</li>
+        </ol>
+    </section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Details Tasks State</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <h4>TaskState</h4>
+                            <hr />
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.TaskStateID)
+
+                            <div class="container-fluid">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="TaskStateName">Task State Name</label>
+                                        @Html.TextBox("TaskStateName", null, new { @class = "form-control  ", @disabled = "on" })
+                                        @Html.ValidationMessageFor(model => model.TaskStateName)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid">
+                                <div><hr size=2><br /></div>
+                                <div class="col-sm-4 col-lg-offset-4">
+                                    <div class="form-group">
+                                        @Html.ActionLink("Edit", "Edit", new { TaskStateID = Model.TaskStateID }) |
+                                        &nbsp;&nbsp;
+                                        @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+    </script>
+}

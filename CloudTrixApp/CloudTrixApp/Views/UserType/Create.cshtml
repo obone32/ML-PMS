@@ -1,0 +1,72 @@
+@model CloudTrixApp.Models.UserType
+
+@{
+    ViewBag.Title = "Create User Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">User Type</a></li>
+            <li class="active">Create User Type</li>
+        </ol>
+    </section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create User Type</h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.UserTypeID)
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="UserTypeName"> User Type Name : </label>
+                                            @Html.TextBoxFor(model => model.UserTypeName, null, new { @class = "form-control ", @placeholder = "Enter User Type Name " })
+                                            @Html.ValidationMessageFor(model => model.UserTypeName)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            <input type="submit" value="Create" class="btn btn-success" />
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

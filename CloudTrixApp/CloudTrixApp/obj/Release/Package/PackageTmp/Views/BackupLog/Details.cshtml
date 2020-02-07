@@ -1,0 +1,41 @@
+@model CloudTrixApp.Models.BackupLog
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BackupLog</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.BackupLogID)
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BackupDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BackupDate)
+        <dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						BackupLogID = Model.BackupLogID 
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

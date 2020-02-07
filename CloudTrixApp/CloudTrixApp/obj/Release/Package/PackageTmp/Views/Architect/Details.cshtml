@@ -1,0 +1,110 @@
+@model CloudTrixApp.Models.Architect
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="wraper container-fluid ">
+    <div class="row">
+        <div class="col col-md-11">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Details for Company </h3>
+                </div>
+                <div class="panel-body">
+                    <hr />
+                    @Html.HiddenFor(model => model.ArchitectID)
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ArchitectName"> Architect Name : </label>
+                                @Html.TextBox("ArchitectName", null, new { @class = "form-control", @placeholder = "Architect Name", @disabled = "on" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="CompanyID">Company Name</label>
+                                @Html.TextBoxFor(Model => Model.Company.CompanyName, new { @class = "form-control  ", @placeholder = "Company Name ", @disabled = "on" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Address1"> Address1 : </label>
+                                @Html.TextBox("Address1", null, new { @class = "form-control", @placeholder = "Address1", @disabled = "on" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Address2">&nbsp;</label>
+                                @Html.TextBox("Address2", null, new { @class = "form-control  ", @placeholder = "Address2 ", @disabled = "on" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="City"> City : </label>
+                                @Html.TextBox("City", null, new { @class = "form-control", @placeholder = "City", @disabled = "on" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="District">District</label>
+                                @Html.TextBox("District", null, new { @class = "form-control  ", @placeholder = "District ", @disabled = "on" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="State">State</label>
+                                @Html.TextBox("State", null, new { @class = "form-control  ", @placeholder = "State ", @disabled = "on" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Country">Country</label>
+                                @Html.TextBox("Country", null, new { @class = "form-control  ", @placeholder = "Country ", @disabled = "on" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="PinCode">PinCode</label>
+                                @Html.TextBox("PinCode", null, new { @class = "form-control  ", @placeholder = "PinCode ", @disabled = "on" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ContactNo">ContactNo</label>
+                                @Html.TextBox("ContactNo", null, new { @class = "form-control  ", @placeholder = "ContactNo ", @disabled = "on" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="EMail">EMail</label>
+                                @Html.TextBox("EMail", null, new { @class = "form-control  ", @placeholder = "EMail ", @disabled = "on" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div><hr size=2><br /></div>
+                        <div class="col-sm-4 col-lg-offset-4">
+                            <div class="form-group">
+
+                                @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "Create1";
+}
+
+<h2>Create1</h2>
+
+<div>
+    <table style="width:50%">
+        <tr>
+            <td>Invoice Number</td> &nbsp;
+            <td><input type="text" value="" id="txtInvoiceNumber" name="InvoiceNumber" /></td>
+        </tr>
+        <tr>
+            <td>Invoice Date</td> &nbsp;
+            <td><input type="datetime" value="" id="dateInvoiceDate" name="InvoiceDate" /></td>
+        </tr>
+        <tr>
+            <td>Project ID</td> &nbsp;
+            <td><input type="text" value="" id="ProjectID" name="ProjectID" /></td>
+        </tr>
+        <tr>
+            <td>Client ID</td> &nbsp;
+            <td><input type="text" value="" id="ClientID" name="ClientID" /></td>
+        </tr>
+    </table>
+</div>
+<br /><br />
+
+<div>
+    <h3>Invoice Order Details</h3>
+    <table style="width:50%" id="tblSaleOrderDetails">
+        <thead>
+            <tr>
+                <td></td>
+                <td> Description</td>
+                <td> Quantity</td>
+                <td> Rate</td>
+                <td> Discount</td>
+                <td> <b>Action</b></td>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            <tr>
+                <td></td>
+                <td><input type="text" value="" id="Description" name="Description" /></td>
+                <td><input type="text" value="" id="Quantity" name="Quantity" /></td>
+                <td><input type="text" value="" id="Rate" name="Rate" /></td>
+                <td><input type="text" value="" id="Discount" name="Discount" /></td>
+                <td><input type="button" class="click" value="ADD" /></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="button" class="del" value="DELETE" id="Delete" />
+</div>
+<hr />
+<div> <input type="button" value="Save" id="Save" class="save" /></div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Delete").hide();
+            $(".click").click(function () {
+                var description = $("#Description").val();
+                var quantity = $("#Quantity").val();
+                var rate = $("#Rate").val();
+                var discount = $("#Discount").val();
+
+                var code = "<tr><td><input type='checkbox' name='record' /></td><td>" + description + "</td><td>" + quantity + "</td><td>" + rate + "</td><td>" + discount + "</td></tr>";
+                $("table .tbody").append(code);
+                var description = $("#Description").val('');
+                var quantity = $("#Quantity").val('');
+                var rate = $("#Rate").val('');
+                var discount = $("#Discount").val('');
+                $("#Delete").show();
+
+                $(".del").click(function () {
+                    $("table .tbody").find('input[name="record"]').each(function () {
+                        if ($(this).is(":checked")) {
+                            $(this).parents("tr").remove();
+                        }
+                    })
+                })
+            });
+            //End of Del Function
+
+            // Start of Save Function
+
+            $("#Save").click(function () {
+                //Load Item Details from tbody of the table
+                //ListOfInvoiceOrderDetails = [];
+                //ListOfInvoiceOrderDetails.length = 0;
+                //var tblBody = $("#tblSaleOrderDetails").find("tbody");
+                //tblBody.find("tr").each(function () {
+                //    ListOfInvoiceOrderDetails.push({
+                //        Description: $(this).find('td:eq(1)').html(),
+                //        Quantity: $(this).find('td:eq(2)').html(),
+                //        Rate: $(this).find('td:eq(3)').html(),
+                //        DiscountAmount: $(this).find('td:eq(4)').html(),
+                //    }); //List of order details
+
+                //    //Load InvoiceItem Master part along with list of Details part
+                //    InvoiceOrderViewModel = {
+                //        "InvoiceNo": $("#txtInvoiceNumber").val(),
+                //        "InvoiceDate": $("#dateInvoiceDate").val(),
+                //        "ProjectID": $("#ProjectID").val(),
+                //        "ClientID": $("#ClientID").val(),
+                //        "ListOfInvoiceOrderDetails": ListOfInvoiceOrderDetails
+                //    }; // InvoiceOrederViewModel
+
+                //});
+
+                // Start of Ajax Tag Working OK
+                $.ajax({
+                    type: "POST",
+                    url: "/Invoice/Create1",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "Json",
+                    //data: JSON.stringify(InvoiceOrderViewModel),
+                    success: function (data) {
+                    }
+                })
+            })
+            // End of Ajax Tag 
+
+     // Document Ready End Tag
+        });
+
+    </script>
+}
+
+

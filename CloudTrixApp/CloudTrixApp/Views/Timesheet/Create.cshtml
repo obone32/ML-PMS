@@ -1,0 +1,160 @@
+@model CloudTrixApp.Models.Timesheet
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Task Management</a></li>
+            <li class="active">Create TimeSheet</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create TimeSheet</h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.TimesheetID)
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="EmployeeID">Employee Name</label>
+                                            @Html.DropDownList("EmployeeID", null, new { @class = "form-control", @style = "width : 300px" })
+                                            @Html.ValidationMessageFor(model => model.EmployeeID)
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="ProjectID">Project Name</label>
+                                            @Html.DropDownList("ProjectID", null, new { @class = "form-control", @style = "width : 300px" })
+                                            @Html.ValidationMessageFor(model => model.ProjectID)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Date">Entry Date :</label>
+                                            @Html.TextBox("EntryDate", null, new { @class = "form-control ", @style = "width : 200px", @placeholder = "Select Entry Date ", @Value = @DateTime.Now.ToString("dd-MMM-yyyy"), @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="StartTime">Start Time</label>
+                                            @Html.TextBox("StartTime", null, new { @class = "form-control timepicker", @style = "width : 150px", @id = "StartTime", @placeholder = "Select Start Time ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="EndTime">End Time</label>
+                                            @Html.TextBox("EndTime", null, new { @class = "form-control", @style = "width : 150px", @id = "EndTime", @placeholder = "Select End Time ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="TotTime">Total Time</label>
+                                            @Html.TextBox("TotTime", null, new { @class = "form-control", @style = "width : 150px", @id = "TotTime", @placeholder = "Total Time ", autocomplete = "off", @readonly = "readonly" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Remarks">Remarks</label>
+                                            @Html.TextArea("Remarks", new { @class = "form-control", @rows = "2", @placeholder = "Enter Remarks Details" })
+                                            @Html.ValidationMessageFor(model => model.Remarks)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            <input type="submit" value="Create" class="btn btn-success" />
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+ 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#StartTime').timepicker();
+            $("#EndTime").timepicker();
+            $("#StartTime").change(function () {
+                var sTime = $("#StartTime").val();
+                var eTime = $("#EndTime").val();
+                if (eTime != "") {
+                    var aDate = new Date(Date.parse('06/18/2019 ' + sTime));
+                    var bDate = new Date(Date.parse('06/18/2019 ' + eTime));
+
+                    if (aDate > bDate) {
+                        alert("Start Time must be smaller than End Time")
+                        $("#StartTime").val('');
+                        $("#TotTime").val('');
+                        return false;
+                    }
+                    var diff = bDate - aDate;
+                    $("#TotTime").val(parseFloat(diff / 1000 / 60 / 60).toFixed(2));
+                }
+            });
+            $("#EndTime").change(function () {
+                var sTime = $("#StartTime").val();
+                var eTime = $("#EndTime").val();
+                if (sTime != "") {
+                    var aDate = new Date(Date.parse('06/18/2019 ' + sTime));
+                    var bDate = new Date(Date.parse('06/18/2019 ' + eTime));
+
+                    if (aDate > bDate) {
+                        alert("End Time must be Greater than Start Time")
+                        $("#EndTime").val('');
+                        $("#TotTime").val('');
+                        return false;
+                    }
+                    var diff = bDate - aDate;
+                    $("#TotTime").val(parseFloat(diff / 1000 / 60 / 60).toFixed(2));
+                } else {
+                    alert("Please Select Start Time")
+                    $("#EndTime").val('');
+                    $("#TotTime").val('');
+                    $("#StartTime").focus();
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,29 @@
+@model CloudTrixApp.Models.TaskState
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TaskState</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.TaskStateID)
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskStateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskStateName)
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						TaskStateID = Model.TaskStateID 
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

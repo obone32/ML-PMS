@@ -1,0 +1,75 @@
+@model CloudTrixApp.Models.ProjectAssignment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProjectAssignment</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.ProjectAssignmentID)
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.ProjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssignmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssignmentDate)
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        <dt>
+            @Html.DisplayNameFor(model => model.AddUserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddUserID)
+        <dt>
+            @Html.DisplayNameFor(model => model.AddDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddDate)
+        <dt>
+            @Html.DisplayNameFor(model => model.ArchiveUserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArchiveUserID)
+        <dt>
+            @Html.DisplayNameFor(model => model.ArchiveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArchiveDate)
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						ProjectAssignmentID = Model.ProjectAssignmentID 
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

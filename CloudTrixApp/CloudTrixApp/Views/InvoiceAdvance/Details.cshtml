@@ -1,0 +1,38 @@
+@model CloudTrixApp.Models.InvoiceAdvance
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>InvoiceAdvance</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.InvoiceID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Invoice.InvoiceID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdvancePaymentID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdvancePayment.AdvancePaymentID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						InvoiceID = Model.InvoiceID 
+ 					       ,AdvancePaymentID = Model.AdvancePaymentID
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

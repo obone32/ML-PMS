@@ -1,0 +1,131 @@
+@model CloudTrixApp.Models.Project
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Masters</a></li>
+            <li class="active">Edit Project</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Edit Project </h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <h4>Project</h4>
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.ProjectID)
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="ProjectName"> Project Name : </label>
+                                            @Html.TextBox("ProjectName", null, new { @class = "form-control", @placeholder = "Project Name", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="BillingName"> Billing Name :</label>
+                                            @Html.TextBox("BillingName", null, new { @class = "form-control  ", @placeholder = "Billing Name ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="CompanyID"> Company Name :</label>
+                                            @Html.DropDownList("CompanyID", null, new { @class = "form-control  ", @placeholder = "Company Name ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="ProjectStatusID"> Project Status : </label>
+                                            @Html.DropDownList("ProjectStatusID", null, new { @class = "form-control ", @placeholder = "Project Status", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="ClientID"> Client :</label>
+                                            @Html.DropDownList("ClientID", null, new { @class = "form-control datepicker", @placeholder = "Client Name ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="ArchitectID"> Architect :</label>
+                                            @Html.DropDownList("ArchitectID", null, new { @class = "form-control datepicker", @placeholder = "Architect Name ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Description"> Description : </label>
+                                            @Html.TextBox("Description", null, new { @class = "form-control", @placeholder = "Description", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Location"> Location :</label>
+                                            @Html.TextBox("Location", null, new { @class = "form-control  ", @placeholder = "Location ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="StartDate"> StartDate : </label>
+                                            @Html.TextBox("StartDate", null, new { @class = "form-control datepicker", @placeholder = "StartDate", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="EndDate"> EndDate :</label>
+                                            @Html.TextBox("EndDate", null, new { @class = "form-control datepicker", @placeholder = "EndDate ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            <input type="submit" value="Save" class="btn btn-success" />
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

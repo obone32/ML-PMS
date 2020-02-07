@@ -1,0 +1,44 @@
+@model CloudTrixApp.Models.UserTypePermission
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UserTypePermission</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserTypeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserType.UserTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserTypePermissionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserTypePermissionID)
+        <dt>
+            @Html.DisplayNameFor(model => model.PermissionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Permission.PermissionName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						UserTypeID = Model.UserTypeID 
+ 					       ,UserTypePermissionID = Model.UserTypePermissionID
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

@@ -1,0 +1,438 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<CloudTrixApp.Models.Invoice>
+@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/adminFront/assets/plugins/timepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+<style type="text/css">
+    .bg_1 {
+        background-color: green;
+    }
+
+    .bg_2 {
+        background-color: gray;
+    }
+
+    .error_msg {
+        color: #f00;
+        display: none;
+    }
+
+    .table {
+        /* width: 100%; */
+        /* max-width: 100%; */
+        margin-bottom: 0px;
+    }
+</style>
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Invoice</a></li>
+            <li class="active">Invoice List</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Invoice List </h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Code"> Invoice Code : </label>
+                                        @Html.TextBox("Code", null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off" })
+                                        <small id="error_Code" class="form-text error_msg col-md-offset-2 "> Invoice Code is Required</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Invoice Date">Invoice Date  :</label>
+                                        @Html.TextBox("Date", @DateTime.Now.ToString(), new { @class = "form-control datepicker ", @placeholder = "Select Invoice Date ", autocomplete = "off" })
+                                        <small id="error_IDate" class="form-text error_msg col-md-offset-2 "> Invoice Date is Required</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Customer"> Customer : </label>
+                                        <select id="Customer" class="clsCustomer">
+                                            <option value="">Select Customer</option>
+                                        </select>
+                                        <small id="error_Customer" class="form-text error_msg col-md-offset-2 "> Customer Name is Required</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Project"> Project : </label>
+                                        <select id="Project" class="">
+                                            <option value="">Select Project</option>
+                                        </select>
+                                        <small id="error_Project" class="form-text error_msg">Select Project from list</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @*  Details Table Start*@
+
+                        <form class="row" role="form">
+                            <table class="table table-hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <td style="width:70%"><b>Description</b></td>
+                                        <td style="width:10%"><b>Quantity</b></td>
+                                        <td style="width:10%"><b>Rate</b></td>
+                                        <td style="width:10%"><b>Amount</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width:70%">
+                                            @Html.TextBox("Description", null, new { @class = "form-control", @id = "txtDescription", @placeholder = "Enter Description", autocomplete = "off" })
+                                            <small id="error_description" class="form-text error_msg">Description is required</small>
+                                        </td>
+                                        <td style="width:10%">
+                                            @Html.TextBox("Quantity", null, new { @class = "form-control", @style = "width : 150px", @id = "txtQuantity", @type = "text", @placeholder = "Enter Quantity ", autocomplete = "off" })
+                                            <small id="error_Quantity" class="form-text error_msg">Quantity is required</small>
+                                        </td>
+                                        <td style="width:10%">
+                                            @Html.TextBox("Price", null, new { @class = "form-control", @type = "text", @style = "width : 150px", @id = "txtPrice", @placeholder = "Enter Rate ", autocomplete = "off" })
+                                            <small id="error_price" class="form-text error_msg">Rate is required</small><br />
+                                        </td>
+                                        <td style="width:10%">
+                                            @Html.TextBox("Amount", null, new { @class = "form-control", @type = "text", @tabIndex = "-1", @style = "width : 150px", @id = "txtAmount", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
+                                            <small id="error_price" class="form-text error_msg">Rate is required</small><br />
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            @* Tax Table*@
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <td style="width:10%"><label for="Tax">Tax %  </label></td>
+                                        <td style="width:10%"><label for="IGST">IGST %</label></td>
+                                        <td style="width:10%"><label for="CGST">CGST %</label></td>
+                                        <td style="width:10%"><label for="SGST">SGST %</label></td>
+                                        <td style="width:30%"></td>
+                                        <td style="width:15%;text-align:right"><label for="TaxAmount">Tax Amount</label></td>
+                                        <td style="width:15%"></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width:10%">
+                                            <input type="number" class="form-control" id="txtTax" value="" placeholder="0" />
+                                            <small id="error_tax" class="form-text error_msg">Tax % is required</small><br />
+                                        </td>
+
+                                        <td style="width:10%">@Html.TextBox("IGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "IGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                        <td style="width:10%">@Html.TextBox("CGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "CGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                        <td style="width:10%">@Html.TextBox("SGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "SGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+
+                                        <td style="width:30%;text-align:right"></td>
+                                        <td style="width:15%;text-align:right"><label for="IGST">IGST</label></td>
+                                        <td style="width:15%">@Html.TextBox("IGSTAmt", null, new { @class = "form-control", @type = "number", @tabIndex = "-1", @id = "IGSTAmt", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:10%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:30%;text-align:right"></td>
+                                        <td style="width:15%;text-align:right"><label for="CGST">CGST</label></td>
+                                        <td style="width:15%">@Html.TextBox("CGSTAmt", null, new { @class = "form-control", @type = "number", @tabIndex = "-1", @id = "CGSTAmt", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:10%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:30%;text-align:right"></td>
+                                        <td style="width:15%;text-align:right"><label for="SGST">SGST</label></td>
+                                        <td style="width:15%">@Html.TextBox("SGSTAmt", null, new { @class = "form-control", @type = "number", @tabIndex = "-1", @id = "SGSTAmt", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            @*   Total Amount and Add to List Table*@
+                            <table class="table table-hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <td style="width:70%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:20%"></td>
+                                        <td style="width:10%"></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width:70%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:20%;text-align:right"><label for="TotalAmount">Total Amount : </label></td>
+                                        <td style="width:10%">
+                                            @Html.TextBox("TotAmt", null, new { @class = "form-control", @type = "text", @id = "txtTotAmt", @style = "width : 150px", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:70%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:10%"></td>
+                                        <td style="width:8%"><button type="submit" id="addToList" class="btn btn-info">Add To List</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <br />
+                                <div class="panel panel-color panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Item List</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-hover table-responsive" id="detailsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th style="width:40px">Description</th>
+                                                    <th>Unit</th>
+                                                    <th>Qty</th>
+                                                    <th>Amt</th>
+                                                    <th>IGST</th>
+                                                    <th>IGST Amt</th>
+                                                    <th>CGST</th>
+                                                    <th>CGST Amt</th>
+                                                    <th>SGST</th>
+                                                    <th>SGST Amt</th>
+                                                    <th>Total Amt</th>
+                                                    <th style="width:20px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td> <strong> Total:</strong> </td>
+                                                    <td> <strong id="SubTotal">  </strong> </td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <small id="error_SubTotal" class="form-text error_msg">Atleast add one item</small>
+                                <br />
+
+                                <div class="form-horizontal">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="Notes"> Notes: </label>
+                                            @Html.TextArea("Notes", new { @class = "form-control col-md-7", @rows = "2", @placeholder = "Enter Notes" })
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="Payment"> Payment Method : </label>
+                                            @Html.DropDownList("Payment", new List<SelectListItem>
+                                        {
+                                            new SelectListItem() {Text = "Cash", Value="Cash"},
+                                            new SelectListItem() {Text = "Check", Value="Check"},
+                                        }, "Select Payment", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                            <small id="error_Payment" class="form-text error_msg">Select Payment Method</small>
+                                        </div>
+                                        <div class="col-md-offset-1 col-md-5">
+                                            <div class="form-group">
+                                                <label for="Status"> Status : </label>
+                                                @Html.DropDownList("InvoiceStatus", new List<SelectListItem>
+                                        {
+                                            new SelectListItem() {Text = "Due", Value="Due"},
+                                            new SelectListItem() {Text = "Paid", Value="Paid"},
+                                        }, "Select Status", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                                <small id="error_InvoiceStatus" class="form-text error_msg">Select Invoice Status</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-3">
+                                        <div class="form-group">
+                                            <label for="Discount"> Discount : </label>
+                                            @Html.TextBox("Discount", null, new { @class = "form-control", @Value = "0", @type = "number", @placeholder = "Discount Amount ", onchange = "DiscountAmount()" })
+                                            <small id="error_Discount" class="form-text error_msg">Discount can't be empty</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="GrandTotal"> Grand Total : </label>
+                                            <h5 id="GrandTotal" class="form-control"> </h5>
+                                            <small id="error_GrandTotal" class="form-text error_msg">Total is empty</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal">
+                                    <label> </label>
+                                    <input id="BtnSave" class="btn btn-success col-md-3 pull-right" type="submit" value="Save Invoice" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- panel-body -->
+                </div>
+                <!-- panel -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Content/adminFront/assets/plugins/timepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/App3")
+    <script type="text/javascript">
+
+        $('.clsCustomer').change(function () {
+            $("#txtPrice").val('0');
+            $("#txtQuantity").val('0');
+            $('#Project').empty();
+            $('#TotAmt').val('0');
+            $('#txtAmount').val('0');
+            $('#txtTax').val('0');
+            $('#txtTotAmt').val('0');
+            $('#CGST').val('0');
+            $('#SGST').val('0');
+            $('#CGSTAmt').val('0');
+            $('#SGSTAmt').val('0');
+
+            $.ajax({
+                type: "GET", url: "/Admin/GetCustomerState",
+                datatype: "Json",
+                data: {
+                    customerId: $('#Customer').val(),
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.IsStateMatch) {
+                        $("#txtTax").change(function () {
+                            var sum = 0;
+                            $('#IGST').val('0');
+                            $('#IGSTAmt').val('0');
+                            $('#txtTax').text(sum.toFixed(2));
+                            $('#CGST').text(sum.toFixed(2));
+                            $('#SGST').text(sum.toFixed(2));
+                            $('#CGSTAmt').text(sum.toFixed(2));
+                            $('#SGSTAmt').text(sum.toFixed(2));
+                            $('#txtTotAmt').text(sum.toFixed(2));
+                            $('#txtAmount').text(sum.toFixed(2));
+                            var t = parseFloat($('#txtTax').val()).toFixed(2);
+                            var c = parseFloat($('#CGST').val(t / 2)).toFixed(2);
+                            var s = parseFloat($('#SGST').val(t / 2)).toFixed(2);
+                            var a = parseFloat($("#txtAmount").val()).toFixed(2);
+                            var ca = parseFloat($("#CGSTAmt").val(a * t / 100));
+                            var sa = parseFloat($('#SGSTAmt').val(a * t / 100));
+                            var ta = parseFloat($('#txtTotAmt').val((a * t / 100) * 2 + parseFloat($("#txtAmount").val()))).toFixed(2);
+                        });
+                    } //IsStateMatch
+                    else {
+                        // $("#divIGST").show();
+                        var sum = 0;
+                        $('#IGST').text(sum.toFixed(2));
+                        $('#IGSTAmt').text(sum.toFixed(2));
+                        $('#txtTax').text(sum.toFixed(2));
+                        $('#CGST').val('0');
+                        $('#SGST').val('0');
+                        $('#CGSTAmt').val('0');
+                        $('#SGSTAmt').val('0');
+                        $('#txtTotAmt').text(sum.toFixed(2));
+                        $('#txtAmount').text(sum.toFixed(2));
+                        var t = parseFloat($('#txtTax').val()).toFixed(2);
+                        var c = parseFloat($('#IGST').val(t)).toFixed(2);
+                        var a = parseFloat($("#txtAmount").val()).toFixed(2);
+                        var ca = parseFloat($("#IGSTAmt").val(a * t / 100));
+                        var ta = parseFloat($('#txtTotAmt').val((a * t / 100) * 2 + parseFloat($("#txtAmount").val()))).toFixed(2);
+
+                    } //else
+                } // sucess function data
+            })
+        });
+        $('#txtPrice, #txtQuantity').change(function () {
+            var sum = 0;
+            $("#txtQuantity").text(sum.toFixed(2));
+            $("#txtPrice").text(sum.toFixed(2));
+            $("#txtAmount").text(sum.toFixed(2));
+            $("#txtTotAmt").text(sum.toFixed(2));
+            var a = parseFloat($("#txtQuantity").val()).toFixed(2);
+            var b = parseFloat($("#txtPrice").val()).toFixed(2);
+            $("#txtAmount").val(a * b);
+            $("#txtTotAmt").val(a * b);
+        });
+        //$('#IGST').change(function () {
+        //    var sum = 0;
+        //    $('#Amount').text(sum.toFixed(2));
+        //    $('#TotAmt').text(sum.toFixed(2));
+        //    $('#IGST').text(sum.toFixed(2));
+        //    var a = parseFloat($('#Amount').val()).toFixed(2);
+        //    var b = parseFloat($('#IGST').val()).toFixed(2);
+        //    var c = parseFloat((a * b) / 100).toFixed(2);
+        //    var d = parseFloat(parseFloat(a) + parseFloat(c)).toFixed(2);
+        //    $('#IGSTAmt').val(c);
+        //    $('#TotAmt').val(d);
+        //});
+        //$('#CGST').change(function () {
+        //    var sum = 0;
+        //    $('#Amount').text(sum.toFixed(2));
+        //    $('#TotAmt').text(sum.toFixed(2));
+        //    $('#CGST').text(sum.toFixed(2));
+        //    var e = $('#SGSTAmt').val();
+        //    if (e == "") {
+        //        e = 0;
+        //    }
+        //    var a = parseFloat($('#Amount').val()).toFixed(2);
+        //    var b = parseFloat($('#CGST').val()).toFixed(2);
+        //    var c = parseFloat((a * b) / 100).toFixed(2);
+        //    var d = parseFloat(parseFloat(e) + parseFloat(a) + parseFloat(c)).toFixed(2);
+        //    $('#CGSTAmt').val(c);
+        //    $('#TotAmt').val(d);
+        //});
+        //$('#SGST').change(function () {
+        //    var sum = 0;
+        //    $('#Amount').text(sum.toFixed(2));
+        //    $('#TotAmt').text(sum.toFixed(2));
+        //    $('#SGST').text(sum.toFixed(2));
+        //    var e = $('#CGSTAmt').val();
+        //    if (e == "") {
+        //        e = 0;
+        //    }
+        //    var a = parseFloat($('#Amount').val()).toFixed(2);
+        //    var b = parseFloat($('#SGST').val()).toFixed(2);
+        //    var c = parseFloat((a * b) / 100).toFixed(2);
+        //    var d = parseFloat(parseFloat(e) + parseFloat(a) + parseFloat(c)).toFixed(2);
+        //    $('#SGSTAmt').val(c);
+        //    $('#TotAmt').val(d);
+        //});
+    </script>
+}

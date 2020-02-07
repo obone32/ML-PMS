@@ -1,0 +1,155 @@
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<CloudTrixApp.Models.Employee>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Masters</a></li>
+            <li class="active">Employee List</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Employee List</h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+                        {
+                            <br />
+                            <table class="table">
+                                <tr>
+                                    <td align="left">&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td align="center">
+                                        @Html.DropDownList("SearchField", (IEnumerable<SelectListItem>)ViewData["SearchFields"], new { style = "width:150px;height:33px" })
+                                        @Html.DropDownList("SearchCondition", (IEnumerable<SelectListItem>)ViewData["SearchConditions"], new { style = "width:150px;height:33px" })
+                                        @Html.TextBox("SearchText", ViewData["SearchText"] as String, new { style = "width:100px;height:33px" })
+                                        <input type="submit" value="Search" name="command" class="btn btn-default" />
+                                        <input type="submit" value="Show All" name="command" class="btn btn-default" />
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td align="right">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td align="left">
+                                        @Html.DropDownList("Export", (IEnumerable<SelectListItem>)ViewData["Exports"], new { style = "width:65px;height:33px" })
+                                        <input type="submit" value="Export" name="command" class="btn btn-default" />
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td align="center">
+                                        <input type="submit" value="Add New Record" name="command" class="btn btn-success" />
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td align="right">
+                                        @Html.DropDownList("PageSize", (IEnumerable<SelectListItem>)ViewData["PageSizes"], new { style = "width:50px;height:33px" })
+                                        <input type="submit" value="Page Size" name="command" class="btn btn-default" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+
+                        <hr />
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr class="bg-warning">
+
+                                    <th>
+                                        @Html.ActionLink("First Name", "Index", new { sortOrder = ViewData["FirstNameSortParm"], SearchText = ViewData["SearchText"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewData["LastNameSortParm"], SearchText = ViewData["SearchText"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("D O B", "Index", new { sortOrder = ViewData["DOBSortParm"], SearchText = ViewData["SearchText"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("D O J", "Index", new { sortOrder = ViewData["DOJSortParm"], SearchText = ViewData["SearchText"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Gender", "Index", new { sortOrder = ViewData["GenderSortParm"], SearchText = ViewData["SearchText"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("E Mail", "Index", new { sortOrder = ViewData["EMailSortParm"], SearchText = ViewData["SearchText"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Mobile", "Index", new { sortOrder = ViewData["MobileSortParm"], SearchText = ViewData["SearchText"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Salary", "Index", new { sortOrder = ViewData["SalarySortParm"], SearchText = ViewData["SearchText"] })
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FirstName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LastName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DOB)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DOJ)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Gender)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EMail)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Mobile)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Salary)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new
+                                   {
+                                       EmployeeID = item.EmployeeID
+                                   }) |
+                                            @Html.ActionLink("Details", "Details", new
+                                   {
+                                       EmployeeID = item.EmployeeID
+                                   }) |
+                                            @Html.ActionLink("Delete", "Delete", new
+                                   {
+                                       EmployeeID = item.EmployeeID
+                                   })
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+
+                            <table class="table">
+                                <tr>
+                                    <td align="center">
+                                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewData["CurrentSort"], SearchText = ViewData["SearchText"] }))
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>

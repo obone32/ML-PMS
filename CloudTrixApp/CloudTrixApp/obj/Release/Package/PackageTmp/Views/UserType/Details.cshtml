@@ -1,0 +1,29 @@
+@model CloudTrixApp.Models.UserType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UserType</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.UserTypeID)
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserTypeName)
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						UserTypeID = Model.UserTypeID 
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

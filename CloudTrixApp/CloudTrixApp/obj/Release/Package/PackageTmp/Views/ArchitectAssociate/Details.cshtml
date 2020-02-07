@@ -1,0 +1,54 @@
+@model CloudTrixApp.Models.ArchitectAssociate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ArchitectAssociate</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ArchitectID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Architect.ArchitectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArchitectAssociateID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArchitectAssociateID)
+        <dt>
+            @Html.DisplayNameFor(model => model.AssociateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssociateName)
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNo)
+        <dt>
+            @Html.DisplayNameFor(model => model.EMail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMail)
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						ArchitectID = Model.ArchitectID 
+ 					       ,ArchitectAssociateID = Model.ArchitectAssociateID
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 
