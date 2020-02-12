@@ -131,7 +131,7 @@
                                         <div class="form-group">
                                             <label for="CompanyID">Company</label>
                                             @Html.DropDownList("CompanyID", null, new { @class = "form-control  ", @placeholder = "Company Name ", autocomplete = "off" })
-                                        @Html.ValidationMessageFor(model => model.CompanyID)
+                                            @Html.ValidationMessageFor(model => model.CompanyID)
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -164,6 +164,13 @@
                                             @Html.TextBox("Password", null, new { @class = "form-control  ", @placeholder = "Enter Password ", autocomplete = "off" })
                                             @Html.ValidationMessageFor(model => model.Password)
                                          </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="UserTypeID">User Type</label>
+                                            @Html.DropDownList("UserTypeID", null, new { @class = "form-control  ", @placeholder = "User Type", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.UserTypeID)
+                                        </div>
                                     </div>
                                 </div>
 

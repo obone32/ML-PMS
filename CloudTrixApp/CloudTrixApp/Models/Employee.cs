@@ -80,6 +80,10 @@ namespace CloudTrixApp.Models
         public Int32 CompanyID { get; set; }
 
         [Required]
+        [Display(Name = "UserTypeID")]
+        public Int32? UserTypeID { get; set; }
+
+        [Required]
         [Display(Name = "Add User I D")]
         public Int32 AddUserID { get; set; }
 
@@ -99,7 +103,7 @@ namespace CloudTrixApp.Models
 
         // ComboBox
         public virtual Company Company { get; set; }
-
+        public virtual UserType UserType { get; set; }
     }
 }
  

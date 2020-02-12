@@ -360,7 +360,7 @@ namespace CloudTrixApp.Controllers
         {
             // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName");
-
+            ViewData["UserTypeID"] = new SelectList(UserTypePermission_UserTypeData.List(), "UserTypeID", "UserTypeName");
             return View();
         }
 
@@ -369,7 +369,7 @@ namespace CloudTrixApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include=
+        public ActionResult Create([Bind(Include =
                            "FirstName"
                    + "," + "LastName"
                    + "," + "DOB"
@@ -384,6 +384,7 @@ namespace CloudTrixApp.Controllers
                    + "," + "UserName"
                    + "," + "Password"
                    + "," + "CompanyID"
+                   + "," + "UserTypeID"
                    + "," + "AddUserID"
                    + "," + "AddDate"
                    + "," + "ArchiveUserID"
@@ -405,7 +406,7 @@ namespace CloudTrixApp.Controllers
             }
             // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName", Employee.CompanyID);
-
+            ViewData["UserTypeID"] = new SelectList(UserTypePermission_UserTypeData.List(), "UserTypeID", "UserTypeName", Employee.UserTypeID);
             return View(Employee);
         }
 
@@ -431,7 +432,7 @@ namespace CloudTrixApp.Controllers
             }
             // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName", Employee.CompanyID);
-
+            ViewData["UserTypeID"] = new SelectList(UserTypePermission_UserTypeData.List(), "UserTypeID", "UserTypeName", Employee.UserTypeID);
             return View(Employee);
         }
 
@@ -462,7 +463,7 @@ namespace CloudTrixApp.Controllers
             }
             // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName", Employee.CompanyID);
-
+            ViewData["UserTypeID"] = new SelectList(Employee_CompanyData.List(), "UserTypeID", "UserTypeName", Employee.UserTypeID);
             return View(Employee);
         }
 
@@ -491,11 +492,19 @@ namespace CloudTrixApp.Controllers
                                where Employee.CompanyID == (int)rowCompany["CompanyID"]
                                select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
-
+            Employee.UserType = new UserType()
+            {
+                UserTypeID = (Int32)Employee.UserTypeID
+               ,
+                UserTypeName = (from DataRow rowCompany in dtCompany.Rows
+                                where Employee.UserTypeID == (int)rowCompany["UserTypeID"]
+                               select (String)rowCompany["UserTypeName"]).FirstOrDefault()
+            };
             if (Employee == null)
             {
                 return HttpNotFound();
             }
+
             return View(Employee);
         }
 
@@ -551,6 +560,7 @@ namespace CloudTrixApp.Controllers
             SelectListItem Item17 = new SelectListItem { Text = "Add Date", Value = "Add Date" };
             SelectListItem Item18 = new SelectListItem { Text = "Archive User I D", Value = "Archive User I D" };
             SelectListItem Item19 = new SelectListItem { Text = "Archive Date", Value = "Archive Date" };
+            SelectListItem Item20 = new SelectListItem { Text = "UserTypeID", Value = "UserTypeID" };
 
             if (select == "Employee I D") { Item1.Selected = true; }
             else if (select == "First Name") { Item2.Selected = true; }
@@ -571,6 +581,7 @@ namespace CloudTrixApp.Controllers
             else if (select == "Add Date") { Item15.Selected = true; }
             else if (select == "Archive User I D") { Item16.Selected = true; }
             else if (select == "Archive Date") { Item17.Selected = true; }
+            else if (select == "UserTypeID") { Item17.Selected = true; }
 
             list.Add(Item1);
             list.Add(Item2);
@@ -591,6 +602,7 @@ namespace CloudTrixApp.Controllers
             list.Add(Item17);
             list.Add(Item18);
             list.Add(Item19);
+            list.Add(Item20);
 
             return list.ToList();
         }

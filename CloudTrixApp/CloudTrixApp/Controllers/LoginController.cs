@@ -42,7 +42,7 @@ namespace CloudTrixApp.Controllers
             {
                 // TODO: Add insert logic here
                 Login(objEmployee.UserName, objEmployee.Password);
-                return RedirectToAction("Create");
+              //  
 
                 if (ModelState.IsValid)
                 {
@@ -50,13 +50,14 @@ namespace CloudTrixApp.Controllers
                     bSucess = Login(objEmployee.UserName, objEmployee.Password);
                     if (bSucess == true)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("~/Home/Index");
                     }
                     else
                     {
                         ModelState.AddModelError("", "Can Not Found");
                     }
                 }
+                return RedirectToAction("Create");
             }
             catch
             {

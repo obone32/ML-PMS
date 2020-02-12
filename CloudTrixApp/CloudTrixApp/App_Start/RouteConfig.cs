@@ -16,7 +16,8 @@ namespace CloudTrixApp
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                                defaults: new { controller = "Login", action = "Create", id = UrlParameter.Optional }
+                //defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
@@ -26,4 +27,4 @@ namespace CloudTrixApp
         }
     }
 }
- 
+
