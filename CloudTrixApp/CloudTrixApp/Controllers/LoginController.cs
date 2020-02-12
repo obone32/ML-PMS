@@ -39,7 +39,9 @@ namespace CloudTrixApp.Controllers
 
         //
         // POST: /Login/Create
+        
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Employee objEmployee)
         {
             try
