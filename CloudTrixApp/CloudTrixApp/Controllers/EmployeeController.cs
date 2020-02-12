@@ -15,6 +15,7 @@ using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using CloudTrixApp.Models;
 using CloudTrixApp.Data;
+using System.Text;
 
 namespace CloudTrixApp.Controllers
 {
@@ -391,9 +392,12 @@ namespace CloudTrixApp.Controllers
                    + "," + "ArchiveDate"
                   )] Employee Employee)
         {
+          
             if (ModelState.IsValid)
             {
                 bool bSucess = false;
+                string strpass = encryptpass(Employee.Password);  
+                Employee.Password = strpass;
                 bSucess = EmployeeData.Add(Employee);
                 if (bSucess == true)
                 {
@@ -409,6 +413,15 @@ namespace CloudTrixApp.Controllers
             ViewData["UserTypeID"] = new SelectList(UserTypePermission_UserTypeData.List(), "UserTypeID", "UserTypeName", Employee.UserTypeID);
             return View(Employee);
         }
+
+        public string encryptpass(string password)
+        {
+            string msg = "";
+            byte[] encode = new byte[password.Length];
+            encode = Encoding.UTF8.GetBytes(password);
+            msg = Convert.ToBase64String(encode);
+            return msg;
+        }  
 
         // GET: /Employee/Edit/<id>
         public ActionResult Edit(
@@ -447,10 +460,11 @@ namespace CloudTrixApp.Controllers
             Employee oEmployee = new Employee();
             oEmployee.EmployeeID = System.Convert.ToInt32(Employee.EmployeeID);
             oEmployee = EmployeeData.Select_Record(Employee);
-
+            string strpass = encryptpass(Employee.Password);  
             if (ModelState.IsValid)
             {
                 bool bSucess = false;
+                Employee.Password = strpass;
                 bSucess = EmployeeData.Update(oEmployee, Employee);
                 if (bSucess == true)
                 {

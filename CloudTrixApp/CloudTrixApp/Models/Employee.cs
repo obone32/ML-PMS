@@ -81,7 +81,7 @@ namespace CloudTrixApp.Models
 
         [Required]
         [Display(Name = "UserTypeID")]
-        public Int32? UserTypeID { get; set; }
+        public Int32 UserTypeID { get; set; }
 
         [Required]
         [Display(Name = "Add User I D")]

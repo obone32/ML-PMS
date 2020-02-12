@@ -255,8 +255,7 @@ namespace CloudTrixApp.Data
                     Employee.UserName = System.Convert.ToString(reader["UserName"]);
                     Employee.Password = System.Convert.ToString(reader["Password"]);
                     Employee.CompanyID = System.Convert.ToInt32(reader["CompanyID"]);
-                    if (Employee.UserTypeID != null)
-                        Employee.UserTypeID = reader["UserTypeID"] is DBNull ? null : (Int32?)reader["UserTypeID"];
+                    Employee.UserTypeID = System.Convert.ToInt32(reader["UserTypeID"]);
                     Employee.AddUserID = System.Convert.ToInt32(reader["AddUserID"]);
                     Employee.AddDate = System.Convert.ToDateTime(reader["AddDate"]);
                     Employee.ArchiveUserID = reader["ArchiveUserID"] is DBNull ? null : (Int32?)reader["ArchiveUserID"];
@@ -504,6 +503,7 @@ namespace CloudTrixApp.Data
             updateCommand.Parameters.AddWithValue("@OldUserName", oldEmployee.UserName);
             updateCommand.Parameters.AddWithValue("@OldPassword", oldEmployee.Password);
             updateCommand.Parameters.AddWithValue("@OldCompanyID", oldEmployee.CompanyID);
+            updateCommand.Parameters.AddWithValue("@OldUserTypeID", oldEmployee.UserTypeID);
             updateCommand.Parameters.AddWithValue("@OldAddUserID", oldEmployee.AddUserID);
             updateCommand.Parameters.AddWithValue("@OldAddDate", oldEmployee.AddDate);
             if (oldEmployee.ArchiveUserID.HasValue == true)
