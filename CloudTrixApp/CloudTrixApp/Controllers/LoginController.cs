@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using CloudTrixApp.Models;
 using CloudTrixApp.Data;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace CloudTrixApp.Controllers
 {
@@ -14,6 +16,8 @@ namespace CloudTrixApp.Controllers
     {
         //
         // GET: /Login/
+
+        DataTable dtEmployee = new DataTable();
         public ActionResult Index()
         {
             return View();
@@ -41,8 +45,9 @@ namespace CloudTrixApp.Controllers
             try
             {
                 // TODO: Add insert logic here
+
                 Login(objEmployee.UserName, objEmployee.Password);
-              //  
+                //  
 
                 if (ModelState.IsValid)
                 {
@@ -65,20 +70,43 @@ namespace CloudTrixApp.Controllers
             }
 
         }
+        public string Decrypt(string str)
+        {
+            str = str.Replace(" ", "+");
+            string DecryptKey = "2013;[pnuLIT)WebCodeExpert";
+            byte[] byKey = { };
+            byte[] IV = { 18, 52, 86, 120, 144, 171, 205, 239 };
+            byte[] inputByteArray = new byte[str.Length];
+
+            byKey = System.Text.Encoding.UTF8.GetBytes(DecryptKey.Substring(0, 8));
+            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+            inputByteArray = Convert.FromBase64String(str.Replace(" ", "+"));
+            MemoryStream ms = new MemoryStream();
+            CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(byKey, IV), CryptoStreamMode.Write);
+            cs.Write(inputByteArray, 0, inputByteArray.Length);
+            cs.FlushFinalBlock();
+            System.Text.Encoding encoding = System.Text.Encoding.UTF8;
+            return encoding.GetString(ms.ToArray());
+        }
         public bool Login(string UserName, string Password)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                Employee Employee = new Employee();
-                Employee.UserName = UserName;
-                Employee.Password = Password;
+                string LoginPwd = Password;
 
-                Employee = EmployeeData.Select_Record(Employee);
-
-                if (Employee != null)
+                //Employee Employee = new Employee();
+                //Employee.UserName = UserName;
+                ////Employee.Password = pwd;
+                dtEmployee = EmployeeData.SelectLoginData(UserName);
+                DataRow[] rows = dtEmployee.Select();
+                if (dtEmployee != null)
                 {
+                    string decryptpassword = rows[0]["Password"].ToString();
+
+                    string decPwd = Decrypt(decryptpassword);
+
                     return true;
                     //   return View("UserLandingView");
                 }

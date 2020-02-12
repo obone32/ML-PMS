@@ -16,6 +16,7 @@ using MigraDoc.Rendering;
 using CloudTrixApp.Models;
 using CloudTrixApp.Data;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace CloudTrixApp.Controllers
 {
@@ -24,6 +25,7 @@ namespace CloudTrixApp.Controllers
 
         DataTable dtEmployee = new DataTable();
         DataTable dtCompany = new DataTable();
+        DataTable dtUserType = new DataTable();
 
         // GET: /Employee/
         public ActionResult Index(string sortOrder,
@@ -336,6 +338,7 @@ namespace CloudTrixApp.Controllers
             }
 
             dtCompany = Employee_CompanyData.SelectAll();
+            dtUserType = UserTypePermission_UserTypeData.SelectAll();
 
             Employee Employee = new Employee();
             Employee.EmployeeID = System.Convert.ToInt32(EmployeeID);
@@ -348,7 +351,14 @@ namespace CloudTrixApp.Controllers
                                where Employee.CompanyID == (int)rowCompany["CompanyID"]
                                select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
-
+            Employee.UserType = new UserType()
+            {
+                UserTypeID = (Int32)Employee.UserTypeID
+               ,
+                UserTypeName = (from DataRow rowUserType in dtUserType.Rows
+                                where Employee.UserTypeID == (int)rowUserType["UserTypeID"]
+                                select (String)rowUserType["UserTypeName"]).FirstOrDefault()
+            };
             if (Employee == null)
             {
                 return HttpNotFound();
@@ -396,7 +406,7 @@ namespace CloudTrixApp.Controllers
             if (ModelState.IsValid)
             {
                 bool bSucess = false;
-                string strpass = encryptpass(Employee.Password);  
+                string strpass = Encrypt(Employee.Password);  
                 Employee.Password = strpass;
                 bSucess = EmployeeData.Add(Employee);
                 if (bSucess == true)
@@ -414,14 +424,20 @@ namespace CloudTrixApp.Controllers
             return View(Employee);
         }
 
-        public string encryptpass(string password)
+        public string Encrypt(string str)
         {
-            string msg = "";
-            byte[] encode = new byte[password.Length];
-            encode = Encoding.UTF8.GetBytes(password);
-            msg = Convert.ToBase64String(encode);
-            return msg;
-        }  
+            string EncrptKey = "2013;[pnuLIT)WebCodeExpert";
+            byte[] byKey = { };
+            byte[] IV = { 18, 52, 86, 120, 144, 171, 205, 239 };
+            byKey = System.Text.Encoding.UTF8.GetBytes(EncrptKey.Substring(0, 8));
+            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+            byte[] inputByteArray = Encoding.UTF8.GetBytes(str);
+            MemoryStream ms = new MemoryStream();
+            CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(byKey, IV), CryptoStreamMode.Write);
+            cs.Write(inputByteArray, 0, inputByteArray.Length);
+            cs.FlushFinalBlock();
+            return Convert.ToBase64String(ms.ToArray());
+        }
 
         // GET: /Employee/Edit/<id>
         public ActionResult Edit(
@@ -460,7 +476,7 @@ namespace CloudTrixApp.Controllers
             Employee oEmployee = new Employee();
             oEmployee.EmployeeID = System.Convert.ToInt32(Employee.EmployeeID);
             oEmployee = EmployeeData.Select_Record(Employee);
-            string strpass = encryptpass(Employee.Password);  
+            string strpass = Encrypt(Employee.Password);  
             if (ModelState.IsValid)
             {
                 bool bSucess = false;
@@ -494,6 +510,7 @@ namespace CloudTrixApp.Controllers
             }
 
             dtCompany = Employee_CompanyData.SelectAll();
+            dtUserType = UserTypePermission_UserTypeData.SelectAll();
 
             Employee Employee = new Employee();
             Employee.EmployeeID = System.Convert.ToInt32(EmployeeID);
@@ -510,9 +527,9 @@ namespace CloudTrixApp.Controllers
             {
                 UserTypeID = (Int32)Employee.UserTypeID
                ,
-                UserTypeName = (from DataRow rowCompany in dtCompany.Rows
-                                where Employee.UserTypeID == (int)rowCompany["UserTypeID"]
-                               select (String)rowCompany["UserTypeName"]).FirstOrDefault()
+                UserTypeName = (from DataRow rowUserType in dtUserType.Rows
+                                where Employee.UserTypeID == (int)rowUserType["UserTypeID"]
+                                select (String)rowUserType["UserTypeName"]).FirstOrDefault()
             };
             if (Employee == null)
             {

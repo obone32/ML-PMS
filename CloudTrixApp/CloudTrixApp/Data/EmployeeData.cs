@@ -648,6 +648,35 @@ namespace CloudTrixApp.Data
                 connection.Close();
             }
         }
+
+        public static DataTable SelectLoginData(string Username)
+        {
+            SqlConnection connection = PMMSData.GetConnection();
+            string selectProcedure = "[Login_EmployeeSelect]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            selectCommand.CommandType = CommandType.StoredProcedure;
+            selectCommand.Parameters.AddWithValue("@Username", Username);
+            DataTable dt = new DataTable();
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    dt.Load(reader);
+                }
+                reader.Close();
+            }
+            catch (SqlException)
+            {
+                return dt;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return dt;
+        }
     }
 }
 

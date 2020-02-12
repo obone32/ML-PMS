@@ -143,14 +143,21 @@
                         <div class="container-fluid">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="UserName">UserName</label>
-                                    @Html.TextBox("UserName", null, new { @class = "form-control  ", @disabled = "on", @placeholder = " Enter UserName ", autocomplete = "off" })
+                                    <label for="UserName">User Name</label>
+                                    @Html.TextBox("UserName", null, new { @class = "form-control  ", @disabled = "on", @placeholder = "UserName", autocomplete = "off" })
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="Password">Password</label>
                                     @Html.TextBox("Password", null, new { @class = "form-control  ", @disabled = "on", @placeholder = "Enter Password ", autocomplete = "off" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Password">User Type</label>
+                                    @Html.TextBox("UserTypeID", null, new { @class = "form-control  ", @disabled = "on", @placeholder = "UserTypeName", autocomplete = "off" })
+
                                 </div>
                             </div>
                         </div>
