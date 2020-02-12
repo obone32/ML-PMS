@@ -1,0 +1,265 @@
+@model CloudTrixApp.Models.Invoice
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    textarea {
+    }
+</style>
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+<div class="col-md-11">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Invoice</h3>
+        </div>
+        <div class="panel-body">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.InvoiceID)
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="InvoiceType"> Invoice Type :</label>
+                                @Html.TextBox("InvoiceType", null, new { @class = "form-control  ", @placeholder = "Invoice Type ", autocomplete = "off" })
+                            </div>
+                        </div>
+                        @*<div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="CompanyID"> Company Name :</label>
+                                @Html.DropDownList("CompanyID", null, new { @class = "form-control  ", @placeholder = "Company Name ", autocomplete = "off" })
+                            </div>
+                        </div>*@
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="InvoiceNo"> Invoice No : </label>
+                                @Html.TextBox("InvoiceNo", null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="InvoiceDate"> InvoiceDate :</label>
+                                @Html.TextBox("InvoiceDate", null, new { @class = "form-control datetimepicker ", @placeholder = "Invoice Date ", autocomplete = "off" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ClientID"> Client Name : </label>
+                                @Html.DropDownList("ClientID",null,"Select Client Name", new { @class = "form-control  ",@id="ClientID", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ProjectID"> Project Name :</label>
+                                @Html.DropDownList("ProjectID", null,"Select Project Name", new { @class = "form-control  ", @placeholder = "Project Name ", autocomplete = "off" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ClientAddress"> Client Address : </label>
+                                @Html.TextBox("Address1", null, new { @class = "form-control", @placeholder = "",@id="Address1", @style = "width : 100%", autocomplete = "off", @readonly = "readonly" })
+                             </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ClientGSTIN"> Client GSTIN  :</label>
+                                @Html.TextBox("GSTIN", null, new { @class = "form-control", @placeholder = "", @id = "GSTIN", @style = "width : 100%", autocomplete = "off" , @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ClientContactNo"> Client Contact No :</label>
+                                @Html.TextBoxFor(Model => Model.Client.ContactNo, new { @class = "form-control  ", @placeholder = "Client Contact No ", @disabled = "on" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ClientEMail"> Client EMail :</label>
+                                @Html.TextBoxFor(Model => Model.Client.EMail, new { @class = "form-control  ", @placeholder = "Client EMail ", @disabled = "on" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="row" role="form">
+                                <div class="container-fluid">
+                                    <div class="col-sm-11">
+                                        <div class="form-group ">
+                                            <label for="Description"> Description: </label>
+                                            @Html.TextBox("Description", null, new { @class = "form-control", @placeholder = "Enter Description", @style = "width : 100%", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Quantity"> Quantity :</label>
+                                            @Html.TextBox("Quantity", null, new { @class = "form-control  ", @style = "width : 80%", @placeholder = "Quantity ", autocomplete = "off" })
+                                            <small id="error_quantity" class="form-text error_msg">Quantity is required</small>
+                                         </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Price"> Price :</label>
+                                            @Html.TextBox("Price", null, new { @class = "form-control  ", @style = "width : 80%", @placeholder = "Price ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Amount"> Amount :</label>
+                                            @Html.TextBox("Amount", null, new { @class = "form-control  ", @style = "width : 75%", @placeholder = "Amount ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="divIGST">
+                                    <div class="form-inline col-sm-6">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="Quantity"> IGST : </label>
+                                                @Html.TextBox("IGST", null, new { @class = "form-control", @style = "width : 150px", @type = "number", @placeholder = "Enter Percentage ", autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="Price"> IGST Amount : </label>
+                                                @Html.TextBox("IGSTAmt", null, new { @class = "form-control", @type = "number", @style = "width : 150px", @placeholder = "", autocomplete = "off", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="divCGST">
+                                    <div class="form-inline col-sm-6">
+                                    </div>
+                                    <div class="form-inline col-sm-6">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="Quantity"> CGST : </label>
+                                                @Html.TextBox("CGST", null, new { @class = "form-control", @style = "width : 150px", @type = "number", @placeholder = "Enter Percentage ", autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="Price"> CGST Amount : </label>
+                                                @Html.TextBox("CGSTAmt", null, new { @class = "form-control", @type = "number", @style = "width : 150px", @placeholder = "", autocomplete = "off", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-inline col-sm-6">
+                                    </div>
+                                    <div class="form-inline col-sm-6">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="Quantity"> SGST : </label>
+                                                @Html.TextBox("SGST", null, new { @class = "form-control", @style = "width : 150px", @type = "number", @placeholder = "Enter Percentage ", autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="Price"> SGST Amount : </label>
+                                                @Html.TextBox("SGSTAmt", null, new { @class = "form-control", @type = "number", @style = "width : 150px", @placeholder = "", autocomplete = "off", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-inline col-sm-6">
+                                </div>
+                                <div class="form-inline col-sm-6" style="margin-top: 10px;">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="Quantity">Total Amount : </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.TextBox("TotAmt", null, new { @class = "form-control", @type = "number", @style = "width : 150px", @placeholder = "", autocomplete = "off", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <br /><br />
+                                <div class="form-inline col-sm-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <br />
+                                        <input type="button" class="click" value="ADD"  />
+                                    </div>
+                                </div>
+                                <table style="width:100%" id="detailsTable" >
+                                    <thead>
+                                        <tr>
+                                            <th style="width:3%"> </th>
+                                            <th style="width:37%">Description</th>
+                                            <th style="width:10%">Quantity</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:10%">Item Total</th>
+                                            <th style="width:10%">IGST</th>
+                                            <th style="width:10%">CGST</th>
+                                            <th style="width:10%">SGST</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody">
+
+                                    </tbody>
+                                  
+                                </table>
+                                <input type="button" class="del" value="DELETE" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/ApplicationJquery")
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $("#ClientID").change(function () {
+                $('#ClientID').val();
+                var id = $('#ClientID').find(":selected").attr('value');
+                $.ajax({
+                    type: "GET",
+                    url: "/Invoice/GetClientDetails",
+                    datatype: "Json",
+                    data:{
+                        ClientID: $('#ClientID').val(),
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        $("#Address1").val(data.Address1);
+                        $("#GSTIN").val(data.GSTIN);
+                    }
+                })
+            })
+
+        });
+    </script>
+}
+

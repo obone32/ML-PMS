@@ -1,0 +1,108 @@
+@model CloudTrixApp.Models.Timesheet
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Master</a></li>
+            <li class="active">Delete TimeSheet</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Delete TimeSheet</h3>
+                    </div>
+                    <div class="panel-body">
+                        <br />
+                        <p class="callout callout-danger">&nbsp;&nbsp; Do you want to delete this TimeSheet?</p>
+                        <hr />
+                        @*<dl class="dl-horizontal">*@
+                        @Html.HiddenFor(model => model.TimesheetID)
+
+                        <div class="container-fluid">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="EmployeeID">Employee Name</label>
+                                    @Html.TextBoxFor(model => model.Employee.FirstName, null, new { @class = "form-control ", @placeholder = "Enter Name ", @disabled = "on" })
+                                    @Html.ValidationMessageFor(model => model.Employee.FirstName)
+                                </div>
+                            </div>
+
+                            <div class="container-fluid">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Date">Project Name</label>
+                                        @Html.TextBoxFor(model => model.Project.ProjectName, null, new { @class = "form-control ", @placeholder = "Enter Name ", @disabled = "on" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Date">Entry Date :</label>
+                                    @Html.TextBox("EntryDate", null, new { @class = "form-control ", @style = "width : 200px", @placeholder = "Entry Date ", @Value = @DateTime.Now.ToString("dd-MMM-yyyy"), @readonly = "readonly", @disabled = "on" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="StartTime">Start Time</label>
+                                    @Html.TextBox("StartTime", null, new { @class = "form-control", @placeholder = "StartTime", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="EndTime">End Time</label>
+                                    @Html.TextBox("EndTime", null, new { @class = "form-control", @placeholder = "EndTime", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="TotTime">Total Time</label>
+                                    @Html.TextBox("TotTime", null, new { @class = "form-control", @style = "width : 150px", @id = "TotTime", @placeholder = "Total Time ", autocomplete = "off", @readonly = "readonly", @disabled = "on" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="Remarks">Remarks</label>
+                                    @Html.TextArea("Remarks", new { @class = "form-control", @rows = "2", @placeholder = "Remarks", @disabled = "on" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div><hr size=2><br /></div>
+                            <div class="col-sm-4 col-lg-offset-4">
+                                <div class="form-group">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-actions no-color">
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

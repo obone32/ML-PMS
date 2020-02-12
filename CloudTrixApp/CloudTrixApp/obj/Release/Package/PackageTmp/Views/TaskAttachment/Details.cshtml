@@ -1,0 +1,54 @@
+@model CloudTrixApp.Models.TaskAttachment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TaskAttachment</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Task.TaskID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskAttachmentID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskAttachmentID)
+        <dt>
+            @Html.DisplayNameFor(model => model.AttachmentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AttachmentName)
+        <dt>
+            @Html.DisplayNameFor(model => model.Decription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Decription)
+        <dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						TaskID = Model.TaskID 
+ 					       ,TaskAttachmentID = Model.TaskAttachmentID
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

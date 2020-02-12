@@ -1,0 +1,135 @@
+@model CloudTrixApp.Models.Company
+
+@{
+    ViewBag.Title = "Delete";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Company</a></li>
+            <li class="active">Create Company</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Delete Company </h3>
+                    </div>
+                    <div class="panel-body">
+                        <br />
+                        <p class="callout callout-danger">&nbsp;&nbsp; Do you want to delete this Company?</p>
+                        <hr />
+                        @Html.HiddenFor(model => model.CompanyID)
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Address1"> Company Name : </label>
+                                    @Html.TextBoxFor(model => model.CompanyName, null, new { @class = "form-control ", @placeholder = "Enter Name ", @disabled = "on" })
+                                    @Html.ValidationMessageFor(model => model.CompanyName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Address1"> Address1 : </label>
+                                    @Html.TextBox("Address1", null, new { @class = "form-control", @placeholder = "Address1", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Address2">&nbsp;</label>
+                                    @Html.TextBox("Address2", null, new { @class = "form-control  ", @placeholder = "Address2 ", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="City"> City : </label>
+                                    @Html.TextBox("City", null, new { @class = "form-control", @placeholder = "City", @disabled = "on" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="District">District</label>
+                                    @Html.TextBox("District", null, new { @class = "form-control  ", @placeholder = "District ", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="State">State</label>
+                                    @Html.TextBox("State", null, new { @class = "form-control  ", @placeholder = "State ", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Country">Country</label>
+                                    @Html.TextBox("Country", null, new { @class = "form-control  ", @placeholder = "Country ", @disabled = "on" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="PinCode">PinCode</label>
+                                    @Html.TextBox("PinCode", null, new { @class = "form-control  ", @placeholder = "PinCode ", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="ContactNo">ContactNo</label>
+                                    @Html.TextBox("ContactNo", null, new { @class = "form-control  ", @placeholder = "ContactNo ", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="EMail">EMail</label>
+                                    @Html.TextBox("EMail", null, new { @class = "form-control  ", @placeholder = "EMail ", @disabled = "on" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="GSTIN">GSTIN</label>
+                                    @Html.TextBox("GSTIN", null, new { @class = "form-control  ", @placeholder = "GSTIN ", @disabled = "on" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="InvoiceInitials">InvoiceInitials</label>
+                                    @Html.TextBox("InvoiceInitials", null, new { @class = "form-control  ", @placeholder = "InvoiceInitials ", @disabled = "on" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div><hr size=2><br /></div>
+                            <div class="col-sm-4 col-lg-offset-4">
+                                <div class="form-group">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-actions no-color">
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

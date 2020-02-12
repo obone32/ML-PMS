@@ -1,0 +1,53 @@
+@model CloudTrixApp.Models.TaskAssignment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TaskAssignment</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.TaskAssignmentID)
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssignmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssignmentDate)
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Task.TaskName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskStateID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskState.TaskStateName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						TaskAssignmentID = Model.TaskAssignmentID 
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

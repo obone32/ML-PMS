@@ -1,0 +1,162 @@
+@model CloudTrixApp.Models.Client
+
+@{
+    ViewBag.Title = "Create Client";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Masters</a></li>
+            <li class="active">Create Client</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Client </h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.ClientID)
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="ClientName"> Client Name : </label>
+                                            @Html.TextBoxFor(model => model.ClientName, null, new { @class = "form-control ", @placeholder = "Enter Name " })
+                                            @Html.ValidationMessageFor(model => model.ClientName)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Address1"> Address1 : </label>
+                                            @Html.TextBox("Address1", null, new { @class = "form-control", @placeholder = "Address1", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Address2">&nbsp;</label>
+                                            @Html.TextBox("Address2", null, new { @class = "form-control  ", @placeholder = "Address2 ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="City"> City : </label>
+                                            @Html.TextBox("City", null, new { @class = "form-control", @placeholder = "City", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="District">District</label>
+                                            @Html.TextBox("District", null, new { @class = "form-control  ", @placeholder = "District ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="State">State</label>
+                                            @Html.TextBox("State", null, new { @class = "form-control  ", @placeholder = "State ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="PinCode">PinCode</label>
+                                            @Html.TextBox("PinCode", null, new { @class = "form-control  ", @placeholder = "PinCode ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="ContactNo">ContactNo</label>
+                                            @Html.TextBox("ContactNo", null, new { @class = "form-control  ", @placeholder = "ContactNo ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="EMail">EMail</label>
+                                            @Html.TextBox("EMail", null, new { @class = "form-control  ", @placeholder = "EMail ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="GSTIN">GSTIN</label>
+                                            @Html.TextBox("GSTIN", null, new { @class = "form-control  ", @placeholder = "GSTIN ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="CompanyID">Company</label>
+                                            @Html.DropDownList("CompanyID", null, new { @class = "form-control  ", @placeholder = "Company Name ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="AddUserID">Added by</label>
+                                            @Html.TextBox("AddUserID", null, new { @class = "form-control  ", @placeholder = "Added by ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="AddDate">Created Date</label>
+                                            @Html.TextBox("AddDate", null, new { @class = "form-control  ", @placeholder = "Created Date ", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            <input type="submit" value="Create" class="btn btn-success" />
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AddDate').addClass('form-control');
+        $("#AddDate").datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: '0y'
+        });
+    });
+</script>
+    }
+

@@ -1,0 +1,91 @@
+@model CloudTrixApp.Models.Task
+
+@{
+    ViewBag.Title = "Delete";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Task Management</a></li>
+            <li class="active">Delete Task</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Delete Task </h3>
+                    </div>
+                    <div class="panel-body">
+                        <br />
+                        <p class="callout callout-danger">&nbsp;&nbsp; Do you want to delete this Task?</p>
+                        <hr />
+                        @Html.HiddenFor(model => model.TaskID)
+
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="CreationDate">Creation Date</label>
+                                    @Html.EditorFor(model => model.CreationDate, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.CreationDate)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="TaskName">Task Name</label>
+                                    @Html.TextBox("TaskName", null, new { @class = "form-control  ", @placeholder = "Task Name ", autocomplete = "off", @disabled = "on" })
+                                    @Html.ValidationMessageFor(model => model.TaskName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Description">Description</label>
+                                    @Html.TextBox("Description", null, new { @class = "form-control  ", @placeholder = "Task Description ", autocomplete = "off", @disabled = "on" })
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <div><hr size=2><br /></div>
+                        <div class="col-sm-4 col-lg-offset-4">
+                            <div class="form-group">
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-actions no-color">
+                                        <input type="submit" value="Delete" class="btn btn-danger" />
+                                        @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+  $(document).ready(function () {
+      $('#CreationDate').addClass('form-control ');
+      $('#CreationDate').attr('readonly','readonly');
+  });
+    </script>
+}
+

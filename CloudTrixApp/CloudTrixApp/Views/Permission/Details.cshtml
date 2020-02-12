@@ -1,0 +1,29 @@
+@model CloudTrixApp.Models.Permission
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Permission</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.PermissionID)
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PermissionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PermissionName)
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						PermissionID = Model.PermissionID 
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 
