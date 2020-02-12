@@ -9,6 +9,7 @@ using CloudTrixApp.Models;
 using CloudTrixApp.Data;
 using System.Security.Cryptography;
 using System.IO;
+using System.Web.Security;
 
 namespace CloudTrixApp.Controllers
 {
@@ -20,6 +21,7 @@ namespace CloudTrixApp.Controllers
         DataTable dtEmployee = new DataTable();
         public ActionResult Index()
         {
+          //  User.Identity.
             return View();
         }
 
@@ -39,7 +41,7 @@ namespace CloudTrixApp.Controllers
 
         //
         // POST: /Login/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Employee objEmployee)
@@ -47,23 +49,25 @@ namespace CloudTrixApp.Controllers
             try
             {
                 // TODO: Add insert logic here
-
-                Login(objEmployee.UserName, objEmployee.Password);
+                //if (ModelState.IsValid)
+                //{
+                // Login(objEmployee.UserName, objEmployee.Password);
                 //  
 
-                if (ModelState.IsValid)
+
+                bool bSucess = false;
+                bSucess = Login(objEmployee.UserName, objEmployee.Password);
+                if (bSucess == true)
                 {
-                    bool bSucess = false;
-                    bSucess = Login(objEmployee.UserName, objEmployee.Password);
-                    if (bSucess == true)
-                    {
-                        return RedirectToAction("~/Home/Index");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Can Not Found");
-                    }
+                    //   FormsAuthentication.SetAuthCookie(objEmployee.UserName, false);
+                    return RedirectToAction("Index", "Home");
+                    //  return RedirectToAction("~/Home/Index");
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Can Not Found");
+                }
+                //}
                 return RedirectToAction("Create");
             }
             catch
@@ -97,10 +101,6 @@ namespace CloudTrixApp.Controllers
                 // TODO: Add insert logic here
 
                 string LoginPwd = Password;
-
-                //Employee Employee = new Employee();
-                //Employee.UserName = UserName;
-                ////Employee.Password = pwd;
                 dtEmployee = EmployeeData.SelectLoginData(UserName);
                 DataRow[] rows = dtEmployee.Select();
                 if (dtEmployee != null)
@@ -108,6 +108,8 @@ namespace CloudTrixApp.Controllers
                     string decryptpassword = rows[0]["Password"].ToString();
 
                     string decPwd = Decrypt(decryptpassword);
+
+                    //System.Web.Security.FormsAuthentication.SetAuthCookie(user.Username, false);
 
                     return true;
                     //   return View("UserLandingView");

@@ -30,7 +30,7 @@
                             @Html.AntiForgeryToken()
 
                             <div class="form-horizontal">
-                              
+
                                 <hr />
                                 @Html.ValidationSummary(true)
                                 @Html.HiddenFor(model => model.EmployeeID)
@@ -38,7 +38,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="UserName">User Name</label>
-                                            @Html.TextBox("UserName", null, new { @class = "form-control  ", @placeholder = "User Name ", autocomplete = "off" })
+                                            @Html.TextBox("UserName", null, new { @class = "form-control  ", @placeholder = "User Name ", autocomplete = "off", required = "required" })
                                             @Html.ValidationMessageFor(model => model.UserName)
                                         </div>
                                     </div>
@@ -48,7 +48,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="Password">Password</label>
-                                            @Html.TextBox("Password", null, new { @class = "form-control  ", @placeholder = "Password", autocomplete = "off" ,Type="password"})
+                                            @Html.TextBox("Password", null, new { @class = "form-control  ", @placeholder = "Password", autocomplete = "off", Type = "password", required = "required" })
                                             @Html.ValidationMessageFor(model => model.Password)
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                                 <div class="container-fluid">
                                     <div class="col-sm-4 col-lg-offset-4">
                                         <div class="form-group">
-                                            <input type="submit" value="Login" class="btn btn-success" />                                         
+                                            <input type="submit" value="Login" class="btn btn-success" />
                                         </div>
                                     </div>
                                 </div>

@@ -377,6 +377,6 @@ C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\de\MigraDo
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\de\MigraDoc.RtfRendering.resources.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\de\PdfSharp.resources.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\de\PdfSharp.Charting.resources.dll
-C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.csprojResolveAssemblyReference.cache
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.pdb
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.csprojResolveAssemblyReference.cache

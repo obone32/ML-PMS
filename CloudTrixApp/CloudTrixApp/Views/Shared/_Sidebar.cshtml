@@ -13,82 +13,88 @@
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">MAIN NAVIGATION</li>
-            <li class="@Html.IsSelected(controller: "Masters") treeview">
-                <a href="@Url.Action("Dashboardv1", "Masters")">
-                    <i class="fa fa-dashboard"></i> <span>Masters</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@Html.IsSelected(action: "Company")"><a href="@Url.Action("Index", "Company")"><i class="fa fa-circle-o"></i> Company</a></li>
-                    <li class="@Html.IsSelected(action: "Client")"><a href="@Url.Action("Index", "Client")"><i class="fa fa-circle-o"></i> Client</a></li>
-                    <li class="@Html.IsSelected(action: "Architect")"><a href="@Url.Action("Index", "Architect")"><i class="fa fa-circle-o"></i> Architect</a></li>
-                    <li class="@Html.IsSelected(action: "Project")"><a href="@Url.Action("Index", "Project")"><i class="fa fa-circle-o"></i> Project</a></li>
-                    <li class="@Html.IsSelected(action: "Employee")"><a href="@Url.Action("Index", "Employee")"><i class="fa fa-circle-o"></i> Employee</a></li>
-                    <li class="@Html.IsSelected(action: "ProjectStatus")"><a href="@Url.Action("Index", "ProjectStatus")"><i class="fa fa-circle-o"></i> Project Status</a></li>
-                    <li class="@Html.IsSelected(action: "UserType")"><a href="@Url.Action("Index", "UserType")"><i class="fa fa-circle-o"></i> User Type</a></li>
-                </ul>
-            </li>
-            <li class="@Html.IsSelected(controller: "Invoice") treeview">
-                <a href="@Url.Action("Index", "Invoice")">
-                    <i class="fa fa-files-o"></i>
-                    <span>Invoice</span>
-                    <span class="pull-right-container">
-                        @*<span class="label label-primary pull-right">4</span>*@
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@Html.IsSelected(action: "Invoice")"><a href="@Url.Action("Index", "Invoice")"><i class="fa fa-circle-o"></i> Invoice</a></li>
-                    <li class="@Html.IsSelected(action: "Reconcilation")"><a href="@Url.Action("Index", "Reconcilation")"><i class="fa fa-circle-o"></i> Reconcilation</a></li>
-                    <li class="@Html.IsSelected(action: "InvoiceAdvance")"><a href="@Url.Action("Index", "Layout")"><i class="fa fa-circle-o"></i> Invoice Advance</a></li>
-                </ul>
-            </li>
-            <li class="@Html.IsSelected(controller: "TimeSheet")">
-                <a href="@Url.Action("Index", "TimeSheet")">
-                    <i class="fa fa-th"></i> <span>TimeSheet</span>
-                    <span class="pull-right-container">
-                        <small class="label pull-right bg-green">new</small>
-                    </span>
-                </a>
-            </li>
-            <li class="treeview @Html.IsSelected(controller: "Reports")">
-                <a href="@Url.Action("Index", "Reports")">
-                    <i class="fa fa-pie-chart"></i>
-                    <span>Reports</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@Html.IsSelected(action: "Chartjs")"><a href="@Url.Action("Chartjs", "Charts")"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-                    <li class="@Html.IsSelected(action: "Morris")"><a href="@Url.Action("Morris", "Charts")"><i class="fa fa-circle-o"></i> Morris</a></li>
-                    <li class="@Html.IsSelected(action: "Flot")"><a href="@Url.Action("Flot", "Charts")"><i class="fa fa-circle-o"></i> Flot</a></li>
-                    <li class="@Html.IsSelected(action: "Inline")"><a href="@Url.Action("Inline", "Charts")"><i class="fa fa-circle-o"></i> Inline charts</a></li>
-                </ul>
-            </li>
-            <li class="treeview @Html.IsSelected(controller: "TaskManagement")">
-                <a href="@Url.Action("Index", "TaskManagement")">
-                    <i class="fa fa-laptop"></i>
-                    <span>Task Management</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@Html.IsSelected(action: "ProjectAssignment")"><a href="@Url.Action("Index", "ProjectAssignment")"><i class="fa fa-circle-o"></i> ProjectAssignment</a></li>
-                    <li class="@Html.IsSelected(action: "TaskState")"><a href="@Url.Action("Index", "TaskState")"><i class="fa fa-circle-o"></i> Task State</a></li>
-                    <li class="@Html.IsSelected(action: "Task")"><a href="@Url.Action("Index", "Task")"><i class="fa fa-circle-o"></i> Tasks</a></li>
-                    <li class="@Html.IsSelected(action: "TaskAssignment")"><a href="@Url.Action("Index", "TaskAssignment")"><i class="fa fa-circle-o"></i> Task Assignment</a></li>
-                </ul>
-            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="@Html.IsSelected(controller: "Masters") treeview">
+                    <a href="@Url.Action("Dashboardv1", "Masters")">
+                        <i class="fa fa-dashboard"></i> <span>Masters</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="@Html.IsSelected(action: "Company")"><a href="@Url.Action("Index", "Company")"><i class="fa fa-circle-o"></i> Company</a></li>
+                        <li class="@Html.IsSelected(action: "Client")"><a href="@Url.Action("Index", "Client")"><i class="fa fa-circle-o"></i> Client</a></li>
+                        <li class="@Html.IsSelected(action: "Architect")"><a href="@Url.Action("Index", "Architect")"><i class="fa fa-circle-o"></i> Architect</a></li>
+                        <li class="@Html.IsSelected(action: "Project")"><a href="@Url.Action("Index", "Project")"><i class="fa fa-circle-o"></i> Project</a></li>
+                        <li class="@Html.IsSelected(action: "Employee")"><a href="@Url.Action("Index", "Employee")"><i class="fa fa-circle-o"></i> Employee</a></li>
+                        <li class="@Html.IsSelected(action: "ProjectStatus")"><a href="@Url.Action("Index", "ProjectStatus")"><i class="fa fa-circle-o"></i> Project Status</a></li>
+                        <li class="@Html.IsSelected(action: "UserType")"><a href="@Url.Action("Index", "UserType")"><i class="fa fa-circle-o"></i> User Type</a></li>
+                    </ul>
+                </li>
+                <li class="@Html.IsSelected(controller: "Invoice") treeview">
+                    <a href="@Url.Action("Index", "Invoice")">
+                        <i class="fa fa-files-o"></i>
+                        <span>Invoice</span>
+                        <span class="pull-right-container">
+                            @*<span class="label label-primary pull-right">4</span>*@
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="@Html.IsSelected(action: "Invoice")"><a href="@Url.Action("Index", "Invoice")"><i class="fa fa-circle-o"></i> Invoice</a></li>
+                        <li class="@Html.IsSelected(action: "Reconcilation")"><a href="@Url.Action("Index", "Reconcilation")"><i class="fa fa-circle-o"></i> Reconcilation</a></li>
+                        <li class="@Html.IsSelected(action: "InvoiceAdvance")"><a href="@Url.Action("Index", "Layout")"><i class="fa fa-circle-o"></i> Invoice Advance</a></li>
+                    </ul>
+                </li>
+                <li class="@Html.IsSelected(controller: "TimeSheet")">
+                    <a href="@Url.Action("Index", "TimeSheet")">
+                        <i class="fa fa-th"></i> <span>TimeSheet</span>
+                        <span class="pull-right-container">
+                            <small class="label pull-right bg-green">new</small>
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview @Html.IsSelected(controller: "Reports")">
+                    <a href="@Url.Action("Index", "Reports")">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Reports</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="@Html.IsSelected(action: "Chartjs")"><a href="@Url.Action("Chartjs", "Charts")"><i class="fa fa-circle-o"></i> ChartJS</a></li>
+                        <li class="@Html.IsSelected(action: "Morris")"><a href="@Url.Action("Morris", "Charts")"><i class="fa fa-circle-o"></i> Morris</a></li>
+                        <li class="@Html.IsSelected(action: "Flot")"><a href="@Url.Action("Flot", "Charts")"><i class="fa fa-circle-o"></i> Flot</a></li>
+                        <li class="@Html.IsSelected(action: "Inline")"><a href="@Url.Action("Inline", "Charts")"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+                    </ul>
+                </li>
+                <li class="treeview @Html.IsSelected(controller: "TaskManagement")">
+                    <a href="@Url.Action("Index", "TaskManagement")">
+                        <i class="fa fa-laptop"></i>
+                        <span>Task Management</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="@Html.IsSelected(action: "ProjectAssignment")"><a href="@Url.Action("Index", "ProjectAssignment")"><i class="fa fa-circle-o"></i> ProjectAssignment</a></li>
+                        <li class="@Html.IsSelected(action: "TaskState")"><a href="@Url.Action("Index", "TaskState")"><i class="fa fa-circle-o"></i> Task State</a></li>
+                        <li class="@Html.IsSelected(action: "Task")"><a href="@Url.Action("Index", "Task")"><i class="fa fa-circle-o"></i> Tasks</a></li>
+                        <li class="@Html.IsSelected(action: "TaskAssignment")"><a href="@Url.Action("Index", "TaskAssignment")"><i class="fa fa-circle-o"></i> Task Assignment</a></li>
+                    </ul>
+                </li>
+            }
+            else
+            {
+                //links that will show to authenticated and unauthenticated users
+            }
         </ul>
     </section>
     <!-- /.sidebar -->
 </aside>
-
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script type="text/javascript">
     var url = window.location;
