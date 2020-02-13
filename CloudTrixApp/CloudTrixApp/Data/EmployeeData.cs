@@ -258,6 +258,7 @@ namespace CloudTrixApp.Data
                     Employee.UserTypeID = System.Convert.ToInt32(reader["UserTypeID"]);
                     Employee.AddUserID = System.Convert.ToInt32(reader["AddUserID"]);
                     Employee.AddDate = System.Convert.ToDateTime(reader["AddDate"]);
+                    Employee.IsActive = reader["IsActive"] is DBNull ? false : System.Convert.ToBoolean(reader["IsActive"]);
                     Employee.ArchiveUserID = reader["ArchiveUserID"] is DBNull ? null : (Int32?)reader["ArchiveUserID"];
                     Employee.ArchiveDate = reader["ArchiveDate"] is DBNull ? null : (DateTime?)reader["ArchiveDate"];
                 }
@@ -336,6 +337,7 @@ namespace CloudTrixApp.Data
             insertCommand.Parameters.AddWithValue("@AddUserID", Employee.AddUserID);
             insertCommand.Parameters.AddWithValue("@UserTypeID", Employee.UserTypeID);
             insertCommand.Parameters.AddWithValue("@AddDate", Employee.AddDate);
+            insertCommand.Parameters.AddWithValue("@IsActive", Employee.IsActive);
             if (Employee.ArchiveUserID.HasValue == true)
             {
                 insertCommand.Parameters.AddWithValue("@ArchiveUserID", Employee.ArchiveUserID);
@@ -437,6 +439,7 @@ namespace CloudTrixApp.Data
             updateCommand.Parameters.AddWithValue("@NewUserTypeID", newEmployee.UserTypeID);
             updateCommand.Parameters.AddWithValue("@NewAddUserID", newEmployee.AddUserID);
             updateCommand.Parameters.AddWithValue("@NewAddDate", newEmployee.AddDate);
+            updateCommand.Parameters.AddWithValue("@NewIsActive", newEmployee.IsActive);
             if (newEmployee.ArchiveUserID.HasValue == true)
             {
                 updateCommand.Parameters.AddWithValue("@NewArchiveUserID", newEmployee.ArchiveUserID);
@@ -506,6 +509,7 @@ namespace CloudTrixApp.Data
             updateCommand.Parameters.AddWithValue("@OldUserTypeID", oldEmployee.UserTypeID);
             updateCommand.Parameters.AddWithValue("@OldAddUserID", oldEmployee.AddUserID);
             updateCommand.Parameters.AddWithValue("@OldAddDate", oldEmployee.AddDate);
+            updateCommand.Parameters.AddWithValue("@OldIsActive", oldEmployee.IsActive);
             if (oldEmployee.ArchiveUserID.HasValue == true)
             {
                 updateCommand.Parameters.AddWithValue("@OldArchiveUserID", oldEmployee.ArchiveUserID);
@@ -607,6 +611,7 @@ namespace CloudTrixApp.Data
             deleteCommand.Parameters.AddWithValue("@OldUserTypeID", Employee.UserTypeID);
             deleteCommand.Parameters.AddWithValue("@OldAddUserID", Employee.AddUserID);
             deleteCommand.Parameters.AddWithValue("@OldAddDate", Employee.AddDate);
+            deleteCommand.Parameters.AddWithValue("@OldIsActive", Employee.IsActive);
             if (Employee.ArchiveUserID.HasValue == true)
             {
                 deleteCommand.Parameters.AddWithValue("@OldArchiveUserID", Employee.ArchiveUserID);

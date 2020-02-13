@@ -101,6 +101,10 @@ namespace CloudTrixApp.Models
         [Display(Name = "Archive Date")]
         public DateTime? ArchiveDate { get; set; }
 
+        [Required]
+        [Display(Name = "IsActive")]
+        public bool IsActive { get; set; }
+        public bool Active { get; set; }
         // ComboBox
         public virtual Company Company { get; set; }
         public virtual UserType UserType { get; set; }

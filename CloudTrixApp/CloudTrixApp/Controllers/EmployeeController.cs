@@ -400,6 +400,7 @@ namespace CloudTrixApp.Controllers
                    + "," + "AddDate"
                    + "," + "ArchiveUserID"
                    + "," + "ArchiveDate"
+                   + "," + "IsActive"
                   )] Employee Employee)
         {
           
@@ -493,7 +494,7 @@ namespace CloudTrixApp.Controllers
             }
             // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName", Employee.CompanyID);
-            ViewData["UserTypeID"] = new SelectList(Employee_CompanyData.List(), "UserTypeID", "UserTypeName", Employee.UserTypeID);
+            ViewData["UserTypeID"] = new SelectList(UserTypePermission_UserTypeData.List(), "UserTypeID", "UserTypeName", Employee.UserTypeID);
             return View(Employee);
         }
 

@@ -157,7 +157,14 @@
                                 <div class="form-group">
                                     <label for="Password">User Type</label>
                                     @Html.TextBox("UserTypeID", null, new { @class = "form-control  ", @disabled = "on", @placeholder = "UserTypeName", autocomplete = "off" })
-
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Isactive">Is Active</label>    &nbsp;&nbsp;
+                                    @Html.CheckBoxFor(model => model.IsActive, new { @value = "true", @checked = "true", @align = "left" })
                                 </div>
                             </div>
                         </div>

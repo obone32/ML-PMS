@@ -164,7 +164,14 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Isactive">Is Active</label>    &nbsp;&nbsp;
+                                            @Html.CheckBoxFor(model => model.IsActive, new { @value = "true", @checked = "true", @align = "left" })
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="container-fluid">
                                     <div><hr size=2><br /></div>
                                     <div class="col-sm-4 col-lg-offset-4">

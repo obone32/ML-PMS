@@ -21,7 +21,7 @@ namespace CloudTrixApp.Controllers
         DataTable dtEmployee = new DataTable();
         public ActionResult Index()
         {
-          //  User.Identity.
+            //  User.Identity.
             return View();
         }
 
@@ -59,9 +59,8 @@ namespace CloudTrixApp.Controllers
                 bSucess = Login(objEmployee.UserName, objEmployee.Password);
                 if (bSucess == true)
                 {
-                    //   FormsAuthentication.SetAuthCookie(objEmployee.UserName, false);
-                    return RedirectToAction("Index", "Home");
-                    //  return RedirectToAction("~/Home/Index");
+                    FormsAuthentication.SetAuthCookie(objEmployee.UserName, false);
+                    return RedirectToAction("Index", "Home");                   
                 }
                 else
                 {
