@@ -1,0 +1,112 @@
+﻿@model CloudtrixApp.Core.ViewModel.LoginViewModel
+@{
+    Layout = null;
+}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+
+    .bg {
+        /* The image used */
+        background-image: url('/Content/Landing/img/Signin image.jpg');
+        /* Full height */
+        height: 100%;
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/img/icon.png">
+    <title>CloudTRIX - Project Management system </title>
+    <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <!--Icon fonts css-->
+    <link href="~/Content/adminFront/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/adminFront/assets/plugins/ionicon/css/ionicons.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="~/Content/adminFront/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/adminFront/assets/css/bootstrap-reset.css" rel="stylesheet">
+    <!--Animation css-->
+  
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="~/Content/adminFront/assets/plugins/morris/morris.css">
+
+    <!-- Custom styles -->
+    <link href="~/Content/adminFront/assets/css/style.css" rel="stylesheet">
+    <link href="~/Content/adminFront/assets/css/helper.css" rel="stylesheet">
+    <link href="~/Content/adminFront/assets/css/style-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="bg">
+    <div class="wrapper-page animated fadeInDown">
+        <div class="panel panel-color panel-primary">
+            <div class="panel-heading">
+                <h3 class="text-center m-t-10"> Sign In to <strong>CloudTRIX</strong> </h3>
+            </div>
+           @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-horizontal m-t-40" }))
+           {
+               @Html.AntiForgeryToken()
+                if (TempData["FFMsg"] != null)
+                {
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        ×
+                    </button>
+                    @TempData["FFMsg"].ToString()
+                </div>
+                <br />
+                }
+               <br/>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        @Html.TextBoxFor(m => m.Email, null, new { @class="form-control", placeholder="Enter Email"})
+                        @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group ">
+
+                    <div class="col-xs-12">
+                        @Html.PasswordFor(m => m.Password,  new { @class = "form-control", placeholder = "Enter Password" })
+                        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                      
+                    </div>
+                </div>
+                <div class="form-group text-right">
+                    <div class="col-xs-12">
+                        <button class="btn btn-primary w-md" type="submit">Log In</button>
+                    </div>
+                </div>
+           }
+        </div>
+    </div>
+
+
+    <!-- Basic Plugins -->
+    <script src="~/Content/adminFront/assets/js/jquery.js"></script>
+    <script src="~/Content/adminFront/assets/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/adminFront/assets/js/app.js"></script>
+
+</body>
+</html>

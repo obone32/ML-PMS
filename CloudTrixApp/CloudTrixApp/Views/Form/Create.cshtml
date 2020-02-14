@@ -1,0 +1,63 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@using System.Data
+@model CloudTrixApp.Models.Form
+@{
+    ViewBag.Title = "Create Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/css")
+
+<div class="table-responsive">
+    <table class="table">
+        <tr class="bg-warning">
+            <th>
+                @Html.ActionLink("Form Name", "Index", new { sortOrder = ViewData["FirstNameSortParm"], SearchText = ViewData["SearchText"] })
+            </th>
+            <th>
+                Add
+            </th>
+            <th>
+                Update
+            </th>
+            <th>
+                Delete
+            </th>
+            <th>
+                View
+            </th>
+            <th></th>
+        </tr>
+        @*@foreach (var item in ViewData.Model)
+        {
+            <tr>
+                <td>
+                    @item["Add"]
+                    @*@Html.DisplayFor(modelItem => item.Rows[0][0].ToString)*@
+                </td>
+                @*<td>
+                    @Html.CheckBoxFor(modelItem => item.Add, new { @value = "False", @checked = "False", @align = "left" })
+                </td>
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.Update, new { @value = "False", @checked = "False", @align = "left" })
+                </td>
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.Delete, new { @value = "False", @checked = "False", @align = "left" })
+                </td>
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.View, new { @value = "False", @checked = "False", @align = "left" })
+                </td>*@
+            </tr>
+        }*@
+    </table>
+    <table class="table">
+        <tr>
+            @*<td align="center">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewData["CurrentSort"], SearchText = ViewData["SearchText"] }))
+            </td>*@
+        </tr>
+    </table>
+</div>
+
+
+

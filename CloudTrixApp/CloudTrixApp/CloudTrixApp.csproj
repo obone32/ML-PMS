@@ -220,6 +220,7 @@
     <Compile Include="Data\ClientData.cs" />
     <Compile Include="Data\CompanyData.cs" />
     <Compile Include="Data\EmployeeData.cs" />
+    <Compile Include="Data\FormData.cs" />
     <Compile Include="Data\InvoiceData.cs" />
     <Compile Include="Data\InvoiceAdvanceData.cs" />
     <Compile Include="Data\InvoiceItemData.cs" />
@@ -252,6 +253,8 @@
     <Compile Include="Data\UserTypePermissionComboData.cs" />
     <Compile Include="Data\PMMSData.cs" />
     <Compile Include="Helpers\HTMLHelperExtensions.cs" />
+    <Compile Include="Models\Form.cs" />
+    <Compile Include="Models\FormController.cs" />
     <Compile Include="Models\ViewModel\InvoiceOrderDetailsViewModel.cs" />
     <Compile Include="Models\ViewModel\InvoiceOrderViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -4821,6 +4824,7 @@
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Invoice\Invoice1.cshtml" />
     <Content Include="Views\Login\Create.cshtml" />
+    <Content Include="Views\Form\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
