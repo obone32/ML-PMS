@@ -189,6 +189,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AdminLteController.cs" />
+    <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AdvancePaymentController.cs" />
     <Compile Include="Controllers\ArchitectController.cs" />
@@ -254,7 +255,6 @@
     <Compile Include="Data\PMMSData.cs" />
     <Compile Include="Helpers\HTMLHelperExtensions.cs" />
     <Compile Include="Models\Form.cs" />
-    <Compile Include="Models\FormController.cs" />
     <Compile Include="Models\ViewModel\InvoiceOrderDetailsViewModel.cs" />
     <Compile Include="Models\ViewModel\InvoiceOrderViewModel.cs" />
     <Compile Include="Global.asax.cs">

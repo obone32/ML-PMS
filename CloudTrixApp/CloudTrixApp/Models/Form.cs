@@ -34,5 +34,6 @@ namespace CloudTrixApp.Models
         [Required]
         [Display(Name = "View")]
         public bool View { get; set; }     
+
     }
 }

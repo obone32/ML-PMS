@@ -1,17 +1,26 @@
-﻿using CloudTrixApp.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
+using PagedList;
+using PagedList.Mvc;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.Rendering;
+using CloudTrixApp.Models;
+using CloudTrixApp.Data;
 
-namespace CloudTrixApp.Models
+
+namespace CloudTrixApp.Controllers
 {
     public class FormController : Controller
     {
-        DataTable dtForm = new DataTable();
-
         //
         // GET: /Form/
         public ActionResult Index()
@@ -30,13 +39,9 @@ namespace CloudTrixApp.Models
         // GET: /Form/Create
         public ActionResult Create()
         {
+            DataTable dtForm = new DataTable();
             dtForm = FormData.SelectAll();
-            //foreach (var item in dtForm.Columns)
-            //{
-            //   item =item(s=>s.)
-            //}
-            ViewData.Model = dtForm.AsEnumerable();
-            return View();
+            return View(dtForm);
         }
 
         //

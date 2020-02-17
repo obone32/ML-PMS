@@ -1,18 +1,34 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
 @using System.Data
-@model CloudTrixApp.Models.Form
+@model System.Data.DataTable
+@model CloudTrixApp.Models.UserType
+
+
 @{
     ViewBag.Title = "Create Form";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Styles.Render("~/Content/css")
 
-<div class="table-responsive">
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="CompanyID">Company</label>
+                @Html.DropDownList("CompanyID", null, new { @class = "form-control  ", @placeholder = "Company Name ", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.)
+            </div>
+        </div>
+    </div>
+
     <table class="table">
-        <tr class="bg-warning">
+        <tr>
             <th>
-                @Html.ActionLink("Form Name", "Index", new { sortOrder = ViewData["FirstNameSortParm"], SearchText = ViewData["SearchText"] })
+                Form ID
+            </th>
+            <th>
+                Form Name
             </th>
             <th>
                 Add
@@ -26,38 +42,24 @@
             <th>
                 View
             </th>
-            <th></th>
         </tr>
-        @*@foreach (var item in ViewData.Model)
+        @foreach (DataRow row in Model.Rows)
         {
             <tr>
-                <td>
-                    @item["Add"]
-                    @*@Html.DisplayFor(modelItem => item.Rows[0][0].ToString)*@
-                </td>
-                @*<td>
-                    @Html.CheckBoxFor(modelItem => item.Add, new { @value = "False", @checked = "False", @align = "left" })
-                </td>
-                <td>
-                    @Html.CheckBoxFor(modelItem => item.Update, new { @value = "False", @checked = "False", @align = "left" })
-                </td>
-                <td>
-                    @Html.CheckBoxFor(modelItem => item.Delete, new { @value = "False", @checked = "False", @align = "left" })
-                </td>
-                <td>
-                    @Html.CheckBoxFor(modelItem => item.View, new { @value = "False", @checked = "False", @align = "left" })
-                </td>*@
+                <td>@row["FormID"]</td>
+                <td>@row["FormName"]</td>
+                <td>@Html.CheckBox("Add", true)</td>
+                <td>@Html.CheckBox("Update", true)</td>
+                <td>@Html.CheckBox("Delete", true)</td>
+                <td>@Html.CheckBox("View", true)</td>
             </tr>
-        }*@
+        }
     </table>
     <table class="table">
         <tr>
             @*<td align="center">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewData["CurrentSort"], SearchText = ViewData["SearchText"] }))
-            </td>*@
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewData["CurrentSort"], SearchText = ViewData["SearchText"] }))
+                </td>*@
         </tr>
     </table>
 </div>
-
-
-
