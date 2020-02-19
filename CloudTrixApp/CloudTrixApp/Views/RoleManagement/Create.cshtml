@@ -1,0 +1,93 @@
+﻿@*@using PagedList;
+    @using PagedList.Mvc;
+    @using System.Data
+    @using CloudTrixApp.Models;*@
+@model  CloudTrixApp.Models.RoleManagement
+@{
+    ViewBag.Title = "Create Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //var FormData = (IEnumerable<Form>)ViewData["FormData"];
+}
+@Styles.Render("~/Content/css")
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="col-sm-11">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Create Role Permission</h3>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <hr />
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.RoleID)
+                            <div class="container-fluid">
+                                <div class="form-group">
+                                    <label for="UserTypeID" class="control-label col-md-2">User Type</label>
+                                    @Html.DropDownList("UserTypeID")
+                                </div>
+                            </div>
+                            <div class="container-fluid">
+                                <div class="form-group">
+                                    <table id="tblForm" class="table">
+                                        <tr>
+                                            <th>
+                                                Form ID
+                                            </th>
+                                            <th>
+                                                Form Name
+                                            </th>
+                                            <th>
+                                                Add
+                                            </th>
+                                            <th>
+                                                Update
+                                            </th>
+                                            <th>
+                                                Delete
+                                            </th>
+                                            <th>
+                                                View
+                                            </th>
+                                        </tr>
+                                        @*@foreach (DataRow row in Model.Rows)*@
+                                        @foreach (var form in ViewBag.MyList)
+                                        {
+                                            <tr>
+                                                <td>@form.FormID</td>
+                                                <td>@form.FormName</td>
+                                                <td>@Html.CheckBox("Add", true)</td>
+                                                <td>@Html.CheckBox("Update", true)</td>
+                                                <td>@Html.CheckBox("Delete", true)</td>
+                                                <td>@Html.CheckBox("View", true)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="container-fluid">
+                                <div><hr size=2><br /></div>
+                                <div class="col-sm-4 col-lg-offset-4">
+                                    <div class="form-group">
+                                        <input type="submit" value="Create" class="btn btn-success" />
+                                        &nbsp;&nbsp;
+                                        @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

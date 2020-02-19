@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using System.Collections.Generic;
+using CloudTrixApp.Models;
 
 namespace CloudTrixApp.Data
 {
@@ -35,6 +34,36 @@ namespace CloudTrixApp.Data
                 connection.Close();
             }
             return dt;
+        }
+        public static List<Form> List()
+        {
+            List<Form> FormList = new List<Form>();
+            SqlConnection connection = PMMSData.GetConnection();
+            String selectProcedure = "[FormSelectAll]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                Form Form = new Form();
+                while (reader.Read())
+                {
+                    Form = new Form();
+                    Form.FormID = System.Convert.ToInt32(reader["FormID"]);
+                    Form.FormName = Convert.ToString(reader["FormName"]);
+                    FormList.Add(Form);
+                }
+                reader.Close();
+            }
+            catch (SqlException)
+            {
+                return FormList;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return FormList;
         }
     }
 }
