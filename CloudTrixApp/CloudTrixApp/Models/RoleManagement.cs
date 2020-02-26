@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
@@ -16,7 +17,7 @@ namespace CloudTrixApp.Models
 
         [Required]
         [Display(Name = "UserTypeID")]
-        public Int32 UserTypeID { get; set; }
+        public Int32? UserTypeID { get; set; }
 
         [Required]
         [Display(Name = "Add User I D")]
@@ -37,7 +38,11 @@ namespace CloudTrixApp.Models
         public DateTime? ArchiveDate { get; set; }
 
         public virtual UserType UserType { get; set; }
-        public virtual RoleManagementDetails RoleManagementDetails { get; set; }
+        public virtual Forms Forms { get; set; }
+        public List<RoleManagementDetails> Items { get; set; }
 
+        [StringLength(8000)]
+        [Display(Name = "Description")]
+        public String Description { get; set; }
     }
 }

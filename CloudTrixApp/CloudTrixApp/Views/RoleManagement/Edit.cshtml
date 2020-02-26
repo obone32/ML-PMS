@@ -1,0 +1,183 @@
+@model CloudTrixApp.Models.RoleManagement
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Role Management</a></li>
+            <li><a href="#">Role Management</a></li>
+            <li class="active">Edit Role Management</li>
+        </ol>
+    </section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Edit Role Management </h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.RoleID)
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="UserTypeID">User Type</label>
+                                            @Html.DropDownList("UserTypeID", null, new { @class = "form-control  ", @placeholder = "User Type", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.UserTypeID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-11">
+                                        <div class="form-group">
+                                            <label for="Description">Description</label>
+                                            @Html.TextAreaFor(d => d.Description, new { style = "max-width:100%", @class = "form-control  ", @placeholder = "Description", autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-11">
+                                        <div class="form-group">
+                                            <table id="detailsTable" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="display:none;">RoleManagementDetailsID</th>
+                                                        <th style="display:none;"> Form ID </th>
+                                                        <th>Form Name</th>
+                                                        <th> Add</th>
+                                                        <th> Update</th>
+                                                        <th> Delete</th>
+                                                        <th> View </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var Items in ViewBag.RoleManagementDetailsList)
+                                                    {
+                                                        <tr>
+                                                            <td style="display:none;">@Items.RoleManagementDetailsID</td>
+                                                            <td style="display:none;">@Items.FormID</td>
+                                                            <td>@Items.FormName</td>
+                                                            <td>
+                                                                @if (Items.AddPermission == true)
+                                                                {
+                                                                    <input type="checkbox" value="@Items.AddPermission" id="AddPermission" name="AddPermission" checked />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="checkbox" value="@Items.AddPermission" id="AddPermission" name="AddPermission" />
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                @if (Items.UpdatePermission == true)
+                                                                {
+                                                                    <input type="checkbox" value="@Items.UpdatePermission" id="UpdatePermission" name="UpdatePermission" checked />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="checkbox" value="@Items.UpdatePermission" id="UpdatePermission" name="UpdatePermission" />
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                @if (Items.DeletePermission == true)
+                                                                {
+                                                                    <input type="checkbox" value="@Items.DeletePermission" id="DeletePermission" name="DeletePermission" checked />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="checkbox" value="@Items.DeletePermission" id="DeletePermission" name="DeletePermission" />
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                @if (Items.ViewPermission == true)
+                                                                {
+                                                                    <input type="checkbox" value="@Items.ViewPermission" id="ViewPermission" name="ViewPermission" checked />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="checkbox" value="@Items.ViewPermission" id="ViewPermission" name="ViewPermission" />
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.AddUserID, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.AddUserID)
+                                            @Html.ValidationMessageFor(model => model.AddUserID)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AddDate, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.AddDate, new { @class = "datepicker" })
+                                            @Html.ValidationMessageFor(model => model.AddDate)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ArchiveUserID, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ArchiveUserID)
+                                            @Html.ValidationMessageFor(model => model.ArchiveUserID)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ArchiveDate, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ArchiveDate, new { @class = "datepicker" })
+                                            @Html.ValidationMessageFor(model => model.ArchiveDate)
+                                        </div>
+                                    </div>*@
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            <input id="BtnEdit" type="submit" value="Edit" class="btn btn-default" />
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/App3")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/lib")
+
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+    </script>
+}
+

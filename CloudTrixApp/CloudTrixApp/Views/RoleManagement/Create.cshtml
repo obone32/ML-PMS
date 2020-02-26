@@ -1,93 +1,127 @@
-﻿@*@using PagedList;
-    @using PagedList.Mvc;
-    @using System.Data
-    @using CloudTrixApp.Models;*@
-@model  CloudTrixApp.Models.RoleManagement
+@model CloudTrixApp.Models.RoleManagement
+
 @{
-    ViewBag.Title = "Create Form";
+    ViewBag.Title = "Create Role Management";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //var FormData = (IEnumerable<Form>)ViewData["FormData"];
 }
-@Styles.Render("~/Content/css")
 
 <div class="content-wrapper">
-    <div class="container-fluid">
-        <div class="col-sm-11">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Create Role Permission</h3>
-                </div>
-                <div class="panel-body">
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
+    <section class="content-header">
+        <h1>
 
-                        <div class="form-horizontal">
-                            <hr />
-                            @Html.ValidationSummary(true)
-                            @Html.HiddenFor(model => model.RoleID)
-                            <div class="container-fluid">
-                                <div class="form-group">
-                                    <label for="UserTypeID" class="control-label col-md-2">User Type</label>
-                                    @Html.DropDownList("UserTypeID")
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Role Management</a></li>
+            <li><a href="#">Role Management</a></li>
+            <li class="active">Create Role Management</li>
+        </ol>
+    </section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Role Management </h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.RoleID)
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="UserTypeID">User Type</label>
+                                            @Html.DropDownList("UserTypeID", null, new { @class = "form-control  ", @placeholder = "User Type", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.UserTypeID)
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="container-fluid">
-                                <div class="form-group">
-                                    <table id="tblForm" class="table">
-                                        <tr>
-                                            <th>
-                                                Form ID
-                                            </th>
-                                            <th>
-                                                Form Name
-                                            </th>
-                                            <th>
-                                                Add
-                                            </th>
-                                            <th>
-                                                Update
-                                            </th>
-                                            <th>
-                                                Delete
-                                            </th>
-                                            <th>
-                                                View
-                                            </th>
-                                        </tr>
-                                        @*@foreach (DataRow row in Model.Rows)*@
-                                        @foreach (var form in ViewBag.MyList)
-                                        {
-                                            <tr>
-                                                <td>@form.FormID</td>
-                                                <td>@form.FormName</td>
-                                                <td>@Html.CheckBox("Add", true)</td>
-                                                <td>@Html.CheckBox("Update", true)</td>
-                                                <td>@Html.CheckBox("Delete", true)</td>
-                                                <td>@Html.CheckBox("View", true)</td>
-                                            </tr>
-                                        }
-                                    </table>
+                                <div class="container-fluid">
+                                    <div class="col-sm-11">
+                                        <div class="form-group">
+                                            <label for="Description">Description</label>
+                                            @Html.TextAreaFor(model => model.Description, new { style = "max-width:100%",@class = "form-control  ", @placeholder = "Description", autocomplete = "off" })
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="container-fluid">
-                                <div><hr size=2><br /></div>
-                                <div class="col-sm-4 col-lg-offset-4">
-                                    <div class="form-group">
-                                        <input type="submit" value="Create" class="btn btn-success" />
-                                        &nbsp;&nbsp;
-                                        @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                <div class="container-fluid">
+                                    <div class="col-sm-11">
+                                        <div class="form-group">
+                                            <table id="detailsTable" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="display:none;">RoleManagementDetailsID</th>
+                                                        <th style="display:none;"> Form ID </th>
+                                                        <th>Form Name</th>
+                                                        <th> Add</th>
+                                                        <th> Update</th>
+                                                        <th> Delete</th>
+                                                        <th> View </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var form in ViewBag.MyList)
+                                                    {
+                                                        <tr>
+                                                            <td style="display:none;"></td>
+                                                            <td style="display:none;">@form.FormID</td>
+                                                            <td>@form.FormName</td>
+                                                            <td>
+                                                                <input type="checkbox" value="true" id="AddPermission" name="AddPermission" checked />
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" value="true" id="UpdatePermission" name="UpdatePermission" checked />
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" value="true" id="DeletePermission" name="DeletePermission" checked />
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" value="true" id="ViewPermission" name="ViewPermission" checked />
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            <input id="BtnSave" type="submit" value="Create" class="btn btn-success" />
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div>
 @section Scripts {
+    @Scripts.Render("~/bundles/App3")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/lib")
+
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+    </script>
 }
+
+
+

@@ -67,6 +67,10 @@ namespace CloudTrixApp
                 .Include(ltecomponents + "bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css")
                 .Include(lteplugins + "iCheck/all.css")
                 /*.Include(ltecomponents + "fullcalendar/dist/fullcalendar.min.css")*/);
+
+            bundles.Add(new ScriptBundle("~/bundles/App3").Include(
+                //"~/Scripts/App/Invoice.js",
+           "~/Scripts/App/NewJS.js"));
         }
     }
 }

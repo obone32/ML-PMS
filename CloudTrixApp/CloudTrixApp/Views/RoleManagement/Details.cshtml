@@ -1,0 +1,55 @@
+@model CloudTrixApp.Models.RoleManagement
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RoleManagement</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.RoleID)
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddUserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddUserID)
+        <dt>
+            @Html.DisplayNameFor(model => model.AddDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddDate)
+        <dt>
+            @Html.DisplayNameFor(model => model.ArchiveUserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArchiveUserID)
+        <dt>
+            @Html.DisplayNameFor(model => model.ArchiveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArchiveDate)
+        <dt>
+            @Html.DisplayNameFor(model => model.UserTypeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserType.UserTypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+            @Html.ActionLink("Edit", "Edit", new {
+ 						RoleID = Model.RoleID 
+ 						}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+ 

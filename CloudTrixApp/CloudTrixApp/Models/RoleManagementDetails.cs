@@ -32,11 +32,15 @@ namespace CloudTrixApp.Models
 
         [Required]
         [Display(Name = "Role ID")]
-        public Int32 RoleID { get; set; }
+        public Int32? RoleID { get; set; }
 
         [Required]
         [Display(Name = "Form ID")]
-        public Int32 FormID { get; set; }
+        public Int32? FormID { get; set; }
+
+        [Display(Name = "Form Name")]
+        public String FormName { get; set; }
+      
 
         public virtual Form Form { get; set; }
         public virtual RoleManagement RoleManagement { get; set; }

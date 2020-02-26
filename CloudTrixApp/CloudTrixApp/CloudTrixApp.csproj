@@ -221,7 +221,7 @@
     <Compile Include="Data\ClientData.cs" />
     <Compile Include="Data\CompanyData.cs" />
     <Compile Include="Data\EmployeeData.cs" />
-    <Compile Include="Data\FormData.cs" />
+    <Compile Include="Data\FormsData.cs" />
     <Compile Include="Data\InvoiceData.cs" />
     <Compile Include="Data\InvoiceAdvanceData.cs" />
     <Compile Include="Data\InvoiceItemData.cs" />
@@ -232,6 +232,7 @@
     <Compile Include="Data\ReconciliationData.cs" />
     <Compile Include="Data\RoleManagementData.cs" />
     <Compile Include="Data\RoleManagementDetailsData.cs" />
+    <Compile Include="Data\RoleManagement_UserTypeData.cs" />
     <Compile Include="Data\TaskData.cs" />
     <Compile Include="Data\TaskAssignmentData.cs" />
     <Compile Include="Data\TaskAttachmentData.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Data\PMMSData.cs" />
     <Compile Include="Helpers\HTMLHelperExtensions.cs" />
     <Compile Include="Models\Form.cs" />
+    <Compile Include="Models\Forms.cs" />
     <Compile Include="Models\RoleManagement.cs" />
     <Compile Include="Models\RoleManagementDetails.cs" />
     <Compile Include="Models\ViewModel\InvoiceOrderDetailsViewModel.cs" />
@@ -4559,6 +4561,7 @@
     <Content Include="Scripts\AppJquery\DateTimePicker\bootstrap-timepicker.min.js" />
     <Content Include="Scripts\AppJquery\DateTimePicker\jquery.timepicker.min.css" />
     <Content Include="Scripts\AppJquery\InvoiceJQ.js" />
+    <Content Include="Scripts\App\NewJS.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\i18n\af.js" />
@@ -4830,6 +4833,10 @@
     <Content Include="Views\Invoice\Invoice1.cshtml" />
     <Content Include="Views\Login\Create.cshtml" />
     <Content Include="Views\RoleManagement\Create.cshtml" />
+    <Content Include="Views\RoleManagement\Delete.cshtml" />
+    <Content Include="Views\RoleManagement\Details.cshtml" />
+    <Content Include="Views\RoleManagement\Edit.cshtml" />
+    <Content Include="Views\RoleManagement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
