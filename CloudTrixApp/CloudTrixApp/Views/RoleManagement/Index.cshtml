@@ -63,24 +63,24 @@
                         <hr />
                         <div class="table-responsive">
                             <table class="table">
-                                <tr>
-                                    <th>
+                                <tr class="bg-danger">
+                                    <th style="display:none;">
                                         @Html.ActionLink("Role I D", "Index", new { sortOrder = ViewData["RoleIDSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
-                                    <th>
+                                    <th style="display:none;">
                                         @Html.ActionLink("Add User I D", "Index", new { sortOrder = ViewData["AddUserIDSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
-                                    <th>
+                                    <th style="display:none;">
                                         @Html.ActionLink("Add Date", "Index", new { sortOrder = ViewData["AddDateSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
-                                    <th>
+                                    <th style="display:none;">
                                         @Html.ActionLink("Archive User I D", "Index", new { sortOrder = ViewData["ArchiveUserIDSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
-                                    <th>
+                                    <th style="display:none;">
                                         @Html.ActionLink("Archive Date", "Index", new { sortOrder = ViewData["ArchiveDateSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
                                     <th>
-                                        @Html.ActionLink("User Type I D", "Index", new { sortOrder = ViewData["UserTypeIDSortParm"], SearchText = ViewData["SearchText"] })
+                                        @Html.ActionLink("User Type", "Index", new { sortOrder = ViewData["UserTypeIDSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
                                     <th></th>
                                 </tr>
@@ -88,19 +88,20 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>
+                                        <td style="display:none;">
+
                                             @Html.DisplayFor(modelItem => item.RoleID)
                                         </td>
-                                        <td>
+                                        <td style="display:none;">
                                             @Html.DisplayFor(modelItem => item.AddUserID)
                                         </td>
-                                        <td>
+                                        <td style="display:none;">
                                             @Html.DisplayFor(modelItem => item.AddDate)
                                         </td>
-                                        <td>
+                                        <td style="display:none;">
                                             @Html.DisplayFor(modelItem => item.ArchiveUserID)
                                         </td>
-                                        <td>
+                                        <td style="display:none;">
                                             @Html.DisplayFor(modelItem => item.ArchiveDate)
                                         </td>
                                         <td>

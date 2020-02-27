@@ -181,9 +181,46 @@ namespace CloudTrixApp.Controllers
         }
         //
         // GET: /RoleManagement/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? RoleID)
         {
-            return View();
+            if (RoleID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            RoleManagement RoleManagement = new RoleManagement();
+            RoleManagement.RoleID = System.Convert.ToInt32(RoleID);
+            RoleManagement = RoleManagementData.Select_Record(RoleManagement);
+            RoleManagement.UserType = new UserType()
+            {
+                UserTypeID = (Int32)RoleManagement.UserTypeID
+               ,
+                UserTypeName = (from DataRow rowUserType in dtUserType.Rows
+                                where RoleManagement.UserTypeID == (int)rowUserType["UserTypeID"]
+                                select (String)rowUserType["UserTypeName"]).FirstOrDefault()
+
+            };
+            ViewBag.UserTypeName = RoleManagement.UserType.UserTypeName;
+            //Load All data
+            DataTable dtForm = new DataTable();
+            dtForm = FormsData.SelectAll();
+            List<Forms> FormDetails = new List<Forms>();
+            FormDetails = ConvertDataTable<Forms>(dtForm);
+            ViewBag.MyList = FormDetails;
+
+            //Load Save data
+            if (RoleManagement.RoleID != null)
+            {
+                DataTable dtRoleManagementDetails = new DataTable();
+                dtRoleManagementDetails = RoleManagementData.SelectRoleManagementData(System.Convert.ToInt32(RoleManagement.RoleID));
+                List<RoleManagementDetails> RoleManagementDetails = new List<RoleManagementDetails>();
+                RoleManagementDetails = ConvertDataTable<RoleManagementDetails>(dtRoleManagementDetails);
+                ViewBag.RoleManagementDetailsList = RoleManagementDetails;
+            }
+            if (RoleManagement == null)
+            {
+                return HttpNotFound();
+            }
+            return View(RoleManagement);
         }
 
         //
@@ -344,27 +381,64 @@ namespace CloudTrixApp.Controllers
 
         //
         // GET: /Form/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? RoleID)
         {
-            return View();
+            if (RoleID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            RoleManagement RoleManagement = new RoleManagement();
+            RoleManagement.RoleID = System.Convert.ToInt32(RoleID);
+            RoleManagement = RoleManagementData.Select_Record(RoleManagement);
+            //Load All data
+            DataTable dtForm = new DataTable();
+            dtForm = FormsData.SelectAll();
+            List<Forms> FormDetails = new List<Forms>();
+            FormDetails = ConvertDataTable<Forms>(dtForm);
+            ViewBag.MyList = FormDetails;
+
+            //Load Save data
+            if (RoleManagement.RoleID != null)
+            {
+                DataTable dtRoleManagementDetails = new DataTable();
+                dtRoleManagementDetails = RoleManagementData.SelectRoleManagementData(System.Convert.ToInt32(RoleManagement.RoleID));
+                List<RoleManagementDetails> RoleManagementDetails = new List<RoleManagementDetails>();
+                RoleManagementDetails = ConvertDataTable<RoleManagementDetails>(dtRoleManagementDetails);
+                ViewBag.RoleManagementDetailsList = RoleManagementDetails;
+            }
+            if (RoleManagement == null)
+            {
+                return HttpNotFound();
+            }
+            return View(RoleManagement);
         }
 
         //
         // POST: /Form/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(
+                                            Int32? RoleID
+                                            )
         {
-            try
-            {
-                // TODO: Add delete logic here
 
+            RoleManagement RoleManagement = new RoleManagement();
+            RoleManagement.RoleID = System.Convert.ToInt32(RoleID);
+            RoleManagement = RoleManagementData.Select_Record(RoleManagement);
+
+            bool bSucess = false;
+            bSucess = RoleManagementData.Delete(RoleManagement);
+            if (bSucess == true)
+            {
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
+                ModelState.AddModelError("", "Can Not Delete");
             }
+            return null;
         }
+
         private static List<SelectListItem> GetFields(String select)
         {
             List<SelectListItem> list = new List<SelectListItem>();

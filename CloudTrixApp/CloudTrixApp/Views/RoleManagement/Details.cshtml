@@ -4,52 +4,119 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
 
-<div>
-    <h4>RoleManagement</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        @Html.HiddenFor(model => model.RoleID)
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Role Management</a></li>
+            <li><a href="#">Role Management</a></li>
+            <li class="active">Details for Role Management</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Details for Role Management </h3>
+                    </div>
+                    <div class="panel-body">
+                        <hr />
+                        @Html.HiddenFor(model => model.RoleID)
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AddUserID)
-        </dt>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="UserTypeName"> User Type </label>
+                                    @Html.TextBoxFor(model => model.UserTypeName, null, new { @class = "form-control ", @disabled = "on" })
 
-        <dd>
-            @Html.DisplayFor(model => model.AddUserID)
-        <dt>
-            @Html.DisplayNameFor(model => model.AddDate)
-        </dt>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-11">
+                                <div class="form-group">
+                                    <label for="Description"> Description </label>
+                                    @Html.TextAreaFor(model => model.Description, new { style = "max-width:100%", @class = "form-control  ", autocomplete = "off", @disabled = "on" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-11">
+                                <div class="form-group">
+                                    <table id="detailsTable" class="table">
+                                        <thead>
+                                            <tr class="bg-danger">
+                                                <th style="display:none;">RoleManagementDetailsID</th>
+                                                <th style="display:none;"> Form ID </th>
+                                                <th>Form Name</th>
+                                                <th> Add</th>
+                                                <th> Update</th>
+                                                <th> Delete</th>
+                                                <th> View </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var Items in ViewBag.RoleManagementDetailsList)
+                                            {
+                                                <tr>
+                                                    <td style="display:none;">@Items.RoleManagementDetailsID</td>
+                                                    <td style="display:none;">@Items.FormID</td>
+                                                    <td>@Items.FormName</td>
+                                                    <td>
+                                                        @if (Items.AddPermission == true)
+                                                        {
+                                                            <input type="checkbox" value="@Items.AddPermission" id="AddPermission" name="AddPermission" checked disabled />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" value="@Items.AddPermission" id="AddPermission" name="AddPermission" disabled />
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (Items.UpdatePermission == true)
+                                                        {
+                                                            <input type="checkbox" value="@Items.UpdatePermission" id="UpdatePermission" name="UpdatePermission" checked disabled />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" value="@Items.UpdatePermission" id="UpdatePermission" name="UpdatePermission" disabled />
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (Items.DeletePermission == true)
+                                                        {
+                                                            <input type="checkbox" value="@Items.DeletePermission" id="DeletePermission" name="DeletePermission" checked disabled />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" value="@Items.DeletePermission" id="DeletePermission" name="DeletePermission" disabled />
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (Items.ViewPermission == true)
+                                                        {
+                                                            <input type="checkbox" value="@Items.ViewPermission" id="ViewPermission" name="ViewPermission" checked disabled />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" value="@Items.ViewPermission" id="ViewPermission" name="ViewPermission" disabled />
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.AddDate)
-        <dt>
-            @Html.DisplayNameFor(model => model.ArchiveUserID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ArchiveUserID)
-        <dt>
-            @Html.DisplayNameFor(model => model.ArchiveDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ArchiveDate)
-        <dt>
-            @Html.DisplayNameFor(model => model.UserTypeID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserType.UserTypeName)
-        </dd>
-
-    </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-            @Html.ActionLink("Edit", "Edit", new {
- 						RoleID = Model.RoleID 
- 						}) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
- 

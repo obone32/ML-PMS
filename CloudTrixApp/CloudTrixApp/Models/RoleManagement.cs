@@ -41,8 +41,14 @@ namespace CloudTrixApp.Models
         public virtual Forms Forms { get; set; }
         public List<RoleManagementDetails> Items { get; set; }
 
+       
+
         [StringLength(8000)]
         [Display(Name = "Description")]
         public String Description { get; set; }
+        [Required]
+        [StringLength(8000)]
+        [Display(Name = "UserTypeName")]
+        public String UserTypeName { get; set; }
     }
 }

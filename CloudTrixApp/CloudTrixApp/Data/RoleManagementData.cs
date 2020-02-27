@@ -385,46 +385,7 @@ namespace CloudTrixApp.Data
             SqlCommand deleteCommand = new SqlCommand(deleteProcedure, connection);
             deleteCommand.CommandType = CommandType.StoredProcedure;
             deleteCommand.Parameters.AddWithValue("@OldRoleID", RoleManagement.RoleID);
-            if (RoleManagement.AddUserID.HasValue == true)
-            {
-                deleteCommand.Parameters.AddWithValue("@OldAddUserID", RoleManagement.AddUserID);
-            }
-            else
-            {
-                deleteCommand.Parameters.AddWithValue("@OldAddUserID", DBNull.Value);
-            }
-            if (RoleManagement.AddDate.HasValue == true)
-            {
-                deleteCommand.Parameters.AddWithValue("@OldAddDate", RoleManagement.AddDate);
-            }
-            else
-            {
-                deleteCommand.Parameters.AddWithValue("@OldAddDate", DBNull.Value);
-            }
-            if (RoleManagement.ArchiveUserID.HasValue == true)
-            {
-                deleteCommand.Parameters.AddWithValue("@OldArchiveUserID", RoleManagement.ArchiveUserID);
-            }
-            else
-            {
-                deleteCommand.Parameters.AddWithValue("@OldArchiveUserID", DBNull.Value);
-            }
-            if (RoleManagement.ArchiveDate.HasValue == true)
-            {
-                deleteCommand.Parameters.AddWithValue("@OldArchiveDate", RoleManagement.ArchiveDate);
-            }
-            else
-            {
-                deleteCommand.Parameters.AddWithValue("@OldArchiveDate", DBNull.Value);
-            }
-            if (RoleManagement.UserTypeID.HasValue == true)
-            {
-                deleteCommand.Parameters.AddWithValue("@OldUserTypeID", RoleManagement.UserTypeID);
-            }
-            else
-            {
-                deleteCommand.Parameters.AddWithValue("@OldUserTypeID", DBNull.Value);
-            }
+           
             deleteCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
             deleteCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
             try
