@@ -22,13 +22,28 @@
                         </button>
                     </div>
                 </div>
+
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <!-- Navbar Right Menu -->
                 <!-- /.container-fluid -->
+                @*<div class="container">
+                    <div class="navbar-header">
+                        <div data-role="page">
+                            <div data-role="header" style='height:50px'>
+                                <select id=logoutmenu class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-     btn-icon-notext ui-btn-up-a" data-inline='true' onchange=$.RequiredFunction();name ="divlogout" data-icon="grid" data-iconpos="notext" data-native-menu="false">
+                                    <option value="blank"></option>
+                                    <option id="_optionGuest"> Guest Name </option>
+                                    <option id="_logout">Logout</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
             </nav>
         </header>
         @RenderBody()
         @Html.Partial("_Footer")
+
     </div>
 
 

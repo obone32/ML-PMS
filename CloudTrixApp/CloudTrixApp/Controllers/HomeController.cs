@@ -27,7 +27,10 @@ namespace CloudTrixApp.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index");
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
+            return RedirectToAction("Create","Login");
         }
     }
 }
