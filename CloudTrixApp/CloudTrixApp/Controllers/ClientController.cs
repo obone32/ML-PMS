@@ -23,33 +23,40 @@ namespace CloudTrixApp.Controllers
 
         DataTable dtClient = new DataTable();
         DataTable dtCompany = new DataTable();
+        DataTable dtRolePermission = new DataTable();
+        int FormID = 2;
 
         // GET: /Client/
-        public ActionResult Index(string sortOrder,  
+        public ActionResult Index(string sortOrder,
                                   String SearchField,
                                   String SearchCondition,
                                   String SearchText,
                                   String Export,
                                   int? PageSize,
-                                  int? page, 
+                                  int? page,
                                   string command)
         {
 
-            if (command == "Show All") {
+            if (command == "Show All")
+            {
                 SearchField = null;
                 SearchCondition = null;
                 SearchText = null;
                 Session["SearchField"] = null;
                 Session["SearchCondition"] = null;
-                Session["SearchText"] = null; } 
-            else if (command == "Add New Record") { return RedirectToAction("Create"); } 
-            else if (command == "Export") { Session["Export"] = Export; } 
-            else if (command == "Search" | command == "Page Size") {
-                if (!string.IsNullOrEmpty(SearchText)) {
+                Session["SearchText"] = null;
+            }
+            else if (command == "Add New Record") { return RedirectToAction("Create"); }
+            else if (command == "Export") { Session["Export"] = Export; }
+            else if (command == "Search" | command == "Page Size")
+            {
+                if (!string.IsNullOrEmpty(SearchText))
+                {
                     Session["SearchField"] = SearchField;
                     Session["SearchCondition"] = SearchCondition;
-                    Session["SearchText"] = SearchText; }
-                } 
+                    Session["SearchText"] = SearchText;
+                }
+            }
             if (command == "Page Size") { Session["PageSize"] = PageSize; }
 
             ViewData["SearchFields"] = GetFields((Session["SearchField"] == null ? "Client I D" : Convert.ToString(Session["SearchField"])));
@@ -90,28 +97,44 @@ namespace CloudTrixApp.Controllers
 
             var Query = from rowClient in dtClient.AsEnumerable()
                         join rowCompany in dtCompany.AsEnumerable() on rowClient.Field<Int32>("CompanyID") equals rowCompany.Field<Int32>("CompanyID")
-                        select new Client() {
+                        select new Client()
+                        {
                             ClientID = rowClient.Field<Int32>("ClientID")
-                           ,ClientName = rowClient.Field<String>("ClientName")
-                           ,Address1 = rowClient.Field<String>("Address1")
-                           ,Address2 = rowClient.Field<String>("Address2")
-                           ,City = rowClient.Field<String>("City")
-                           ,District = rowClient.Field<String>("District")
-                           ,State = rowClient.Field<String>("State")
-                           ,PinCode = rowClient.Field<String>("PinCode")
-                           ,ContactNo = rowClient.Field<String>("ContactNo")
-                           ,EMail = rowClient.Field<String>("EMail")
-                           ,GSTIN = rowClient.Field<String>("GSTIN")
-                           ,
-                            Company = new Company() 
+                            ,
+                            ClientName = rowClient.Field<String>("ClientName")
+                            ,
+                            Address1 = rowClient.Field<String>("Address1")
+                            ,
+                            Address2 = rowClient.Field<String>("Address2")
+                            ,
+                            City = rowClient.Field<String>("City")
+                            ,
+                            District = rowClient.Field<String>("District")
+                            ,
+                            State = rowClient.Field<String>("State")
+                            ,
+                            PinCode = rowClient.Field<String>("PinCode")
+                            ,
+                            ContactNo = rowClient.Field<String>("ContactNo")
+                            ,
+                            EMail = rowClient.Field<String>("EMail")
+                            ,
+                            GSTIN = rowClient.Field<String>("GSTIN")
+                            ,
+                            Company = new Company()
                             {
-                                   CompanyID = rowCompany.Field<Int32>("CompanyID")
-                                  ,CompanyName = rowCompany.Field<String>("CompanyName")
+                                CompanyID = rowCompany.Field<Int32>("CompanyID")
+                                  ,
+                                CompanyName = rowCompany.Field<String>("CompanyName")
                             }
-                           ,AddUserID = rowClient.Field<Int32>("AddUserID")
-                           ,AddDate = rowClient.Field<DateTime>("AddDate")
-                           ,ArchiveUserID = rowClient.Field<Int32?>("ArchiveUserID")
-                           ,ArchiveDate = rowClient.Field<DateTime?>("ArchiveDate")
+                            ,
+                            AddUserID = rowClient.Field<Int32>("AddUserID")
+                            ,
+                            AddDate = rowClient.Field<DateTime>("AddDate")
+                            ,
+                            ArchiveUserID = rowClient.Field<Int32?>("ArchiveUserID")
+                            ,
+                            ArchiveDate = rowClient.Field<DateTime?>("ArchiveDate")
                         };
 
             switch (sortOrder)
@@ -217,7 +240,8 @@ namespace CloudTrixApp.Controllers
                     break;
             }
 
-            if (command == "Export") {
+            if (command == "Export")
+            {
                 GridView gv = new GridView();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("Client I D", typeof(string));
@@ -240,21 +264,21 @@ namespace CloudTrixApp.Controllers
                 {
                     dt.Rows.Add(
                         item.ClientID
-                       ,item.ClientName
-                       ,item.Address1
-                       ,item.Address2
-                       ,item.City
-                       ,item.District
-                       ,item.State
-                       ,item.PinCode
-                       ,item.ContactNo
-                       ,item.EMail
-                       ,item.GSTIN
-                       ,item.Company.CompanyName
-                       ,item.AddUserID
-                       ,item.AddDate
-                       ,item.ArchiveUserID
-                       ,item.ArchiveDate
+                       , item.ClientName
+                       , item.Address1
+                       , item.Address2
+                       , item.City
+                       , item.District
+                       , item.State
+                       , item.PinCode
+                       , item.ContactNo
+                       , item.EMail
+                       , item.GSTIN
+                       , item.Company.CompanyName
+                       , item.AddUserID
+                       , item.AddDate
+                       , item.ArchiveUserID
+                       , item.ArchiveDate
                     );
                 }
                 gv.DataSource = dt;
@@ -264,6 +288,41 @@ namespace CloudTrixApp.Controllers
 
             int pageNumber = (page ?? 1);
             int? pageSZ = (Convert.ToInt32(Session["PageSize"]) == 0 ? 5 : Convert.ToInt32(Session["PageSize"]));
+
+            //Role Permission
+            
+            int EmployeeID = 0;
+            if (User.Identity.Name.Contains("|"))
+                EmployeeID = Convert.ToInt32(User.Identity.Name.Split('|')[1]);
+
+            dtRolePermission = ClientData.Role_Permission(EmployeeID, FormID);
+            DataRow[] rows = dtRolePermission.Select();
+            if (dtRolePermission != null)
+            {   
+                //AddPermission
+                if (rows[0]["AddPermission"].ToString() == "0" || rows[0]["AddPermission"].ToString() == "False")
+                { ViewData["Addbutton"] = "0"; }
+                else
+                { ViewData["Addbutton"] = "1"; }
+
+                //UpdatePermission
+                if (rows[0]["UpdatePermission"].ToString() == "0" || rows[0]["UpdatePermission"].ToString() == "False")
+                { ViewData["Updatebutton"] = "0"; }
+                else
+                { ViewData["Updatebutton"] = "1"; }
+
+                //ViewPermission
+                if (rows[0]["ViewPermission"].ToString() == "0" || rows[0]["ViewPermission"].ToString() == "False")
+                { ViewData["ViewPermission"] = "0"; }
+                else
+                { ViewData["ViewPermission"] = "1"; }
+
+                //DeletePermission
+                if (rows[0]["DeletePermission"].ToString() == "0" || rows[0]["DeletePermission"].ToString() == "False")
+                { ViewData["Deletebutton"] = "0"; }
+                else
+                { ViewData["Deletebutton"] = "1"; }
+            }
             return View(Query.ToPagedList(pageNumber, (pageSZ ?? 5)));
         }
 
@@ -287,9 +346,10 @@ namespace CloudTrixApp.Controllers
             Client.Company = new Company()
             {
                 CompanyID = (Int32)Client.CompanyID
-               ,CompanyName = (from DataRow rowCompany in dtCompany.Rows
-                      where Client.CompanyID == (int)rowCompany["CompanyID"]
-                      select (String)rowCompany["CompanyName"]).FirstOrDefault()
+               ,
+                CompanyName = (from DataRow rowCompany in dtCompany.Rows
+                               where Client.CompanyID == (int)rowCompany["CompanyID"]
+                               select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
 
             if (Client == null)
@@ -299,12 +359,12 @@ namespace CloudTrixApp.Controllers
             return View(Client);
         }
 
-       
+
 
         // GET: /Client/Create
         public ActionResult Create()
         {
-        // ComboBox
+            // ComboBox
             ViewData["CompanyID"] = new SelectList(Client_CompanyData.List(), "CompanyID", "CompanyName");
 
             return View();
@@ -315,23 +375,23 @@ namespace CloudTrixApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include=
-				           "ClientName"
-				   + "," + "Address1"
-				   + "," + "Address2"
-				   + "," + "City"
-				   + "," + "District"
-				   + "," + "State"
-				   + "," + "PinCode"
-				   + "," + "ContactNo"
-				   + "," + "EMail"
-				   + "," + "GSTIN"
-				   + "," + "CompanyID"
-				   + "," + "AddUserID"
-				   + "," + "AddDate"
-				   + "," + "ArchiveUserID"
-				   + "," + "ArchiveDate"
-				  )] Client Client)
+        public ActionResult Create([Bind(Include =
+                           "ClientName"
+                   + "," + "Address1"
+                   + "," + "Address2"
+                   + "," + "City"
+                   + "," + "District"
+                   + "," + "State"
+                   + "," + "PinCode"
+                   + "," + "ContactNo"
+                   + "," + "EMail"
+                   + "," + "GSTIN"
+                   + "," + "CompanyID"
+                   + "," + "AddUserID"
+                   + "," + "AddDate"
+                   + "," + "ArchiveUserID"
+                   + "," + "ArchiveDate"
+                  )] Client Client)
         {
             if (ModelState.IsValid)
             {
@@ -346,7 +406,7 @@ namespace CloudTrixApp.Controllers
                     ModelState.AddModelError("", "Can Not Insert");
                 }
             }
-        // ComboBox
+            // ComboBox
             ViewData["CompanyID"] = new SelectList(Client_CompanyData.List(), "CompanyID", "CompanyName", Client.CompanyID);
 
             return View(Client);
@@ -372,7 +432,7 @@ namespace CloudTrixApp.Controllers
             {
                 return HttpNotFound();
             }
-        // ComboBox
+            // ComboBox
             ViewData["CompanyID"] = new SelectList(Client_CompanyData.List(), "CompanyID", "CompanyName", Client.CompanyID);
 
             return View(Client);
@@ -403,7 +463,7 @@ namespace CloudTrixApp.Controllers
                     ModelState.AddModelError("", "Can Not Update");
                 }
             }
-        // ComboBox
+            // ComboBox
             ViewData["CompanyID"] = new SelectList(Client_CompanyData.List(), "CompanyID", "CompanyName", Client.CompanyID);
 
             return View(Client);
@@ -429,9 +489,10 @@ namespace CloudTrixApp.Controllers
             Client.Company = new Company()
             {
                 CompanyID = (Int32)Client.CompanyID
-               ,CompanyName = (from DataRow rowCompany in dtCompany.Rows
-                      where Client.CompanyID == (int)rowCompany["CompanyID"]
-                      select (String)rowCompany["CompanyName"]).FirstOrDefault()
+               ,
+                CompanyName = (from DataRow rowCompany in dtCompany.Rows
+                               where Client.CompanyID == (int)rowCompany["CompanyID"]
+                               select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
 
             if (Client == null)
@@ -491,7 +552,7 @@ namespace CloudTrixApp.Controllers
             SelectListItem Item15 = new SelectListItem { Text = "Archive User I D", Value = "Archive User I D" };
             SelectListItem Item16 = new SelectListItem { Text = "Archive Date", Value = "Archive Date" };
 
-                 if (select == "Client I D") { Item1.Selected = true; }
+            if (select == "Client I D") { Item1.Selected = true; }
             else if (select == "Client Name") { Item2.Selected = true; }
             else if (select == "Address1") { Item3.Selected = true; }
             else if (select == "Address2") { Item4.Selected = true; }
@@ -574,4 +635,4 @@ namespace CloudTrixApp.Controllers
 
     }
 }
- 
+

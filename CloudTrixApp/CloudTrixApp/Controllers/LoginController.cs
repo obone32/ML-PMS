@@ -19,6 +19,7 @@ namespace CloudTrixApp.Controllers
         // GET: /Login/
 
         DataTable dtEmployee = new DataTable();
+        int EmployeeId = 0;
         public ActionResult Index()
         {
             //  User.Identity.
@@ -59,8 +60,30 @@ namespace CloudTrixApp.Controllers
                 bSucess = Login(objEmployee.UserName, objEmployee.Password);
                 if (bSucess == true)
                 {
-                    FormsAuthentication.SetAuthCookie(objEmployee.UserName, false);
-                    return RedirectToAction("Index", "Home");                   
+                    FormsAuthentication.SetAuthCookie(objEmployee.UserName + "|" + EmployeeId, false);
+
+                    //Role Permission
+                    string RemoveTab="";
+                    string ShowTab = "";
+                    DataTable dtRolePermission = ClientData.Role_Permission(EmployeeId, 0);
+                    DataRow[] rows = dtRolePermission.Select();
+                    if (dtRolePermission != null)
+                    {
+                        foreach (DataRow item in dtRolePermission.Rows)
+                        {
+                            if (item["AddPermission"].ToString() == "False" && item["UpdatePermission"].ToString() == "False" && item["DeletePermission"].ToString() == "False" && item["ViewPermission"].ToString() == "False")
+                            {
+                               RemoveTab += item["FormID"].ToString() + "|";
+                            }
+                            else
+                            {
+                                ShowTab += item["FormID"].ToString() + "|";
+                            }
+                        }
+                    }
+                    TempData["RemoveTab"] = RemoveTab;
+                    TempData["ShowTab"] = ShowTab;
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -104,6 +127,7 @@ namespace CloudTrixApp.Controllers
                 DataRow[] rows = dtEmployee.Select();
                 if (dtEmployee != null)
                 {
+                    EmployeeId = Convert.ToInt32(rows[0]["EmployeeID"]);
                     string decryptpassword = rows[0]["Password"].ToString();
 
                     string decPwd = Decrypt(decryptpassword);

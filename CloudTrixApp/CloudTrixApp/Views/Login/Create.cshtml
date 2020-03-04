@@ -85,7 +85,7 @@
                         <div class="container-fluid">
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    @Html.TextBoxFor(m => m.UserName, null, new { @class = "form-control", placeholder = "Enter User Name" })
+                                    @Html.TextBoxFor(m => m.UserName, null, new { @class = "form-control", placeholder = "Enter User Name", autocomplete = "off" })
                                     @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                         <div class="container-fluid">
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter Password" })
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter Password", autocomplete = "off" })
                                     @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                                 </div>
                             </div>

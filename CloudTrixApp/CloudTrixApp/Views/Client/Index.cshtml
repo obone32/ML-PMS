@@ -49,8 +49,14 @@
                                         <input type="submit" value="Export" name="command" class="btn btn-default" />
                                     </td>
                                     <td>&nbsp;</td>
+
                                     <td align="center">
-                                        <input type="submit" value="Add New Record" name="command" class="btn btn-success" />
+                                        @if (ViewData["Addbutton"] == "0")
+                                        {  <input type="submit" value="Add New Record" name="command" class="btn btn-success" disabled /> }
+                                        else
+                                        {   <input type="submit" value="Add New Record" name="command" class="btn btn-success" />}
+
+
                                     </td>
                                     <td>&nbsp;</td>
                                     <td align="right">
@@ -101,18 +107,32 @@
                                             @Html.DisplayFor(modelItem => item.GSTIN)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "Edit", new
-                                       {
-                                           ClientID = item.ClientID
-                                       }) |
-                                            @Html.ActionLink("Details", "Details", new
-                                       {
-                                           ClientID = item.ClientID
-                                       }) |
-                                            @Html.ActionLink("Delete", "Delete", new
-                                       {
-                                           ClientID = item.ClientID
-                                       })
+                                            @if (ViewData["Updatebutton"] == "0")
+                                            {
+                                                @Html.Label("Edit");
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Edit", "Edit", new { ClientID = item.ClientID })
+                                            }
+                                            |
+                                            @if (ViewData["ViewPermission"] == "0")
+                                            {
+                                                @Html.Label("Details");
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Details", "Details", new { ClientID = item.ClientID })
+                                            }
+                                            |
+                                            @if (ViewData["Deletebutton"] == "0")
+                                            {
+                                                @Html.Label("Delete");
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Delete", "Delete", new { ClientID = item.ClientID })
+                                            }
                                         </td>
                                     </tr>
                                 }

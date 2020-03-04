@@ -16,6 +16,18 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <li class="header">MAIN NAVIGATION</li>
+                <li class="@Html.IsSelected(controller: "Dashboard")  treeview">
+                    <a href="@Url.Action("Index", "Home")">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="@Html.IsSelected(action: "Dashboard")"><a href="@Url.Action("Index", "Home")"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+                    </ul>
+                </li>
+
                 <li class="@Html.IsSelected(controller: "Masters") treeview">
                     <a href="@Url.Action("Dashboardv1", "Masters")">
                         <i class="fa fa-dashboard"></i> <span>Masters</span>
@@ -24,13 +36,39 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="@Html.IsSelected(action: "Company")"><a href="@Url.Action("Index", "Company")"><i class="fa fa-circle-o"></i> Company</a></li>
-                        <li class="@Html.IsSelected(action: "Client")"><a href="@Url.Action("Index", "Client")"><i class="fa fa-circle-o"></i> Client</a></li>
-                        <li class="@Html.IsSelected(action: "Architect")"><a href="@Url.Action("Index", "Architect")"><i class="fa fa-circle-o"></i> Architect</a></li>
-                        <li class="@Html.IsSelected(action: "Project")"><a href="@Url.Action("Index", "Project")"><i class="fa fa-circle-o"></i> Project</a></li>
-                        <li class="@Html.IsSelected(action: "Employee")"><a href="@Url.Action("Index", "Employee")"><i class="fa fa-circle-o"></i> Employee</a></li>
-                        <li class="@Html.IsSelected(action: "ProjectStatus")"><a href="@Url.Action("Index", "ProjectStatus")"><i class="fa fa-circle-o"></i> Project Status</a></li>
-                      
+                        @{
+                if (TempData["ShowTab"] != null)
+                {
+                    var temp = TempData["ShowTab"].ToString().Split('|');
+                    foreach (String s in temp)
+                    {
+                        if (s == "1")
+                        {
+                            <li class="@Html.IsSelected(action: "Company")"><a href="@Url.Action("Index", "Company")"><i class="fa fa-circle-o"></i> Company</a></li>
+                        }
+                        else if (s == "2")
+                        {
+                            <li class="@Html.IsSelected(action: "Client")"><a href="@Url.Action("Index", "Client")"><i class="fa fa-circle-o"></i> Client</a></li>
+                        }
+                        else if (s == "3")
+                        {
+                            <li class="@Html.IsSelected(action: "Architect")"><a href="@Url.Action("Index", "Architect")"><i class="fa fa-circle-o"></i> Architect</a></li>
+                        }
+                        else if (s == "4")
+                        {
+                            <li class="@Html.IsSelected(action: "Project")"><a href="@Url.Action("Index", "Project")"><i class="fa fa-circle-o"></i> Project</a></li>
+                        }
+                        else if (s == "5")
+                        {
+                            <li class="@Html.IsSelected(action: "Employee")"><a href="@Url.Action("Index", "Employee")"><i class="fa fa-circle-o"></i> Employee</a></li>
+                        }
+                        else if (s == "6")
+                        {
+                            <li class="@Html.IsSelected(action: "ProjectStatus")"><a href="@Url.Action("Index", "ProjectStatus")"><i class="fa fa-circle-o"></i> Project Status</a></li>
+                        }
+                    }
+                }
+                        }
                     </ul>
                 </li>
                 <li class="@Html.IsSelected(controller: "Invoice") treeview">
@@ -86,7 +124,7 @@
                         <li class="@Html.IsSelected(action: "TaskAssignment")"><a href="@Url.Action("Index", "TaskAssignment")"><i class="fa fa-circle-o"></i> Task Assignment</a></li>
                     </ul>
                 </li>
-               <li class="treeview @Html.IsSelected(controller: "RoleManagement")">
+                <li class="treeview @Html.IsSelected(controller: "RoleManagement")">
                     <a href="@Url.Action("Index", "RoleManagement")">
                         <i class="fa fa-laptop"></i>
                         <span>Role Management</span>

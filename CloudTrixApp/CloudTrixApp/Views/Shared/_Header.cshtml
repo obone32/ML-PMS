@@ -17,7 +17,7 @@
         {
             <ul class="nav navbar-nav navbar-right ">
                 <li>
-                    @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "User" })
+                    @Html.ActionLink("Hello " + User.Identity.Name.Split('|')[0] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "User" })
                 </li>
                 <li>
                     @*<a href="javascript:document.getElementById('logoutForm').submit()">*@
