@@ -1,24 +1,23 @@
-using CloudTrixApp.Data;
+﻿using CloudTrixApp.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace CloudTrixApp.Controllers
 {
-    public class HomeController : Controller
+    public class LayoutController : Controller
     {
-        [AllowAnonymous]
-        public ActionResult Index()
-        {
-            //Role Permission
+        //
+        // GET: /Layout/
+        public ActionResult _Layout()
+        {   //Role Permission
             string RemoveTab = "";
             string ShowTab = "";
-            int EmployeeID = Convert.ToInt32(User.Identity.Name.Split('|')[1]);
-            DataTable dtRolePermission = ClientData.Role_Permission(EmployeeID, 0);
+           int EmployeeID = Convert.ToInt32(User.Identity.Name.Split('|')[1]);
+           DataTable dtRolePermission = ClientData.Role_Permission(EmployeeID, 0);
             DataRow[] rows = dtRolePermission.Select();
             if (dtRolePermission != null)
             {
@@ -38,24 +37,5 @@ namespace CloudTrixApp.Controllers
             TempData["ShowTab"] = ShowTab;
             return View();
         }
-
-        [Authorize]
-        public ActionResult Profile()
-        {
-            return View();
-        }
-
-      
-        [HttpPost]
-        [Authorize]
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            Session.Clear();
-            Session.RemoveAll();
-            Session.Abandon();
-            return RedirectToAction("Create","Login");
-        }
-    }
+	}
 }
- 

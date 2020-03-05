@@ -18,6 +18,7 @@ using CloudTrixApp.Data;
 
 namespace CloudTrixApp.Controllers
 {
+    [Authorize]
     public class CompanyController : Controller
     {
 

@@ -24,7 +24,7 @@
 <body class="hold-transition fixed skin-blue sidebar-mini">
 
     <div class="wrapper">
-
+  @{Html.RenderAction("_Sidebar", "Shared");};
         @Html.Partial("_Header")
 
         @Html.Partial("_Sidebar")
@@ -37,8 +37,9 @@
         <!-- Add the sidebar's background. This div must be placed
         immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
+     
     </div>
-
+   
 
 
 

@@ -293,6 +293,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Library\PDFform.cs" />
     <Compile Include="Library\Library.cs" />
+    <Compile Include="Controllers\LayoutController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AdminLTE\AdminLTE.css" />

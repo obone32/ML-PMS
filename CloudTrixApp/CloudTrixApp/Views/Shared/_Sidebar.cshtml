@@ -13,8 +13,9 @@
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
+
             @if (User.Identity.IsAuthenticated)
-            {
+            {    
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="@Html.IsSelected(controller: "Dashboard")  treeview">
                     <a href="@Url.Action("Index", "Home")">
@@ -36,7 +37,9 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
+
                         @{
+                            
                 if (TempData["ShowTab"] != null)
                 {
                     var temp = TempData["ShowTab"].ToString().Split('|');
@@ -67,6 +70,15 @@
                             <li class="@Html.IsSelected(action: "ProjectStatus")"><a href="@Url.Action("Index", "ProjectStatus")"><i class="fa fa-circle-o"></i> Project Status</a></li>
                         }
                     }
+                }
+                else if (TempData["ShowTab"] == null)
+                {
+                            <li class="@Html.IsSelected(action: "Company")"><a href="@Url.Action("Index", "Company")"><i class="fa fa-circle-o"></i> Company</a></li>
+                            <li class="@Html.IsSelected(action: "Client")"><a href="@Url.Action("Index", "Client")"><i class="fa fa-circle-o"></i> Client</a></li>
+                            <li class="@Html.IsSelected(action: "Architect")"><a href="@Url.Action("Index", "Architect")"><i class="fa fa-circle-o"></i> Architect</a></li>
+                            <li class="@Html.IsSelected(action: "Project")"><a href="@Url.Action("Index", "Project")"><i class="fa fa-circle-o"></i> Project</a></li>
+                            <li class="@Html.IsSelected(action: "Employee")"><a href="@Url.Action("Index", "Employee")"><i class="fa fa-circle-o"></i> Employee</a></li>
+                            <li class="@Html.IsSelected(action: "ProjectStatus")"><a href="@Url.Action("Index", "ProjectStatus")"><i class="fa fa-circle-o"></i> Project Status</a></li>
                 }
                         }
                     </ul>
@@ -138,6 +150,7 @@
                         <li class="@Html.IsSelected(action: "RoleManagement")"><a href="@Url.Action("Index", "RoleManagement")"><i class="fa fa-circle-o"></i> Role Management</a></li>
                     </ul>
                 </li>
+            
             }
             else
             {

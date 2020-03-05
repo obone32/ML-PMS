@@ -16,17 +16,21 @@ using MigraDoc.Rendering;
 using CloudTrixApp.Models;
 using CloudTrixApp.Data;
 
+
+
 namespace CloudTrixApp.Controllers
 {
+    [NoDirectAccess]
     public class ClientController : Controller
     {
-
+        
         DataTable dtClient = new DataTable();
         DataTable dtCompany = new DataTable();
         DataTable dtRolePermission = new DataTable();
         int FormID = 2;
-
+        
         // GET: /Client/
+       
         public ActionResult Index(string sortOrder,
                                   String SearchField,
                                   String SearchCondition,
@@ -290,7 +294,8 @@ namespace CloudTrixApp.Controllers
             int? pageSZ = (Convert.ToInt32(Session["PageSize"]) == 0 ? 5 : Convert.ToInt32(Session["PageSize"]));
 
             //Role Permission
-            
+           // var temp = TempData["ShowTab"].ToString().Contains("2");
+
             int EmployeeID = 0;
             if (User.Identity.Name.Contains("|"))
                 EmployeeID = Convert.ToInt32(User.Identity.Name.Split('|')[1]);
@@ -298,7 +303,7 @@ namespace CloudTrixApp.Controllers
             dtRolePermission = ClientData.Role_Permission(EmployeeID, FormID);
             DataRow[] rows = dtRolePermission.Select();
             if (dtRolePermission != null)
-            {   
+            {
                 //AddPermission
                 if (rows[0]["AddPermission"].ToString() == "0" || rows[0]["AddPermission"].ToString() == "False")
                 { ViewData["Addbutton"] = "0"; }
