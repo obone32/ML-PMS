@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
@@ -82,11 +83,12 @@ namespace CloudTrixApp.Models
         [Display(Name = "Archive Date")]
         public DateTime? ArchiveDate { get; set; }
 
+        public Decimal? TotalAmt { get; set; }
         // ComboBox
         public virtual Project Project { get; set; }
         public virtual Client Client { get; set; }
         public virtual Company Company { get; set; }
-
+        public List<InvoiceItem> Items { get; set; }
     }
 }
  

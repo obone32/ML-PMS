@@ -51,6 +51,7 @@ namespace CloudTrixApp.Data
                     Project = new Project();
                     Project.ProjectID = System.Convert.ToInt32(reader["ProjectID"]);
                     Project.ProjectName = Convert.ToString(reader["ProjectName"]);
+                    Project.ClientID = Convert.ToInt32(reader["ClientID"]);
                     ProjectList.Add(Project);
                 }
                 reader.Close();

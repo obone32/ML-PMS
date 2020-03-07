@@ -184,7 +184,7 @@ namespace CloudTrixApp.Data
             return Invoice;
         }
 
-        public static bool Add(Invoice Invoice)
+        public static int Add(Invoice Invoice)
         {
             SqlConnection connection = PMMSData.GetConnection();
             string insertProcedure = "[InvoiceInsert]";
@@ -249,25 +249,28 @@ namespace CloudTrixApp.Data
                 insertCommand.Parameters.AddWithValue("@ArchiveDate", Invoice.ArchiveDate);
             } else {
                 insertCommand.Parameters.AddWithValue("@ArchiveDate", DBNull.Value); }
-            insertCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
-            insertCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
+            if (Invoice.TotalAmt.HasValue == true)
+            {insertCommand.Parameters.AddWithValue("@pTotalAmt", Invoice.TotalAmt);}
+            else{insertCommand.Parameters.AddWithValue("@pTotalAmt", DBNull.Value);}
+            insertCommand.Parameters.Add("@pInvoiceID", System.Data.SqlDbType.Int);
+            insertCommand.Parameters["@pInvoiceID"].Direction = ParameterDirection.Output;
             try
             {
                 connection.Open();
                 insertCommand.ExecuteNonQuery();
-                int count = System.Convert.ToInt32(insertCommand.Parameters["@ReturnValue"].Value);
+                int count = System.Convert.ToInt32(insertCommand.Parameters["@pInvoiceID"].Value);
                 if (count > 0)
                 {
-                    return true;
+                    return count;
                 }
                 else
                 {
-                    return false;
+                    return 0;
                 }
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
-                return false;
+                return 0;
             }
             finally
             {
@@ -275,13 +278,13 @@ namespace CloudTrixApp.Data
             }
         }
 
-        public static bool Update(Invoice oldInvoice, 
-               Invoice newInvoice)
+        public static bool Update(Invoice newInvoice)
         {
             SqlConnection connection = PMMSData.GetConnection();
             string updateProcedure = "[InvoiceUpdate]";
             SqlCommand updateCommand = new SqlCommand(updateProcedure, connection);
             updateCommand.CommandType = CommandType.StoredProcedure;
+            updateCommand.Parameters.AddWithValue("@pInvoiceID", newInvoice.InvoiceID);
             updateCommand.Parameters.AddWithValue("@NewInvoiceNo", newInvoice.InvoiceNo);
             updateCommand.Parameters.AddWithValue("@NewInvoiceDate", newInvoice.InvoiceDate);
             if (newInvoice.ProjectID.HasValue == true) {
@@ -341,83 +344,24 @@ namespace CloudTrixApp.Data
                 updateCommand.Parameters.AddWithValue("@NewArchiveDate", newInvoice.ArchiveDate);
             } else {
                 updateCommand.Parameters.AddWithValue("@NewArchiveDate", DBNull.Value); }
-            updateCommand.Parameters.AddWithValue("@OldInvoiceID", oldInvoice.InvoiceID);
-            updateCommand.Parameters.AddWithValue("@OldInvoiceNo", oldInvoice.InvoiceNo);
-            updateCommand.Parameters.AddWithValue("@OldInvoiceDate", oldInvoice.InvoiceDate);
-            if (oldInvoice.ProjectID.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@OldProjectID", oldInvoice.ProjectID);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldProjectID", DBNull.Value); }
-            updateCommand.Parameters.AddWithValue("@OldClientID", oldInvoice.ClientID);
-            if (oldInvoice.ClientName != null) {
-                updateCommand.Parameters.AddWithValue("@OldClientName", oldInvoice.ClientName);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldClientName", DBNull.Value); }
-            if (oldInvoice.ClientAddress != null) {
-                updateCommand.Parameters.AddWithValue("@OldClientAddress", oldInvoice.ClientAddress);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldClientAddress", DBNull.Value); }
-            if (oldInvoice.ClientGSTIN != null) {
-                updateCommand.Parameters.AddWithValue("@OldClientGSTIN", oldInvoice.ClientGSTIN);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldClientGSTIN", DBNull.Value); }
-            if (oldInvoice.ClientContactNo != null) {
-                updateCommand.Parameters.AddWithValue("@OldClientContactNo", oldInvoice.ClientContactNo);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldClientContactNo", DBNull.Value); }
-            if (oldInvoice.ClientEMail != null) {
-                updateCommand.Parameters.AddWithValue("@OldClientEMail", oldInvoice.ClientEMail);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldClientEMail", DBNull.Value); }
-            if (oldInvoice.AdditionalDiscount.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@OldAdditionalDiscount", oldInvoice.AdditionalDiscount);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldAdditionalDiscount", DBNull.Value); }
-            if (oldInvoice.Remarks != null) {
-                updateCommand.Parameters.AddWithValue("@OldRemarks", oldInvoice.Remarks);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldRemarks", DBNull.Value); }
-            if (oldInvoice.PDFUrl != null) {
-                updateCommand.Parameters.AddWithValue("@OldPDFUrl", oldInvoice.PDFUrl);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldPDFUrl", DBNull.Value); }
-            if (oldInvoice.CompanyID.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@OldCompanyID", oldInvoice.CompanyID);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldCompanyID", DBNull.Value); }
-            if (oldInvoice.AddUserID.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@OldAddUserID", oldInvoice.AddUserID);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldAddUserID", DBNull.Value); }
-            if (oldInvoice.AddDate.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@OldAddDate", oldInvoice.AddDate);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldAddDate", DBNull.Value); }
-            if (oldInvoice.ArchiveUserID.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@OldArchiveUserID", oldInvoice.ArchiveUserID);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldArchiveUserID", DBNull.Value); }
-            if (oldInvoice.ArchiveDate.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@OldArchiveDate", oldInvoice.ArchiveDate);
-            } else {
-                updateCommand.Parameters.AddWithValue("@OldArchiveDate", DBNull.Value); }
-            updateCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
-            updateCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
+            if (newInvoice.TotalAmt.HasValue == true)
+            { updateCommand.Parameters.AddWithValue("@pTotalAmt", newInvoice.TotalAmt); }
+            else { updateCommand.Parameters.AddWithValue("@pTotalAmt", DBNull.Value); }
             try
             {
                 connection.Open();
                 updateCommand.ExecuteNonQuery();
-                int count = System.Convert.ToInt32(updateCommand.Parameters["@ReturnValue"].Value);
-                if (count > 0)
-                {
+                //int count = System.Convert.ToInt32(updateCommand.Parameters["@ReturnValue"].Value);
+                //if (count > 0)
+                //{
                     return true;
-                }
-                else
-                {
-                    return false;
-                }
+                //}
+                //else
+                //{
+                //    return false;
+                //}
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -517,6 +461,44 @@ namespace CloudTrixApp.Data
             {
                 connection.Close();
             }
+        }
+        public static Client Client_StateVerify(Client ClientPara)
+        {
+            Client Client = new Client();
+            SqlConnection connection = PMMSData.GetConnection();
+            string selectProcedure = "[Client_StateVerify]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            selectCommand.CommandType = CommandType.StoredProcedure;
+            selectCommand.Parameters.AddWithValue("@pClientID", ClientPara.ClientID);
+            selectCommand.Parameters.AddWithValue("@pCompanyID", ClientPara.CompanyID);
+            try
+            {
+                connection.Open();
+                SqlDataReader reader
+                    = selectCommand.ExecuteReader(CommandBehavior.SingleRow);
+                if (reader.Read())
+                {
+                  //  Client.IsStateMatch = System.Convert.ToBoolean(reader["IsStateMatch"]);
+                    Client.Address1 = Convert.ToString(reader["Address1"]);
+                    Client.GSTIN = Convert.ToString(reader["GSTIN"]);
+                    Client.EMail = Convert.ToString(reader["EMail"]);
+                    Client.ContactNo = Convert.ToString(reader["ContactNo"]);
+                }
+                else
+                {
+                    Client = null;
+                }
+                reader.Close();
+            }
+            catch (SqlException)
+            {
+                return Client;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return Client;
         }
     }
 }

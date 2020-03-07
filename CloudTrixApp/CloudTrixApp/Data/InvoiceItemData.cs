@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 using CloudTrixApp.Models;
 
 namespace CloudTrixApp.Data
@@ -140,6 +141,47 @@ namespace CloudTrixApp.Data
             return InvoiceItem;
         }
 
+        public static List<InvoiceItem> List(InvoiceItem InvoiceItemPara)
+        {
+            List<InvoiceItem> InvoiceItemList = new List<InvoiceItem>();
+            SqlConnection connection = PMMSData.GetConnection();
+            string selectProcedure = "[InvoiceItemSelect]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            selectCommand.CommandType = CommandType.StoredProcedure;
+            selectCommand.Parameters.AddWithValue("@InvoiceID", InvoiceItemPara.InvoiceID);
+            selectCommand.Parameters.AddWithValue("@InvoiceItemID", InvoiceItemPara.InvoiceItemID);
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                InvoiceItem InvoiceItem = new InvoiceItem();
+                while (reader.Read())
+                {
+                    InvoiceItem = new InvoiceItem();
+                    InvoiceItem.InvoiceID = System.Convert.ToInt32(reader["InvoiceID"]);
+                    InvoiceItem.InvoiceItemID = System.Convert.ToInt32(reader["InvoiceItemID"]);
+                    InvoiceItem.Description = reader["Description"] is DBNull ? null : reader["Description"].ToString();
+                    InvoiceItem.Quantity = System.Convert.ToDecimal(reader["Quantity"]);
+                    InvoiceItem.Rate = System.Convert.ToDecimal(reader["Rate"]);
+                    InvoiceItem.DiscountAmount = System.Convert.ToDecimal(reader["DiscountAmount"]);
+                    InvoiceItem.CGSTRate = System.Convert.ToDecimal(reader["CGSTRate"]);
+                    InvoiceItem.SGSTRate = System.Convert.ToDecimal(reader["SGSTRate"]);
+                    InvoiceItem.IGSTRate = System.Convert.ToDecimal(reader["IGSTRate"]);
+                    InvoiceItemList.Add(InvoiceItem);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                return InvoiceItemList;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return InvoiceItemList;
+        }
+
         public static bool Add(InvoiceItem InvoiceItem)
         {
             SqlConnection connection = PMMSData.GetConnection();
@@ -174,7 +216,7 @@ namespace CloudTrixApp.Data
                     return false;
                 }
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -247,35 +289,23 @@ namespace CloudTrixApp.Data
             string deleteProcedure = "[InvoiceItemDelete]";
             SqlCommand deleteCommand = new SqlCommand(deleteProcedure, connection);
             deleteCommand.CommandType = CommandType.StoredProcedure;
-            deleteCommand.Parameters.AddWithValue("@OldInvoiceID", InvoiceItem.InvoiceID);
             deleteCommand.Parameters.AddWithValue("@OldInvoiceItemID", InvoiceItem.InvoiceItemID);
-            if (InvoiceItem.Description != null) {
-                deleteCommand.Parameters.AddWithValue("@OldDescription", InvoiceItem.Description);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldDescription", DBNull.Value); }
-            deleteCommand.Parameters.AddWithValue("@OldQuantity", InvoiceItem.Quantity);
-            deleteCommand.Parameters.AddWithValue("@OldRate", InvoiceItem.Rate);
-            deleteCommand.Parameters.AddWithValue("@OldDiscountAmount", InvoiceItem.DiscountAmount);
-            deleteCommand.Parameters.AddWithValue("@OldCGSTRate", InvoiceItem.CGSTRate);
-            deleteCommand.Parameters.AddWithValue("@OldSGSTRate", InvoiceItem.SGSTRate);
-            deleteCommand.Parameters.AddWithValue("@OldIGSTRate", InvoiceItem.IGSTRate);
-            deleteCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
-            deleteCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
+           
             try
             {
                 connection.Open();
                 deleteCommand.ExecuteNonQuery();
-                int count = System.Convert.ToInt32(deleteCommand.Parameters["@ReturnValue"].Value);
-                if (count > 0)
-                {
+                //int count = System.Convert.ToInt32(deleteCommand.Parameters["@ReturnValue"].Value);
+                //if (count > 0)
+                //{
                     return true;
-                }
-                else
-                {
-                    return false;
-                }
+                //}
+                //else
+                //{
+                //    return false;
+                //}
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
                 return false;
             }
