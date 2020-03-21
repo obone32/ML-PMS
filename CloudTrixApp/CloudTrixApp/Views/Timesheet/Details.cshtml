@@ -3,55 +3,105 @@
 @{
     ViewBag.Title = "Details";
 }
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Masters</a></li>
+            <li class="active">Details of Time Sheet</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Details of Time Sheet </h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
-<h2>Details</h2>
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.TimesheetID)
+                                <div class="container-fluid">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="EmployeeID">Employee Name</label>
+                                            @Html.TextBoxFor(model => model.Employee.FirstName, null, new { @class = "form-control ", @placeholder = "Enter Name ", @disabled = "on" })
+                                            @Html.ValidationMessageFor(model => model.Employee.FirstName)
+                                        </div>
+                                    </div>
 
-<div>
-    <h4>Timesheet</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        @Html.HiddenFor(model => model.TimesheetID)
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmployeeID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Employee.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ProjectID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Project.ProjectName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartTime)
-        <dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        <dt>
-            @Html.DisplayNameFor(model => model.Remarks)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Remarks)
-    </dl>
+                                    <div class="container-fluid">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="Date">Project Name</label>
+                                                @Html.TextBoxFor(model => model.Project.ProjectName, null, new { @class = "form-control ", @placeholder = "Enter Name ", @disabled = "on" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Date">Entry Date :</label>
+                                            @Html.TextBox("EntryDate", null, new { @class = "form-control ", @style = "width : 200px", @placeholder = "Entry Date ", @Value = @DateTime.Now.ToString("dd-MMM-yyyy"), @readonly = "readonly", @disabled = "on" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="StartTime">Start Time</label>
+                                            @Html.TextBox("StartTime", null, new { @class = "form-control", @placeholder = "StartTime", @disabled = "on" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="EndTime">End Time</label>
+                                            @Html.TextBox("EndTime", null, new { @class = "form-control", @placeholder = "EndTime", @disabled = "on" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="TotTime">Total Time</label>
+                                            @Html.TextBox("TotTime", null, new { @class = "form-control", @style = "width : 150px", @id = "TotTime", @placeholder = "Total Time ", autocomplete = "off", @readonly = "readonly", @disabled = "on" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Remarks">Remarks</label>
+                                            @Html.TextArea("Remarks", new { @class = "form-control", @rows = "2", @placeholder = "Remarks", @disabled = "on" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-            @Html.ActionLink("Edit", "Edit", new {
- 						TimesheetID = Model.TimesheetID 
- 						}) |
+<div>
     @Html.ActionLink("Back to List", "Index")
-</p>
- 
+</div>
+
