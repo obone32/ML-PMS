@@ -119,7 +119,6 @@ namespace CloudTrixApp.Data
                     InvoiceItem.Description = reader["Description"] is DBNull ? null : reader["Description"].ToString();
                     InvoiceItem.Quantity = System.Convert.ToDecimal(reader["Quantity"]);
                     InvoiceItem.Rate = System.Convert.ToDecimal(reader["Rate"]);
-                    InvoiceItem.DiscountAmount = System.Convert.ToDecimal(reader["DiscountAmount"]);
                     InvoiceItem.CGSTRate = System.Convert.ToDecimal(reader["CGSTRate"]);
                     InvoiceItem.SGSTRate = System.Convert.ToDecimal(reader["SGSTRate"]);
                     InvoiceItem.IGSTRate = System.Convert.ToDecimal(reader["IGSTRate"]);
@@ -163,10 +162,15 @@ namespace CloudTrixApp.Data
                     InvoiceItem.Description = reader["Description"] is DBNull ? null : reader["Description"].ToString();
                     InvoiceItem.Quantity = System.Convert.ToDecimal(reader["Quantity"]);
                     InvoiceItem.Rate = System.Convert.ToDecimal(reader["Rate"]);
-                    InvoiceItem.DiscountAmount = System.Convert.ToDecimal(reader["DiscountAmount"]);
+                    InvoiceItem.Tax = reader["Tax"] is DBNull ? null : reader["Tax"].ToString();
+                    InvoiceItem.Amount = System.Convert.ToDecimal(reader["Amount"]);
                     InvoiceItem.CGSTRate = System.Convert.ToDecimal(reader["CGSTRate"]);
+                    InvoiceItem.CGST_Amt = System.Convert.ToDecimal(reader["CGST_Amt"]);
                     InvoiceItem.SGSTRate = System.Convert.ToDecimal(reader["SGSTRate"]);
+                    InvoiceItem.SGST_Amt = System.Convert.ToDecimal(reader["SGST_Amt"]);
                     InvoiceItem.IGSTRate = System.Convert.ToDecimal(reader["IGSTRate"]);
+                    InvoiceItem.IGST_Amt = System.Convert.ToDecimal(reader["IGST_Amt"]);
+                    InvoiceItem.Total_Amt = System.Convert.ToDecimal(reader["Total_Amt"]);
                     InvoiceItemList.Add(InvoiceItem);
                 }
                 reader.Close();
@@ -196,10 +200,15 @@ namespace CloudTrixApp.Data
                 insertCommand.Parameters.AddWithValue("@Description", DBNull.Value); }
             insertCommand.Parameters.AddWithValue("@Quantity", InvoiceItem.Quantity);
             insertCommand.Parameters.AddWithValue("@Rate", InvoiceItem.Rate);
-            insertCommand.Parameters.AddWithValue("@DiscountAmount", InvoiceItem.DiscountAmount);
             insertCommand.Parameters.AddWithValue("@CGSTRate", InvoiceItem.CGSTRate);
             insertCommand.Parameters.AddWithValue("@SGSTRate", InvoiceItem.SGSTRate);
             insertCommand.Parameters.AddWithValue("@IGSTRate", InvoiceItem.IGSTRate);
+            insertCommand.Parameters.AddWithValue("@Tax", InvoiceItem.Tax);
+            insertCommand.Parameters.AddWithValue("@Amount ", InvoiceItem.Amount);
+            insertCommand.Parameters.AddWithValue("@IGST_Amt", InvoiceItem.IGST_Amt);
+            insertCommand.Parameters.AddWithValue("@CGST_Amt", InvoiceItem.CGST_Amt);
+            insertCommand.Parameters.AddWithValue("@SGST_Amt", InvoiceItem.SGST_Amt);
+            insertCommand.Parameters.AddWithValue("@Total_Amt", InvoiceItem.Total_Amt); 
             insertCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
             insertCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
             try
@@ -241,7 +250,7 @@ namespace CloudTrixApp.Data
                 updateCommand.Parameters.AddWithValue("@NewDescription", DBNull.Value); }
             updateCommand.Parameters.AddWithValue("@NewQuantity", newInvoiceItem.Quantity);
             updateCommand.Parameters.AddWithValue("@NewRate", newInvoiceItem.Rate);
-            updateCommand.Parameters.AddWithValue("@NewDiscountAmount", newInvoiceItem.DiscountAmount);
+           
             updateCommand.Parameters.AddWithValue("@NewCGSTRate", newInvoiceItem.CGSTRate);
             updateCommand.Parameters.AddWithValue("@NewSGSTRate", newInvoiceItem.SGSTRate);
             updateCommand.Parameters.AddWithValue("@NewIGSTRate", newInvoiceItem.IGSTRate);
@@ -253,7 +262,6 @@ namespace CloudTrixApp.Data
                 updateCommand.Parameters.AddWithValue("@OldDescription", DBNull.Value); }
             updateCommand.Parameters.AddWithValue("@OldQuantity", oldInvoiceItem.Quantity);
             updateCommand.Parameters.AddWithValue("@OldRate", oldInvoiceItem.Rate);
-            updateCommand.Parameters.AddWithValue("@OldDiscountAmount", oldInvoiceItem.DiscountAmount);
             updateCommand.Parameters.AddWithValue("@OldCGSTRate", oldInvoiceItem.CGSTRate);
             updateCommand.Parameters.AddWithValue("@OldSGSTRate", oldInvoiceItem.SGSTRate);
             updateCommand.Parameters.AddWithValue("@OldIGSTRate", oldInvoiceItem.IGSTRate);

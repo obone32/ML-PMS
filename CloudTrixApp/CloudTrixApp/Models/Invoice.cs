@@ -54,11 +54,11 @@ namespace CloudTrixApp.Models
         public String ClientEMail { get; set; }
 
         [Display(Name = "Additional Discount")]
-        public Decimal? AdditionalDiscount { get; set; }
+        public Decimal? Discount { get; set; }
 
         [StringLength(8000)]
-        [Display(Name = "Remarks")]
-        public String Remarks { get; set; }
+        [Display(Name = "Notes")]
+        public String Notes { get; set; }
 
         [StringLength(8000)]
         [Display(Name = "P D F Url")]
@@ -67,8 +67,9 @@ namespace CloudTrixApp.Models
         [Display(Name = "Company I D")]
         public Int32? CompanyID { get; set; }
 
+        [Required]
         [Display(Name = "Add User I D")]
-        public Int32? AddUserID { get; set; }
+        public Int32 AddUserID { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -83,12 +84,16 @@ namespace CloudTrixApp.Models
         [Display(Name = "Archive Date")]
         public DateTime? ArchiveDate { get; set; }
 
-        public Decimal? TotalAmt { get; set; }
+        public Decimal? GrandTotal { get; set; }
         // ComboBox
         public virtual Project Project { get; set; }
         public virtual Client Client { get; set; }
         public virtual Company Company { get; set; }
         public List<InvoiceItem> Items { get; set; }
+
+        public String Invoice_Type { get; set; }
+        public String Payment_Method { get; set; }
+        public String InvoiceStatus { get; set; }
     }
 }
  

@@ -70,10 +70,7 @@ namespace CloudTrixApp
 
             bundles.Add(new ScriptBundle("~/bundles/App3").Include(
                 //"~/Scripts/App/Invoice.js",
-           "~/Scripts/App/NewJS.js"));
-            bundles.Add(new ScriptBundle("~/bundles/App3").Include(
-                //"~/Scripts/App/Invoice.js",
-          "~/Scripts/App/InvoiceJQ.js"));
+           "~/Scripts/App/NewJS.js"));          
            
         }
     }

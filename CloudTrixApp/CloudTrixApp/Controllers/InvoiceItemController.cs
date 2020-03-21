@@ -25,31 +25,36 @@ namespace CloudTrixApp.Controllers
         DataTable dtInvoice = new DataTable();
 
         // GET: /InvoiceItem/
-        public ActionResult Index(string sortOrder,  
+        public ActionResult Index(string sortOrder,
                                   String SearchField,
                                   String SearchCondition,
                                   String SearchText,
                                   String Export,
                                   int? PageSize,
-                                  int? page, 
+                                  int? page,
                                   string command)
         {
 
-            if (command == "Show All") {
+            if (command == "Show All")
+            {
                 SearchField = null;
                 SearchCondition = null;
                 SearchText = null;
                 Session["SearchField"] = null;
                 Session["SearchCondition"] = null;
-                Session["SearchText"] = null; } 
-            else if (command == "Add New Record") { return RedirectToAction("Create"); } 
-            else if (command == "Export") { Session["Export"] = Export; } 
-            else if (command == "Search" | command == "Page Size") {
-                if (!string.IsNullOrEmpty(SearchText)) {
+                Session["SearchText"] = null;
+            }
+            else if (command == "Add New Record") { return RedirectToAction("Create"); }
+            else if (command == "Export") { Session["Export"] = Export; }
+            else if (command == "Search" | command == "Page Size")
+            {
+                if (!string.IsNullOrEmpty(SearchText))
+                {
                     Session["SearchField"] = SearchField;
                     Session["SearchCondition"] = SearchCondition;
-                    Session["SearchText"] = SearchText; }
-                } 
+                    Session["SearchText"] = SearchText;
+                }
+            }
             if (command == "Page Size") { Session["PageSize"] = PageSize; }
 
             ViewData["SearchFields"] = GetFields((Session["SearchField"] == null ? "Invoice I D" : Convert.ToString(Session["SearchField"])));
@@ -83,19 +88,27 @@ namespace CloudTrixApp.Controllers
 
             var Query = from rowInvoiceItem in dtInvoiceItem.AsEnumerable()
                         join rowInvoice in dtInvoice.AsEnumerable() on rowInvoiceItem.Field<Int32>("InvoiceID") equals rowInvoice.Field<Int32>("InvoiceID")
-                        select new InvoiceItem() {
-                            Invoice = new Invoice() 
+                        select new InvoiceItem()
+                        {
+                            Invoice = new Invoice()
                             {
-                                   InvoiceID = rowInvoice.Field<Int32>("InvoiceID")
+                                InvoiceID = rowInvoice.Field<Int32>("InvoiceID")
                             }
-                           ,InvoiceItemID = rowInvoiceItem.Field<Int32>("InvoiceItemID")
-                           ,Description = rowInvoiceItem.Field<String>("Description")
-                           ,Quantity = rowInvoiceItem.Field<Decimal>("Quantity")
-                           ,Rate = rowInvoiceItem.Field<Decimal>("Rate")
-                           ,DiscountAmount = rowInvoiceItem.Field<Decimal>("DiscountAmount")
-                           ,CGSTRate = rowInvoiceItem.Field<Decimal>("CGSTRate")
-                           ,SGSTRate = rowInvoiceItem.Field<Decimal>("SGSTRate")
-                           ,IGSTRate = rowInvoiceItem.Field<Decimal>("IGSTRate")
+                            ,
+                            InvoiceItemID = rowInvoiceItem.Field<Int32>("InvoiceItemID")
+                            ,
+                            Description = rowInvoiceItem.Field<String>("Description")
+                            ,
+                            Quantity = rowInvoiceItem.Field<Decimal>("Quantity")
+                            ,
+                            Rate = rowInvoiceItem.Field<Decimal>("Rate")
+
+                            ,
+                            CGSTRate = rowInvoiceItem.Field<Decimal>("CGSTRate")
+                            ,
+                            SGSTRate = rowInvoiceItem.Field<Decimal>("SGSTRate")
+                            ,
+                            IGSTRate = rowInvoiceItem.Field<Decimal>("IGSTRate")
                         };
 
             switch (sortOrder)
@@ -130,12 +143,7 @@ namespace CloudTrixApp.Controllers
                 case "Rate_asc":
                     Query = Query.OrderBy(s => s.Rate);
                     break;
-                case "DiscountAmount_desc":
-                    Query = Query.OrderByDescending(s => s.DiscountAmount);
-                    break;
-                case "DiscountAmount_asc":
-                    Query = Query.OrderBy(s => s.DiscountAmount);
-                    break;
+
                 case "CGSTRate_desc":
                     Query = Query.OrderByDescending(s => s.CGSTRate);
                     break;
@@ -159,7 +167,8 @@ namespace CloudTrixApp.Controllers
                     break;
             }
 
-            if (command == "Export") {
+            if (command == "Export")
+            {
                 GridView gv = new GridView();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("Invoice I D", typeof(string));
@@ -175,14 +184,14 @@ namespace CloudTrixApp.Controllers
                 {
                     dt.Rows.Add(
                         item.Invoice.InvoiceID
-                       ,item.InvoiceItemID
-                       ,item.Description
-                       ,item.Quantity
-                       ,item.Rate
-                       ,item.DiscountAmount
-                       ,item.CGSTRate
-                       ,item.SGSTRate
-                       ,item.IGSTRate
+                       , item.InvoiceItemID
+                       , item.Description
+                       , item.Quantity
+                       , item.Rate
+
+                       , item.CGSTRate
+                       , item.SGSTRate
+                       , item.IGSTRate
                     );
                 }
                 gv.DataSource = dt;
@@ -198,7 +207,7 @@ namespace CloudTrixApp.Controllers
         // GET: /InvoiceItem/Details/<id>
         public ActionResult Details(
                                       Int32? InvoiceID
-                                     ,Int32? InvoiceItemID
+                                     , Int32? InvoiceItemID
                                    )
         {
             if (
@@ -230,7 +239,7 @@ namespace CloudTrixApp.Controllers
         // GET: /InvoiceItem/Create
         public ActionResult Create()
         {
-        // ComboBox
+            // ComboBox
             ViewData["InvoiceID"] = new SelectList(InvoiceItem_InvoiceData.List(), "InvoiceID", "InvoiceID");
 
             return View();
@@ -241,17 +250,17 @@ namespace CloudTrixApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include=
-				           "InvoiceID"
-				   + "," + "InvoiceItemID"
-				   + "," + "Description"
-				   + "," + "Quantity"
-				   + "," + "Rate"
-				   + "," + "DiscountAmount"
-				   + "," + "CGSTRate"
-				   + "," + "SGSTRate"
-				   + "," + "IGSTRate"
-				  )] InvoiceItem InvoiceItem)
+        public ActionResult Create([Bind(Include =
+                           "InvoiceID"
+                   + "," + "InvoiceItemID"
+                   + "," + "Description"
+                   + "," + "Quantity"
+                   + "," + "Rate"
+                   + "," + "DiscountAmount"
+                   + "," + "CGSTRate"
+                   + "," + "SGSTRate"
+                   + "," + "IGSTRate"
+                  )] InvoiceItem InvoiceItem)
         {
             if (ModelState.IsValid)
             {
@@ -266,7 +275,7 @@ namespace CloudTrixApp.Controllers
                     ModelState.AddModelError("", "Can Not Insert");
                 }
             }
-        // ComboBox
+            // ComboBox
             ViewData["InvoiceID"] = new SelectList(InvoiceItem_InvoiceData.List(), "InvoiceID", "InvoiceID", InvoiceItem.InvoiceID);
 
             return View(InvoiceItem);
@@ -275,7 +284,7 @@ namespace CloudTrixApp.Controllers
         // GET: /InvoiceItem/Edit/<id>
         public ActionResult Edit(
                                    Int32? InvoiceID
-                                  ,Int32? InvoiceItemID
+                                  , Int32? InvoiceItemID
                                 )
         {
             if (
@@ -295,7 +304,7 @@ namespace CloudTrixApp.Controllers
             {
                 return HttpNotFound();
             }
-        // ComboBox
+            // ComboBox
             ViewData["InvoiceID"] = new SelectList(InvoiceItem_InvoiceData.List(), "InvoiceID", "InvoiceID", InvoiceItem.InvoiceID);
 
             return View(InvoiceItem);
@@ -327,7 +336,7 @@ namespace CloudTrixApp.Controllers
                     ModelState.AddModelError("", "Can Not Update");
                 }
             }
-        // ComboBox
+            // ComboBox
             ViewData["InvoiceID"] = new SelectList(InvoiceItem_InvoiceData.List(), "InvoiceID", "InvoiceID", InvoiceItem.InvoiceID);
 
             return View(InvoiceItem);
@@ -336,7 +345,7 @@ namespace CloudTrixApp.Controllers
         // GET: /InvoiceItem/Delete/<id>
         public ActionResult Delete(
                                      Int32? InvoiceID
-                                    ,Int32? InvoiceItemID
+                                    , Int32? InvoiceItemID
                                   )
         {
             if (
@@ -370,7 +379,7 @@ namespace CloudTrixApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(
                                             Int32? InvoiceID
-                                            ,Int32? InvoiceItemID
+                                            , Int32? InvoiceItemID
                                             )
         {
 
@@ -410,7 +419,7 @@ namespace CloudTrixApp.Controllers
             SelectListItem Item8 = new SelectListItem { Text = "S G S T Rate", Value = "S G S T Rate" };
             SelectListItem Item9 = new SelectListItem { Text = "I G S T Rate", Value = "I G S T Rate" };
 
-                 if (select == "Invoice I D") { Item1.Selected = true; }
+            if (select == "Invoice I D") { Item1.Selected = true; }
             else if (select == "Invoice Item I D") { Item2.Selected = true; }
             else if (select == "Description") { Item3.Selected = true; }
             else if (select == "Quantity") { Item4.Selected = true; }
@@ -479,4 +488,4 @@ namespace CloudTrixApp.Controllers
 
     }
 }
- 
+

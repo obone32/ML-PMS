@@ -19,8 +19,10 @@ namespace CloudTrixApp.Data
             {
                 connection.Open();
                 SqlDataReader reader = selectCommand.ExecuteReader();
-                if (reader.HasRows) {
-                    dt.Load(reader); }
+                if (reader.HasRows)
+                {
+                    dt.Load(reader);
+                }
                 reader.Close();
             }
             catch (SqlException)
@@ -40,86 +42,160 @@ namespace CloudTrixApp.Data
             string selectProcedure = "[InvoiceSearch]";
             SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
             selectCommand.CommandType = CommandType.StoredProcedure;
-            if (sField == "Invoice I D") {
+            if (sField == "Invoice I D")
+            {
                 selectCommand.Parameters.AddWithValue("@InvoiceID", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@InvoiceID", DBNull.Value); }
-            if (sField == "Invoice No") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@InvoiceID", DBNull.Value);
+            }
+            if (sField == "Invoice No")
+            {
                 selectCommand.Parameters.AddWithValue("@InvoiceNo", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@InvoiceNo", DBNull.Value); }
-            if (sField == "Invoice Date") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@InvoiceNo", DBNull.Value);
+            }
+            if (sField == "Invoice Date")
+            {
                 selectCommand.Parameters.AddWithValue("@InvoiceDate", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@InvoiceDate", DBNull.Value); }
-            if (sField == "Project I D") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@InvoiceDate", DBNull.Value);
+            }
+            if (sField == "Project I D")
+            {
                 selectCommand.Parameters.AddWithValue("@ProjectName", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ProjectName", DBNull.Value); }
-            if (sField == "Client I D") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ProjectName", DBNull.Value);
+            }
+            if (sField == "Client I D")
+            {
                 selectCommand.Parameters.AddWithValue("@ClientName", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ClientName", DBNull.Value); }
-            if (sField == "Client Name") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ClientName", DBNull.Value);
+            }
+            if (sField == "Client Name")
+            {
                 selectCommand.Parameters.AddWithValue("@ClientName", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ClientName", DBNull.Value); }
-            if (sField == "Client Address") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ClientName", DBNull.Value);
+            }
+            if (sField == "Client Address")
+            {
                 selectCommand.Parameters.AddWithValue("@ClientAddress", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ClientAddress", DBNull.Value); }
-            if (sField == "Client G S T I N") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ClientAddress", DBNull.Value);
+            }
+            if (sField == "Client G S T I N")
+            {
                 selectCommand.Parameters.AddWithValue("@ClientGSTIN", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ClientGSTIN", DBNull.Value); }
-            if (sField == "Client Contact No") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ClientGSTIN", DBNull.Value);
+            }
+            if (sField == "Client Contact No")
+            {
                 selectCommand.Parameters.AddWithValue("@ClientContactNo", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ClientContactNo", DBNull.Value); }
-            if (sField == "Client E Mail") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ClientContactNo", DBNull.Value);
+            }
+            if (sField == "Client E Mail")
+            {
                 selectCommand.Parameters.AddWithValue("@ClientEMail", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ClientEMail", DBNull.Value); }
-            if (sField == "Additional Discount") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ClientEMail", DBNull.Value);
+            }
+            if (sField == "Additional Discount")
+            {
                 selectCommand.Parameters.AddWithValue("@AdditionalDiscount", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@AdditionalDiscount", DBNull.Value); }
-            if (sField == "Remarks") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@AdditionalDiscount", DBNull.Value);
+            }
+            if (sField == "Remarks")
+            {
                 selectCommand.Parameters.AddWithValue("@Remarks", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@Remarks", DBNull.Value); }
-            if (sField == "P D F Url") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@Remarks", DBNull.Value);
+            }
+            if (sField == "P D F Url")
+            {
                 selectCommand.Parameters.AddWithValue("@PDFUrl", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@PDFUrl", DBNull.Value); }
-            if (sField == "Company I D") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@PDFUrl", DBNull.Value);
+            }
+            if (sField == "Company I D")
+            {
                 selectCommand.Parameters.AddWithValue("@CompanyName", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@CompanyName", DBNull.Value); }
-            if (sField == "Add User I D") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@CompanyName", DBNull.Value);
+            }
+            if (sField == "Add User I D")
+            {
                 selectCommand.Parameters.AddWithValue("@AddUserID", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@AddUserID", DBNull.Value); }
-            if (sField == "Add Date") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@AddUserID", DBNull.Value);
+            }
+            if (sField == "Add Date")
+            {
                 selectCommand.Parameters.AddWithValue("@AddDate", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@AddDate", DBNull.Value); }
-            if (sField == "Archive User I D") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@AddDate", DBNull.Value);
+            }
+            if (sField == "Archive User I D")
+            {
                 selectCommand.Parameters.AddWithValue("@ArchiveUserID", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ArchiveUserID", DBNull.Value); }
-            if (sField == "Archive Date") {
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ArchiveUserID", DBNull.Value);
+            }
+            if (sField == "Archive Date")
+            {
                 selectCommand.Parameters.AddWithValue("@ArchiveDate", sValue);
-            } else {
-                selectCommand.Parameters.AddWithValue("@ArchiveDate", DBNull.Value); }
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@ArchiveDate", DBNull.Value);
+            }
             selectCommand.Parameters.AddWithValue("@SearchCondition", sCondition);
             DataTable dt = new DataTable();
             try
             {
                 connection.Open();
                 SqlDataReader reader = selectCommand.ExecuteReader();
-                if (reader.HasRows) {
-                    dt.Load(reader); }
+                if (reader.HasRows)
+                {
+                    dt.Load(reader);
+                }
                 reader.Close();
             }
             catch (SqlException)
@@ -158,14 +234,17 @@ namespace CloudTrixApp.Data
                     Invoice.ClientGSTIN = reader["ClientGSTIN"] is DBNull ? null : reader["ClientGSTIN"].ToString();
                     Invoice.ClientContactNo = reader["ClientContactNo"] is DBNull ? null : reader["ClientContactNo"].ToString();
                     Invoice.ClientEMail = reader["ClientEMail"] is DBNull ? null : reader["ClientEMail"].ToString();
-                    Invoice.AdditionalDiscount = reader["AdditionalDiscount"] is DBNull ? null : (Decimal?)reader["AdditionalDiscount"];
-                    Invoice.Remarks = reader["Remarks"] is DBNull ? null : reader["Remarks"].ToString();
-                    Invoice.PDFUrl = reader["PDFUrl"] is DBNull ? null : reader["PDFUrl"].ToString();
+                    Invoice.Discount = reader["Discount"] is DBNull ? null : (Decimal?)reader["Discount"];
+                    Invoice.Notes = reader["Notes"] is DBNull ? null : reader["Notes"].ToString();
                     Invoice.CompanyID = reader["CompanyID"] is DBNull ? null : (Int32?)reader["CompanyID"];
-                    Invoice.AddUserID = reader["AddUserID"] is DBNull ? null : (Int32?)reader["AddUserID"];
+                    Invoice.AddUserID = System.Convert.ToInt32(reader["AddUserID"]);
                     Invoice.AddDate = reader["AddDate"] is DBNull ? null : (DateTime?)reader["AddDate"];
                     Invoice.ArchiveUserID = reader["ArchiveUserID"] is DBNull ? null : (Int32?)reader["ArchiveUserID"];
                     Invoice.ArchiveDate = reader["ArchiveDate"] is DBNull ? null : (DateTime?)reader["ArchiveDate"];
+                    Invoice.GrandTotal = System.Convert.ToDecimal(reader["GrandTotal"]);
+                    Invoice.Invoice_Type = reader["Invoice_Type"] is DBNull ? null : (string)(reader["Invoice_Type"]);
+                    Invoice.Payment_Method = reader["Payment_Method"] is DBNull ? null : (string)(reader["Payment_Method"]);
+                    Invoice.InvoiceStatus = reader["InvoiceStatus"] is DBNull ? null : (string)(reader["InvoiceStatus"]);
                 }
                 else
                 {
@@ -192,66 +271,140 @@ namespace CloudTrixApp.Data
             insertCommand.CommandType = CommandType.StoredProcedure;
             insertCommand.Parameters.AddWithValue("@InvoiceNo", Invoice.InvoiceNo);
             insertCommand.Parameters.AddWithValue("@InvoiceDate", Invoice.InvoiceDate);
-            if (Invoice.ProjectID.HasValue == true) {
+            if (Invoice.ProjectID.HasValue == true)
+            {
                 insertCommand.Parameters.AddWithValue("@ProjectID", Invoice.ProjectID);
-            } else {
-                insertCommand.Parameters.AddWithValue("@ProjectID", DBNull.Value); }
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@ProjectID", DBNull.Value);
+            }
             insertCommand.Parameters.AddWithValue("@ClientID", Invoice.ClientID);
-            if (Invoice.ClientName != null) {
+            if (Invoice.ClientName != null)
+            {
                 insertCommand.Parameters.AddWithValue("@ClientName", Invoice.ClientName);
-            } else {
-                insertCommand.Parameters.AddWithValue("@ClientName", DBNull.Value); }
-            if (Invoice.ClientAddress != null) {
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@ClientName", DBNull.Value);
+            }
+            if (Invoice.ClientAddress != null)
+            {
                 insertCommand.Parameters.AddWithValue("@ClientAddress", Invoice.ClientAddress);
-            } else {
-                insertCommand.Parameters.AddWithValue("@ClientAddress", DBNull.Value); }
-            if (Invoice.ClientGSTIN != null) {
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@ClientAddress", DBNull.Value);
+            }
+            if (Invoice.ClientGSTIN != null)
+            {
                 insertCommand.Parameters.AddWithValue("@ClientGSTIN", Invoice.ClientGSTIN);
-            } else {
-                insertCommand.Parameters.AddWithValue("@ClientGSTIN", DBNull.Value); }
-            if (Invoice.ClientContactNo != null) {
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@ClientGSTIN", DBNull.Value);
+            }
+            if (Invoice.ClientContactNo != null)
+            {
                 insertCommand.Parameters.AddWithValue("@ClientContactNo", Invoice.ClientContactNo);
-            } else {
-                insertCommand.Parameters.AddWithValue("@ClientContactNo", DBNull.Value); }
-            if (Invoice.ClientEMail != null) {
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@ClientContactNo", DBNull.Value);
+            }
+            if (Invoice.ClientEMail != null)
+            {
                 insertCommand.Parameters.AddWithValue("@ClientEMail", Invoice.ClientEMail);
-            } else {
-                insertCommand.Parameters.AddWithValue("@ClientEMail", DBNull.Value); }
-            if (Invoice.AdditionalDiscount.HasValue == true) {
-                insertCommand.Parameters.AddWithValue("@AdditionalDiscount", Invoice.AdditionalDiscount);
-            } else {
-                insertCommand.Parameters.AddWithValue("@AdditionalDiscount", DBNull.Value); }
-            if (Invoice.Remarks != null) {
-                insertCommand.Parameters.AddWithValue("@Remarks", Invoice.Remarks);
-            } else {
-                insertCommand.Parameters.AddWithValue("@Remarks", DBNull.Value); }
-            if (Invoice.PDFUrl != null) {
-                insertCommand.Parameters.AddWithValue("@PDFUrl", Invoice.PDFUrl);
-            } else {
-                insertCommand.Parameters.AddWithValue("@PDFUrl", DBNull.Value); }
-            if (Invoice.CompanyID.HasValue == true) {
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@ClientEMail", DBNull.Value);
+            }
+            if (Invoice.Discount != null)
+            {
+                insertCommand.Parameters.AddWithValue("@Discount", Invoice.Discount);
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@Discount", DBNull.Value);
+            }
+            if (Invoice.Notes != null)
+            {
+                insertCommand.Parameters.AddWithValue("@Notes", Invoice.Notes);
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@Notes", DBNull.Value);
+            }
+
+            if (Invoice.CompanyID.HasValue == true)
+            {
                 insertCommand.Parameters.AddWithValue("@CompanyID", Invoice.CompanyID);
-            } else {
-                insertCommand.Parameters.AddWithValue("@CompanyID", DBNull.Value); }
-            if (Invoice.AddUserID.HasValue == true) {
-                insertCommand.Parameters.AddWithValue("@AddUserID", Invoice.AddUserID);
-            } else {
-                insertCommand.Parameters.AddWithValue("@AddUserID", DBNull.Value); }
-            if (Invoice.AddDate.HasValue == true) {
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@CompanyID", DBNull.Value);
+            }
+            insertCommand.Parameters.AddWithValue("@AddUserID", Invoice.AddUserID);
+            if (Invoice.AddDate.HasValue == true)
+            {
                 insertCommand.Parameters.AddWithValue("@AddDate", Invoice.AddDate);
-            } else {
-                insertCommand.Parameters.AddWithValue("@AddDate", DBNull.Value); }
-            if (Invoice.ArchiveUserID.HasValue == true) {
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@AddDate", DBNull.Value);
+            }
+            if (Invoice.ArchiveUserID.HasValue == true)
+            {
                 insertCommand.Parameters.AddWithValue("@ArchiveUserID", Invoice.ArchiveUserID);
-            } else {
-                insertCommand.Parameters.AddWithValue("@ArchiveUserID", DBNull.Value); }
-            if (Invoice.ArchiveDate.HasValue == true) {
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@ArchiveUserID", DBNull.Value);
+            }
+            if (Invoice.ArchiveDate.HasValue == true)
+            {
                 insertCommand.Parameters.AddWithValue("@ArchiveDate", Invoice.ArchiveDate);
-            } else {
-                insertCommand.Parameters.AddWithValue("@ArchiveDate", DBNull.Value); }
-            if (Invoice.TotalAmt.HasValue == true)
-            {insertCommand.Parameters.AddWithValue("@pTotalAmt", Invoice.TotalAmt);}
-            else{insertCommand.Parameters.AddWithValue("@pTotalAmt", DBNull.Value);}
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@ArchiveDate", DBNull.Value);
+            }
+            if (Invoice.GrandTotal != null)
+            {
+                insertCommand.Parameters.AddWithValue("@GrandTotal", Invoice.GrandTotal);
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@GrandTotal", DBNull.Value);
+            }
+
+            if (Invoice.Invoice_Type != null)
+            {
+                insertCommand.Parameters.AddWithValue("@Invoice_Type", Invoice.Invoice_Type);
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@Invoice_Type", DBNull.Value);
+            }
+
+            if (Invoice.Payment_Method != null)
+            {
+                insertCommand.Parameters.AddWithValue("@Payment_Method", Invoice.Payment_Method);
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@Payment_Method", DBNull.Value);
+            }
+
+            if (Invoice.InvoiceStatus != null)
+            {
+                insertCommand.Parameters.AddWithValue("@InvoiceStatus", Invoice.InvoiceStatus);
+            }
+            else
+            {
+                insertCommand.Parameters.AddWithValue("@InvoiceStatus", DBNull.Value);
+            }
             insertCommand.Parameters.Add("@pInvoiceID", System.Data.SqlDbType.Int);
             insertCommand.Parameters["@pInvoiceID"].Direction = ParameterDirection.Output;
             try
@@ -278,88 +431,134 @@ namespace CloudTrixApp.Data
             }
         }
 
-        public static bool Update(Invoice newInvoice)
+        public static bool Update(Invoice Invoice)
         {
             SqlConnection connection = PMMSData.GetConnection();
             string updateProcedure = "[InvoiceUpdate]";
             SqlCommand updateCommand = new SqlCommand(updateProcedure, connection);
             updateCommand.CommandType = CommandType.StoredProcedure;
-            updateCommand.Parameters.AddWithValue("@pInvoiceID", newInvoice.InvoiceID);
-            updateCommand.Parameters.AddWithValue("@NewInvoiceNo", newInvoice.InvoiceNo);
-            updateCommand.Parameters.AddWithValue("@NewInvoiceDate", newInvoice.InvoiceDate);
-            if (newInvoice.ProjectID.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@NewProjectID", newInvoice.ProjectID);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewProjectID", DBNull.Value); }
-            updateCommand.Parameters.AddWithValue("@NewClientID", newInvoice.ClientID);
-            if (newInvoice.ClientName != null) {
-                updateCommand.Parameters.AddWithValue("@NewClientName", newInvoice.ClientName);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewClientName", DBNull.Value); }
-            if (newInvoice.ClientAddress != null) {
-                updateCommand.Parameters.AddWithValue("@NewClientAddress", newInvoice.ClientAddress);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewClientAddress", DBNull.Value); }
-            if (newInvoice.ClientGSTIN != null) {
-                updateCommand.Parameters.AddWithValue("@NewClientGSTIN", newInvoice.ClientGSTIN);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewClientGSTIN", DBNull.Value); }
-            if (newInvoice.ClientContactNo != null) {
-                updateCommand.Parameters.AddWithValue("@NewClientContactNo", newInvoice.ClientContactNo);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewClientContactNo", DBNull.Value); }
-            if (newInvoice.ClientEMail != null) {
-                updateCommand.Parameters.AddWithValue("@NewClientEMail", newInvoice.ClientEMail);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewClientEMail", DBNull.Value); }
-            if (newInvoice.AdditionalDiscount.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@NewAdditionalDiscount", newInvoice.AdditionalDiscount);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewAdditionalDiscount", DBNull.Value); }
-            if (newInvoice.Remarks != null) {
-                updateCommand.Parameters.AddWithValue("@NewRemarks", newInvoice.Remarks);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewRemarks", DBNull.Value); }
-            if (newInvoice.PDFUrl != null) {
-                updateCommand.Parameters.AddWithValue("@NewPDFUrl", newInvoice.PDFUrl);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewPDFUrl", DBNull.Value); }
-            if (newInvoice.CompanyID.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@NewCompanyID", newInvoice.CompanyID);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewCompanyID", DBNull.Value); }
-            if (newInvoice.AddUserID.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@NewAddUserID", newInvoice.AddUserID);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewAddUserID", DBNull.Value); }
-            if (newInvoice.AddDate.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@NewAddDate", newInvoice.AddDate);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewAddDate", DBNull.Value); }
-            if (newInvoice.ArchiveUserID.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@NewArchiveUserID", newInvoice.ArchiveUserID);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewArchiveUserID", DBNull.Value); }
-            if (newInvoice.ArchiveDate.HasValue == true) {
-                updateCommand.Parameters.AddWithValue("@NewArchiveDate", newInvoice.ArchiveDate);
-            } else {
-                updateCommand.Parameters.AddWithValue("@NewArchiveDate", DBNull.Value); }
-            if (newInvoice.TotalAmt.HasValue == true)
-            { updateCommand.Parameters.AddWithValue("@pTotalAmt", newInvoice.TotalAmt); }
-            else { updateCommand.Parameters.AddWithValue("@pTotalAmt", DBNull.Value); }
+            updateCommand.Parameters.AddWithValue("@InvoiceID", Invoice.InvoiceID);
+            updateCommand.Parameters.AddWithValue("@InvoiceNo", Invoice.InvoiceNo);
+            updateCommand.Parameters.AddWithValue("@InvoiceDate", Invoice.InvoiceDate);
+            if (Invoice.ProjectID.HasValue == true)
+            {
+                updateCommand.Parameters.AddWithValue("@ProjectID", Invoice.ProjectID);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@ProjectID", DBNull.Value);
+            }
+            updateCommand.Parameters.AddWithValue("@ClientID", Invoice.ClientID);
+            if (Invoice.ClientName != null)
+            {
+                updateCommand.Parameters.AddWithValue("@ClientName", Invoice.ClientName);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@ClientName", DBNull.Value);
+            }
+            if (Invoice.ClientAddress != null)
+            {
+                updateCommand.Parameters.AddWithValue("@ClientAddress", Invoice.ClientAddress);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@ClientAddress", DBNull.Value);
+            }
+            if (Invoice.ClientGSTIN != null)
+            {
+                updateCommand.Parameters.AddWithValue("@ClientGSTIN", Invoice.ClientGSTIN);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@ClientGSTIN", DBNull.Value);
+            }
+            if (Invoice.ClientContactNo != null)
+            {
+                updateCommand.Parameters.AddWithValue("@ClientContactNo", Invoice.ClientContactNo);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@ClientContactNo", DBNull.Value);
+            }
+            if (Invoice.ClientEMail != null)
+            {
+                updateCommand.Parameters.AddWithValue("@ClientEMail", Invoice.ClientEMail);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@ClientEMail", DBNull.Value);
+            }
+            if (Invoice.Discount.HasValue == true)
+            {
+                updateCommand.Parameters.AddWithValue("@Discount", Invoice.Discount);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@Discount", DBNull.Value);
+            }
+            if (Invoice.Notes != null)
+            {
+                updateCommand.Parameters.AddWithValue("@Notes", Invoice.Notes);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@Notes", DBNull.Value);
+            }
+          
+            if (Invoice.CompanyID.HasValue == true)
+            {
+                updateCommand.Parameters.AddWithValue("@CompanyID", Invoice.CompanyID);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@CompanyID", DBNull.Value);
+            }
+
+            updateCommand.Parameters.AddWithValue("@AddUserID", Invoice.AddUserID);
+            if (Invoice.AddDate.HasValue == true)
+            {
+                updateCommand.Parameters.AddWithValue("@AddDate", Invoice.AddDate);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@AddDate", DBNull.Value);
+            }
+            if (Invoice.ArchiveUserID.HasValue == true)
+            {
+                updateCommand.Parameters.AddWithValue("@ArchiveUserID", Invoice.ArchiveUserID);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@ArchiveUserID", DBNull.Value);
+            }
+            if (Invoice.ArchiveDate.HasValue == true)
+            {
+                updateCommand.Parameters.AddWithValue("@ArchiveDate", Invoice.ArchiveDate);
+            }
+            else
+            {
+                updateCommand.Parameters.AddWithValue("@ArchiveDate", DBNull.Value);
+            }
+            updateCommand.Parameters.AddWithValue("@GrandTotal", Invoice.GrandTotal);
+            updateCommand.Parameters.AddWithValue("@Invoice_Type", Invoice.Invoice_Type);
+            updateCommand.Parameters.AddWithValue("@Payment_Method", Invoice.Payment_Method);
+            updateCommand.Parameters.AddWithValue("@InvoiceStatus", Invoice.InvoiceStatus);
+            updateCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
+            updateCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
             try
             {
                 connection.Open();
                 updateCommand.ExecuteNonQuery();
-                //int count = System.Convert.ToInt32(updateCommand.Parameters["@ReturnValue"].Value);
-                //if (count > 0)
-                //{
+                int count = System.Convert.ToInt32(updateCommand.Parameters["@ReturnValue"].Value);
+                if (count > 0)
+                {
                     return true;
-                //}
-                //else
-                //{
-                //    return false;
-                //}
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -380,63 +579,112 @@ namespace CloudTrixApp.Data
             deleteCommand.Parameters.AddWithValue("@OldInvoiceID", Invoice.InvoiceID);
             deleteCommand.Parameters.AddWithValue("@OldInvoiceNo", Invoice.InvoiceNo);
             deleteCommand.Parameters.AddWithValue("@OldInvoiceDate", Invoice.InvoiceDate);
-            if (Invoice.ProjectID.HasValue == true) {
+            if (Invoice.ProjectID.HasValue == true)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldProjectID", Invoice.ProjectID);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldProjectID", DBNull.Value); }
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldProjectID", DBNull.Value);
+            }
             deleteCommand.Parameters.AddWithValue("@OldClientID", Invoice.ClientID);
-            if (Invoice.ClientName != null) {
+            if (Invoice.ClientName != null)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldClientName", Invoice.ClientName);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldClientName", DBNull.Value); }
-            if (Invoice.ClientAddress != null) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldClientName", DBNull.Value);
+            }
+            if (Invoice.ClientAddress != null)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldClientAddress", Invoice.ClientAddress);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldClientAddress", DBNull.Value); }
-            if (Invoice.ClientGSTIN != null) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldClientAddress", DBNull.Value);
+            }
+            if (Invoice.ClientGSTIN != null)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldClientGSTIN", Invoice.ClientGSTIN);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldClientGSTIN", DBNull.Value); }
-            if (Invoice.ClientContactNo != null) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldClientGSTIN", DBNull.Value);
+            }
+            if (Invoice.ClientContactNo != null)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldClientContactNo", Invoice.ClientContactNo);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldClientContactNo", DBNull.Value); }
-            if (Invoice.ClientEMail != null) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldClientContactNo", DBNull.Value);
+            }
+            if (Invoice.ClientEMail != null)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldClientEMail", Invoice.ClientEMail);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldClientEMail", DBNull.Value); }
-            if (Invoice.AdditionalDiscount.HasValue == true) {
-                deleteCommand.Parameters.AddWithValue("@OldAdditionalDiscount", Invoice.AdditionalDiscount);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldAdditionalDiscount", DBNull.Value); }
-            if (Invoice.Remarks != null) {
-                deleteCommand.Parameters.AddWithValue("@OldRemarks", Invoice.Remarks);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldRemarks", DBNull.Value); }
-            if (Invoice.PDFUrl != null) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldClientEMail", DBNull.Value);
+            }
+            if (Invoice.Discount.HasValue == true)
+            {
+                deleteCommand.Parameters.AddWithValue("@OldAdditionalDiscount", Invoice.Discount);
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldAdditionalDiscount", DBNull.Value);
+            }
+            if (Invoice.Notes != null)
+            {
+                deleteCommand.Parameters.AddWithValue("@OldRemarks", Invoice.Notes);
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldRemarks", DBNull.Value);
+            }
+            if (Invoice.PDFUrl != null)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldPDFUrl", Invoice.PDFUrl);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldPDFUrl", DBNull.Value); }
-            if (Invoice.CompanyID.HasValue == true) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldPDFUrl", DBNull.Value);
+            }
+            if (Invoice.CompanyID.HasValue == true)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldCompanyID", Invoice.CompanyID);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldCompanyID", DBNull.Value); }
-            if (Invoice.AddUserID.HasValue == true) {
-                deleteCommand.Parameters.AddWithValue("@OldAddUserID", Invoice.AddUserID);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldAddUserID", DBNull.Value); }
-            if (Invoice.AddDate.HasValue == true) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldCompanyID", DBNull.Value);
+            }
+            deleteCommand.Parameters.AddWithValue("@OldAddUserID", Invoice.AddUserID);
+            if (Invoice.AddDate.HasValue == true)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldAddDate", Invoice.AddDate);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldAddDate", DBNull.Value); }
-            if (Invoice.ArchiveUserID.HasValue == true) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldAddDate", DBNull.Value);
+            }
+            if (Invoice.ArchiveUserID.HasValue == true)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldArchiveUserID", Invoice.ArchiveUserID);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldArchiveUserID", DBNull.Value); }
-            if (Invoice.ArchiveDate.HasValue == true) {
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldArchiveUserID", DBNull.Value);
+            }
+            if (Invoice.ArchiveDate.HasValue == true)
+            {
                 deleteCommand.Parameters.AddWithValue("@OldArchiveDate", Invoice.ArchiveDate);
-            } else {
-                deleteCommand.Parameters.AddWithValue("@OldArchiveDate", DBNull.Value); }
+            }
+            else
+            {
+                deleteCommand.Parameters.AddWithValue("@OldArchiveDate", DBNull.Value);
+            }
             deleteCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
             deleteCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
             try
@@ -478,7 +726,7 @@ namespace CloudTrixApp.Data
                     = selectCommand.ExecuteReader(CommandBehavior.SingleRow);
                 if (reader.Read())
                 {
-                  //  Client.IsStateMatch = System.Convert.ToBoolean(reader["IsStateMatch"]);
+                    //  Client.IsStateMatch = System.Convert.ToBoolean(reader["IsStateMatch"]);
                     Client.Address1 = Convert.ToString(reader["Address1"]);
                     Client.GSTIN = Convert.ToString(reader["GSTIN"]);
                     Client.EMail = Convert.ToString(reader["EMail"]);
@@ -500,6 +748,68 @@ namespace CloudTrixApp.Data
             }
             return Client;
         }
+
+        public static Company Company_InvoiceInitials(Company CompanyPara)
+        {
+            Company Company = new Company();
+            SqlConnection connection = PMMSData.GetConnection();
+            string selectProcedure = "[Company_InvoiceInitials]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            selectCommand.CommandType = CommandType.StoredProcedure;
+            selectCommand.Parameters.AddWithValue("@CompanyID", CompanyPara.CompanyID);
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = selectCommand.ExecuteReader(CommandBehavior.SingleRow);
+                if (reader.Read())
+                {
+                    Company.InvoiceInitials = Convert.ToString(reader["InvoiceInitials"]);
+                }
+                else
+                {
+                    Company = null;
+                }
+                reader.Close();
+            }
+            catch (SqlException)
+            {
+                return Company;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return Company;
+        }
+        public static DataTable CGT_Apply(int CompanyID, int ClientID)
+        {
+            SqlConnection connection = PMMSData.GetConnection();
+            string selectProcedure = "[Invoice_GST_Location]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            selectCommand.CommandType = CommandType.StoredProcedure;
+            selectCommand.Parameters.AddWithValue("@CompanyID", CompanyID);
+            selectCommand.Parameters.AddWithValue("@ClientID", ClientID);
+            DataTable dt = new DataTable();
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    dt.Load(reader);
+                }
+                reader.Close();
+            }
+            catch (SqlException)
+            {
+                return dt;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return dt;
+        }
     }
 }
- 
+

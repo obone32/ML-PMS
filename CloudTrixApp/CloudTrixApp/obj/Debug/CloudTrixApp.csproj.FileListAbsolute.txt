@@ -303,7 +303,6 @@ D:\Minal\Projects\Latest-PM 01.02.2020\CloudTrixApp\bin\de\PdfSharp.Charting.res
 D:\Minal\Projects\Latest-PM 01.02.2020\CloudTrixApp\obj\Debug\CloudTrixApp.csprojResolveAssemblyReference.cache
 D:\Minal\Projects\Latest-PM 01.02.2020\CloudTrixApp\obj\Debug\CloudTrixApp.dll
 D:\Minal\Projects\Latest-PM 01.02.2020\CloudTrixApp\obj\Debug\CloudTrixApp.pdb
-C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.csprojResolveAssemblyReference.cache
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\CloudTrixApp.dll.config
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\CloudTrixApp.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\CloudTrixApp.pdb
@@ -380,3 +379,4 @@ C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\de\PdfShar
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\de\PdfSharp.Charting.resources.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.pdb
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.csprojResolveAssemblyReference.cache

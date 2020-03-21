@@ -32,21 +32,40 @@ namespace CloudTrixApp.Models
         [Display(Name = "Rate")]
         public Decimal Rate { get; set; }
 
-        [Required]
-        [Display(Name = "Discount Amount")]
-        public Decimal DiscountAmount { get; set; }
-
-        [Required]
-        [Display(Name = "C G S T Rate")]
+         [Display(Name = "CGSTRate")]
         public Decimal CGSTRate { get; set; }
 
-        [Required]
-        [Display(Name = "S G S T Rate")]
-        public Decimal SGSTRate { get; set; }
+
+        [Display(Name = "SGSTRate")]
+         public Decimal SGSTRate { get; set; }
+
+
+        [Display(Name = "IGSTRate")]
+        public Decimal IGSTRate { get; set; }
 
         [Required]
-        [Display(Name = "I G S T Rate")]
-        public Decimal IGSTRate { get; set; }
+        [Display(Name = "Tax")]
+        public String Tax { get; set; }
+
+        [Required]
+        [Display(Name = "Amount")]
+        public Decimal Amount { get; set; }
+
+        
+        [Display(Name = "IGST_Amt")]
+        public Decimal IGST_Amt { get; set; }
+
+  
+        [Display(Name = "CGST_Amt")]
+        public Decimal CGST_Amt { get; set; }
+
+       
+        [Display(Name = "SGST_Amt")]
+        public Decimal SGST_Amt { get; set; }
+
+        [Required]
+        [Display(Name = "Total_Amt")]
+        public Decimal Total_Amt { get; set; }
 
         // ComboBox
         public virtual Invoice Invoice { get; set; }

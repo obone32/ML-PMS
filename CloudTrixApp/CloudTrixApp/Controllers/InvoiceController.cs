@@ -314,7 +314,7 @@ namespace CloudTrixApp.Controllers
                 invoice.InvoiceNo = Data.Rows[i]["InvoiceNo"].ToString();
                 invoice.InvoiceDate = Convert.ToDateTime(Data.Rows[i]["InvoiceDate"].ToString());
                 invoice.ClientName = Data.Rows[i]["ClientName"].ToString();
-                invoice.TotalAmt = Convert.ToDecimal(Data.Rows[i]["TotalAmt"]);
+                invoice.GrandTotal = Convert.ToDecimal(Data.Rows[i]["GrandTotal"]);
                 InvoiceList.Add(invoice);
             }
             return View(InvoiceList.ToList());
@@ -428,9 +428,9 @@ namespace CloudTrixApp.Controllers
                            ,
                             ClientEMail = rowInvoice.Field<String>("ClientEMail")
                            ,
-                            AdditionalDiscount = rowInvoice.Field<Decimal?>("AdditionalDiscount")
+                            Discount = rowInvoice.Field<Decimal?>("Discount")
                            ,
-                            Remarks = rowInvoice.Field<String>("Remarks")
+                            Notes = rowInvoice.Field<String>("Notes")
                            ,
                             PDFUrl = rowInvoice.Field<String>("PDFUrl")
                            ,
@@ -441,7 +441,7 @@ namespace CloudTrixApp.Controllers
                                 CompanyName = rowCompany.Field<String>("CompanyName")
                             }
                            ,
-                            AddUserID = rowInvoice.Field<Int32?>("AddUserID")
+                            AddUserID = rowInvoice.Field<Int32>("AddUserID")
                            ,
                             AddDate = rowInvoice.Field<DateTime?>("AddDate")
                            ,
@@ -513,16 +513,16 @@ namespace CloudTrixApp.Controllers
                     Query = Query.OrderBy(s => s.ClientEMail);
                     break;
                 case "AdditionalDiscount_desc":
-                    Query = Query.OrderByDescending(s => s.AdditionalDiscount);
+                    Query = Query.OrderByDescending(s => s.Discount);
                     break;
                 case "AdditionalDiscount_asc":
-                    Query = Query.OrderBy(s => s.AdditionalDiscount);
+                    Query = Query.OrderBy(s => s.Discount);
                     break;
                 case "Remarks_desc":
-                    Query = Query.OrderByDescending(s => s.Remarks);
+                    Query = Query.OrderByDescending(s => s.Notes);
                     break;
                 case "Remarks_asc":
-                    Query = Query.OrderBy(s => s.Remarks);
+                    Query = Query.OrderBy(s => s.Notes);
                     break;
                 case "PDFUrl_desc":
                     Query = Query.OrderByDescending(s => s.PDFUrl);
@@ -600,8 +600,8 @@ namespace CloudTrixApp.Controllers
                        , item.ClientGSTIN
                        , item.ClientContactNo
                        , item.ClientEMail
-                       , item.AdditionalDiscount
-                       , item.Remarks
+                       , item.Discount
+                       , item.Notes
                        , item.PDFUrl
                        , item.Company.CompanyName
                        , item.AddUserID
@@ -687,7 +687,9 @@ namespace CloudTrixApp.Controllers
         // POST: /Invoice/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create(Invoice Invoice)
         {
             //if (ModelState.IsValid)
@@ -701,7 +703,7 @@ namespace CloudTrixApp.Controllers
             }
             if (bSucess == true)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Invoice");
             }
             else
             {
@@ -723,13 +725,13 @@ namespace CloudTrixApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
             Invoice Invoice = new Invoice();
             Invoice.InvoiceID = System.Convert.ToInt32(InvoiceID);
             Invoice = InvoiceData.Select_Record(Invoice);
             InvoiceItem InvoiceItem = new InvoiceItem();
             InvoiceItem.InvoiceID = InvoiceID;
-            ViewBag.InvoiceItem = InvoiceItemData.List(InvoiceItem);
+            List<InvoiceItem> InvoiceItemList = InvoiceItemData.List(InvoiceItem);
+            ViewBag.InvoiceItem = InvoiceItemList;
 
             // ComboBox
             ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
@@ -746,26 +748,28 @@ namespace CloudTrixApp.Controllers
         public ActionResult Edit(Invoice Invoice)
         {
 
-            //Invoice oInvoice = new Invoice();
-            //oInvoice.InvoiceID = System.Convert.ToInt32(Invoice.InvoiceID);
-            //oInvoice = InvoiceData.Select_Record(Invoice);
+            Invoice oInvoice = new Invoice();
+            oInvoice.InvoiceID = System.Convert.ToInt32(Invoice.InvoiceID);
+            oInvoice = InvoiceData.Select_Record(Invoice);
 
             //if (ModelState.IsValid)
             //{
             bool bSucess = false;
             bSucess = InvoiceData.Update(Invoice);
-            foreach (var item in Invoice.Items)
+            if (Invoice.Items != null)
             {
-                item.InvoiceID = Invoice.InvoiceID;
-                if (item.InvoiceItemID == 0)
+                foreach (var item in Invoice.Items)
                 {
-                    InvoiceItemData.Add(item);
+                    item.InvoiceID = Invoice.InvoiceID;
+                    if (item.InvoiceItemID == 0)
+                    {
+                        InvoiceItemData.Add(item);
+                    }
                 }
-                
             }
             if (bSucess == true)
             {
-                return RedirectToAction("Index","Invoice");
+                return RedirectToAction("Index", "Invoice");
             }
             else
             {
@@ -979,6 +983,17 @@ namespace CloudTrixApp.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
+        public JsonResult GetCompany_InvoiceInitials(int CompanyID = 0)
+        {
+            Company Company = new Company();
+            Company.CompanyID = System.Convert.ToInt32(CompanyID);
+            var result = InvoiceData.Company_InvoiceInitials(Company);
+            if (result == null)
+                return null;
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
 
         public JsonResult GetProjectByCustomer(int clientID = 0)
         {
@@ -993,10 +1008,32 @@ namespace CloudTrixApp.Controllers
             if (invoiceitemID > 0)
             {
                 _objItem.InvoiceItemID = invoiceitemID;
-                result=InvoiceItemData.Delete(_objItem);
+                result = InvoiceItemData.Delete(_objItem);
             }
             var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+        public JsonResult GetCGT_Status(int CompanyID, int ClientID)
+        {
+            DataTable dtDataTable = new DataTable();
+            dtDataTable = InvoiceData.CGT_Apply(CompanyID, ClientID);
+            // var result = dtDataTable;
+            var result = 0;
+            var Country = "";
+            if (dtDataTable.Rows.Count > 0)
+            {
+                Country = dtDataTable.Rows[0]["Country"].ToString();
+                if (Country == "India")
+                    result = 1;
+                else
+                    result = 0;
+            }
+            if (result == null)
+                return null;
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
             return jsonResult;
         }
     }
