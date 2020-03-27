@@ -1,4 +1,10 @@
-﻿    <!-- Content Wrapper. Contains page content -->
+﻿@model System.Data.DataTable
+@using System.Data
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -15,19 +21,6 @@
     <section class="content">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>150</h3>
-                        <p>New Projects</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
@@ -42,34 +35,354 @@
                     <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>@TempData["TotalPRoject"]</h3>
+                        <p>New Projects</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a data-target="#ProjectModal" data-toggle="modal" href="#ProjectModal" class="small-box-footer" id="Project">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            @* Modal PopUp for adding New Item Details*@
+            <div class="modal fade" tabindex="-1" id="ProjectModal" data-keyboard="false" data-backdrop="static">
+                @*<div class="modal-dialog modal-lg">*@
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Project</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr class="bg-warning">
+                                <th>Project Name </th>
+                                <th>Location </th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                            @foreach (var item in ViewBag.ProjectDetailsList)
+                            {
+                                <tr>
+                                    <td>@item.ProjectName</td>
+                                    <td>@item.Location</td>
+                                    <td>@item.StartDate</td>
+                                    <td>
+                                        @if(item.EndDate !=null)
+                                        {
+                                              @item.EndDate
+                                        }
+                                </td>
+                            </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+            @* END Modal PopUp for adding New Item Details*@
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-blue-active">
+                    <div class="inner">
+                        <h3>@TempData["TotalCompany"]</h3>
+                        <p>Company</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-woman"></i>
+                    </div>
+                    <a data-target="#CompanyModal" data-toggle="modal" href="#CompanyModal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            @* Modal PopUp for adding New Item Details*@
+            <div class="modal fade" tabindex="-1" id="CompanyModal" data-keyboard="false" data-backdrop="static">
+                @*<div class="modal-dialog modal-lg">*@
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Company</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr class="bg-warning">
+                                <th>Company Name</th>
+                                <th>City </th>
+                                <th>Contact No</th>
+                                <th>E Mail</th>
+                                <th>GST IN</th>
+                            </tr>
+                            @foreach (var item in ViewBag.CompanyDetailsList)
+                            {
+                                <tr>
+                                    <td>@item.CompanyName</td>
+                                    <td>@item.City</td>
+                                    <td>@item.ContactNo</td>
+                                    <td>@item.EMail</td>
+                                    <td>@item.GSTIN</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+            @* END Modal PopUp for adding New Item Details*@
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>44</h3>
-                        <p>Customers</p>
+                        <h3>@TempData["TotalClient"]</h3>
+                        <p>Client</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a data-target="#ClientModal" data-toggle="modal" href="#ClientModal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+            @* Modal PopUp for adding New Item Details*@
+            <div class="modal fade" tabindex="-1" id="ClientModal" data-keyboard="false" data-backdrop="static">
+                @*<div class="modal-dialog modal-lg">*@
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Client</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr class="bg-warning">
+                                <th>Client Name</th>
+                                <th>City </th>
+                                <th>Contact No</th>
+                                <th>E Mail</th>
+                                <th>GST IN</th>
+                            </tr>
+                            @foreach (var item in ViewBag.ClientDetailsList)
+                            {
+                                <tr>
+                                    <td>@item.ClientName</td>
+                                    <td>@item.City</td>
+                                    <td>@item.ContactNo</td>
+                                    <td>@item.EMail</td>
+                                    <td>@item.GSTIN</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+            @* END Modal PopUp for adding New Item Details*@
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>65</h3>
+                        <h3>@TempData["TotalEmployee"]</h3>
                         <p>Employees</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a data-target="#EmployeeModal" data-toggle="modal" href="#EmployeeModal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+            @* Modal PopUp for adding New Item Details*@
+            <div class="modal fade" tabindex="-1" id="EmployeeModal" data-keyboard="false" data-backdrop="static">
+                @*<div class="modal-dialog modal-lg">*@
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Employee</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr class="bg-warning">
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>D O B</th>
+                                <th>D O J</th>
+                                <th>Gender</th>
+                                <th>E Mail</th>
+                                <th>Mobile</th>
+                                <th>Salary</th>
+                            </tr>
+                            @foreach (var item in ViewBag.EmployeeDetailsList)
+                            {
+                                <tr>
+                                    <td>@item.FirstName</td>
+                                    <td>@item.LastName</td>
+                                    <td>@item.DOB</td>
+                                    <td>@item.DOJ</td>
+                                    <td>@item.Gender</td>
+                                    <td>@item.EMail</td>
+                                    <td>@item.Mobile</td>
+                                    <td>@item.Salary</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+            @* END Modal PopUp for adding New Item Details*@
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-olive-active">
+                    <div class="inner">
+                        <h3>@TempData["TotalInvoice"]</h3>
+                        <p>Invoice</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-information"></i>
+                    </div>
+                    <a data-target="#InvoiceModal" data-toggle="modal" href="#InvoiceModal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            @* Modal PopUp for adding New Item Details*@
+            <div class="modal fade" tabindex="-1" id="InvoiceModal" data-keyboard="false" data-backdrop="static">
+                @*<div class="modal-dialog modal-lg">*@
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Invoice</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr class="bg-warning">
+                                <th>Invoice No.</th>
+                                <th>Invoice Date </th>
+                                <th>Client Name</th>
+                                <th>GrandTotal</th>
+                            </tr>
+                            @foreach (var item in ViewBag.InvoiceDetailsList)
+                            {
+                                <tr>
+                                    <td>@item.InvoiceNo</td>
+                                    <td>@item.InvoiceDate</td>
+                                    <td>@item.ClientName</td>
+                                    <td>@item.GrandTotal</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+            @* END Modal PopUp for adding New Item Details*@
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-purple-active">
+                    <div class="inner">
+                        <h3>@TempData["TotalTaskManagement"]</h3>
+                        <p>Task Management</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-android-drafts"></i>
+                    </div>
+                    <a data-target="#TaskManagementModal" data-toggle="modal" href="#TaskManagementModal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            @* Modal PopUp for adding New Item Details*@
+            <div class="modal fade" tabindex="-1" id="TaskManagementModal" data-keyboard="false" data-backdrop="static">
+                @*<div class="modal-dialog modal-lg">*@
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Task Management</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr class="bg-warning">
+                                <th>Assignment Date</th>
+                                <th>Task Name</th>
+                                <th>First Name</th>
+                                <th>Task State Name</th>
+                            </tr>
+                            @foreach (var item in ViewBag.TaskManagementDetailsList)
+                            {
+                                <tr>
+                                    @*<td>@item.AssignmentDate</td>
+                                    <td>@item.TaskName</td>
+                                    <td>@item.FirstName</td>
+                                    <td>@item.TaskStateName</td>*@
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+            @* END Modal PopUp for adding New Item Details*@
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-teal-active">
+                    <div class="inner">
+                        <h3>@TempData["TotalTimeSheet"]</h3>
+                        <p>Time Sheet</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-clock"></i>
+                    </div>
+                    <a data-target="#TimeSheetModal" data-toggle="modal" href="#TimeSheetModal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            @* Modal PopUp for adding New Item Details*@
+            <div class="modal fade" tabindex="-1" id="TimeSheetModal" data-keyboard="false" data-backdrop="static">
+                @*<div class="modal-dialog modal-lg">*@
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Time Sheet</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr class="bg-warning">
+                                <th>Employee</th>
+                                <th>Project </th>
+                                <th>Entry Date</th>
+                                <th>StartTime</th>
+                                <th>EndTime</th>
+                                <th>Remarks</th>
+                            </tr>
+                            @foreach (var item in ViewBag.TimeSheetDetailsList)
+                            {
+                                <tr>
+                                    <td>@item.Employee</td>
+                                    <td>@item.Project</td>
+                                    <td>@item.EntryDate</td>
+                                    <td>@item.StartTime</td>
+                                    <td>@item.EndTime</td>
+                                    <td>@item.Remarks</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+            @* END Modal PopUp for adding New Item Details*@
             <!-- ./col -->
         </div>
         <!-- /.row -->
@@ -388,19 +701,19 @@
                         <div class="row">
                             <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
                                 <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
+                                       data-fgcolor="#39CCCC">
                                 <div class="knob-label">Mail-Orders</div>
                             </div>
                             <!-- ./col -->
                             <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
                                 <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
+                                       data-fgcolor="#39CCCC">
                                 <div class="knob-label">Online</div>
                             </div>
                             <!-- ./col -->
                             <div class="col-xs-4 text-center">
                                 <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
+                                       data-fgcolor="#39CCCC">
                                 <div class="knob-label">In-Store</div>
                             </div>
                             <!-- ./col -->
@@ -494,3 +807,16 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+@section Scripts {
+    @Scripts.Render("~/bundles/App3")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/ApplicationJquery")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Project").click(function () {
+                $("#ProjectModal").modal('Show');
+            });
+        });
+    </script>
+}
