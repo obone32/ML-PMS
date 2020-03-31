@@ -68,7 +68,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="InvoiceNo"> Invoice No : </label>
-                                            @Html.TextBox("InvoiceNo", null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off" })
+                                            @Html.TextBox("InvoiceNo", null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off", @readonly = "readonly" })
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -148,6 +148,7 @@
                                         <div class="modal-body">
                                             <input type="text" id="CompanyID_GST" hidden />
                                             <input type="text" id="ClientID_GST" hidden />
+                                            <input type="text" id="edit_row_index" hidden />
                                             <form class="row" role="form">
                                                 <table class="table table-hover table-responsive ">
                                                     <thead class="bg-light-blue">
@@ -230,6 +231,9 @@
                                                                 <button type="submit" id="addToList" class="btn btn-success">Add To List</button>
                                                             </td>
                                                             <td style="width:10%">
+                                                                <button type="submit" id="editToList" class="btn btn-success">Edit To List</button>
+                                                            </td>
+                                                            <td style="width:10%">
                                                                 <button type="button" id="btnHideModal" class="btn btn-primary ">Close</button>
                                                             </td>
                                                         </tr>
@@ -254,17 +258,17 @@
                                                 <table class="table table-hover table-responsive" id="detailsTable">
                                                     <thead>
                                                         <tr>
-                                                            <th>InvoiceItemID</th>
+                                                            <th style="display:none;">InvoiceItemID</th>
                                                             <th style="width:40px">Description</th>
                                                             <th>Qty</th>
                                                             <th>Rate</th>
                                                             <th>Tax(%)</th>
                                                             <th>Amount</th>
-                                                            <th>IGST</th>
+                                                            <th>IGST(%)</th>
                                                             <th>IGST Amt</th>
-                                                            <th>CGST</th>
+                                                            <th>CGST(%)</th>
                                                             <th>CGST Amt</th>
-                                                            <th>SGST</th>
+                                                            <th>SGST(%)</th>
                                                             <th>SGST Amt</th>
                                                             <th>Total Amt</th>
                                                             <th style="width:20px"></th>
@@ -273,7 +277,7 @@
                                                     <tbody></tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <td></td>
+                                                            <td style="display:none;"></td>
                                                             <td style="word-break:break-all;"></td>
                                                             <td></td>
                                                             <td></td>
@@ -286,7 +290,7 @@
                                                             <td></td>
                                                             <td> <strong> Total:</strong> </td>
                                                             <td> <strong id="SubTotal">  </strong> </td>
-                                                            <td></td>
+                                                            <td style="width:20px"></td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -320,7 +324,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="Discount"> Discount : </label>
-                                            @Html.TextBox("Discount", null, new { @class = "form-control", @Value = "0", @type = "number", @placeholder = "Discount Amount ", onchange = "DiscountAmount()" })
+                                            @Html.TextBox("AdditionalDiscount", null, new { @class = "form-control", @Value = "0", @type = "number", @placeholder = "Discount Amount ", onchange = "DiscountAmount()" })
                                         </div>
                                     </div>
                                 </div>
@@ -395,7 +399,8 @@
                     $("#SGST").val(''),
                     $("#txtTotAmt").val('')
                     $("#txtAmount").val('');
-
+                    $("#addToList").show();
+                    $("#editToList").hide();
                     $('#CompanyID_GST').val(CompanyID);
                     $('#ClientID_GST').val(ClientID);
 
@@ -443,7 +448,7 @@
                     },
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
-                        $("#InvoiceNo").val(data.InvoiceInitials);
+                        $("#InvoiceNo").val(data);
                     }
                 })
             })
@@ -656,19 +661,59 @@
                 $('#IGST').val(q);
                 $('#txtTotAmt').val(d);
             }
+            function editRow(r) {
+                var table = document.getElementById('detailsTable');
+                var i = r.parentNode.parentNode.rowIndex;
+
+                //var InvoiceItemID = $("#detailsTable tbody tr td:eq(0)").html();
+                var InvoiceItemID = table.rows[i].cells[0].innerHTML
+                var Description = table.rows[i].cells[1].innerHTML;
+                var Quantity = table.rows[i].cells[2].innerHTML;
+                var Rate = table.rows[i].cells[3].innerHTML;
+                var Tax = table.rows[i].cells[4].innerHTML;
+                var Amount = table.rows[i].cells[5].innerHTML;
+                var IGSTRate = table.rows[i].cells[6].innerHTML;
+                var IGST_Amt = table.rows[i].cells[7].innerHTML;
+                var CGSTRate = table.rows[i].cells[8].innerHTML;
+                var CGST_Amt = table.rows[i].cells[9].innerHTML;
+                var SGSTRate = table.rows[i].cells[10].innerHTML;
+                var SGST_Amt = table.rows[i].cells[11].innerHTML;
+                var Total_Amt = table.rows[i].cells[12].innerHTML;
+
+                $('#edit_row_index').val(i);
+                $('#txtDescription').val(Description);
+                $('#txtQuantity').val(Quantity);
+                $('#txtPrice').val(Rate);
+                $('#txtTAX').val(Tax);
+                $('#txtAmount').val(Amount),
+                $("#Quantity").val(Quantity);
+                $("#IGST_Per").val(IGSTRate),
+                $("#IGST").val(IGST_Amt),
+                $("#CGST_Per").val(CGSTRate),
+                $("#CGST").val(CGST_Amt),
+                $("#SGST_Per").val(SGSTRate),
+                $("#SGST").val(SGST_Amt),
+                $("#txtTotAmt").val(Total_Amt),
+
+                $("#loginModal").modal('show');
+                $('#addToList').hide();
+                $("#editToList").show();
+            }
+
             function deleteRow(r) {
                 var i = r.parentNode.parentNode.rowIndex;
                 document.getElementById("detailsTable").deleteRow(i);
                 calculateSum();
             }
+
             function DiscountAmount() {
-                blankme("#Discount");
+                blankme("#AdditionalDiscount");
                 blankme("#GrandTotal");
-                var b = parseFloat($("#Discount").val());
+                var b = parseFloat($("#AdditionalDiscount").val());
                 if (isNaN(b)) return;
                 var a = parseFloat($('#SubTotal').text()).toFixed(2); $('#GrandTotal').text(a - b)
             }
-            $('#Discount').change(function () {
+            $('#AdditionalDiscount').change(function () {
                 calculateSum();
             });
             function calculateSum() {
@@ -678,23 +723,22 @@
                     if (!isNaN(value) && value.length !== 0) { sum += parseFloat(value) }
                 });
                 if (sum == 0.0) {
-                    $('#Discount').text("0");
+                    $('#AdditionalDiscount').text("0");
                     $('#GrandTotal').text("0")
                 }
                 $('#SubTotal').text(sum.toFixed(2));
                 $('#GrandTotal').text(sum.toFixed(2));
-                var b = parseFloat($('#Discount').val()).toFixed(2);
+                var b = parseFloat($('#AdditionalDiscount').val()).toFixed(2);
                 if (isNaN(b)) return;
                 var a = parseFloat($('#SubTotal').text()).toFixed(2); $('#GrandTotal').text(a - b)
             };
 
             // Add to List
-
             $("#addToList").click(function (e) {
                 e.preventDefault();
                 debugger;
                 //if (add_validation()) {
-                var productId = $("#txtDescription").val(),
+                var productId = "0",
                     description = $("#txtDescription").val(),
                     quantity = $("#txtQuantity").val(),
                     price = $("#txtPrice").val(),
@@ -708,7 +752,7 @@
                     SGSTAmt = $("#SGST").val(),
                     TotAmt = $("#txtTotAmt").val(),
                     detailsTableBody = $("#detailsTable tbody");
-                var productItem = '<tr> <td>' + productId +
+                var productItem = '<tr> <td style="display:none;">' + productId +
                     '</td><td>' + description +
                     '</td><td>' + quantity +
                     '</td><td>' + price +
@@ -721,8 +765,69 @@
                     '</td><td>' + SGSTRate +
                     '</td><td>' + SGSTAmt +
                     '</td><td class="amount">' + TotAmt +
-                    '</td><td>   <input type="button" value="Delete" onclick="deleteRow(this)"></td></tr>';
+                    '</td><td> <input type="button" name="Editbutton" value="Edit" class="btn btn-success" onclick="editRow(this)"> <input type="button" name="Deletebutton" value="Delete" class="btn btn-success" onclick="deleteRow(this)">'
+                    '</td></tr>';
                 detailsTableBody.append(productItem);
+                $("#Editbutton").show();
+                $("#Deletebutton").show();
+                $('#txtDescription').val('');
+                $('#txtQuantity').val('');
+                $('#txtPrice').val('');
+                $('#txtTAX').val('0 %');
+                calculateSum();
+                $("#Quantity").val('');
+                $("#IGST_Per").val('');
+                $("#IGST").val('');
+                $("#CGST_Per").val('');
+                $("#CGST").val('');
+                $("#SGST_Per").val('');
+                $("#SGST").val('');
+                $("#TotAmt").val('');
+                $("#txtTotAmt").val('');
+                $("#txtAmount").val('');
+
+                //blankme("SubTotal");
+                //blankme("GrandTotal")
+                //}
+            });
+
+
+            // Edit to List
+            $("#editToList").click(function (e) {
+                e.preventDefault();
+                debugger;
+                //if (add_validation()) {
+                var productId = "0",
+                    description = $("#txtDescription").val(),
+                    quantity = $("#txtQuantity").val(),
+                    price = $("#txtPrice").val(),
+                    TAX = $("#txtTAX").val(),
+                    Amount = $("#txtAmount").val(),
+                    IGSTRate = $("#IGST_Per").val(),
+                    IGSTAmt = $("#IGST").val(),
+                    CGSTRate = $("#CGST_Per").val(),
+                    CGSTAmt = $("#CGST").val(),
+                    SGSTRate = $("#SGST_Per").val(),
+                    SGSTAmt = $("#SGST").val(),
+                    TotAmt = $("#txtTotAmt").val(),
+                    detailsTableBody = $("#detailsTable tbody");
+
+                var table = document.getElementById('detailsTable');
+                var i = $("#edit_row_index").val();
+                table.rows[i].cells[0].innerHTML = productId;
+                table.rows[i].cells[1].innerHTML = description;
+                table.rows[i].cells[2].innerHTML = quantity;
+                table.rows[i].cells[3].innerHTML = price;
+                table.rows[i].cells[4].innerHTML = TAX;
+                table.rows[i].cells[5].innerHTML = Amount;
+                table.rows[i].cells[6].innerHTML = IGSTRate;
+                table.rows[i].cells[7].innerHTML = IGSTAmt;
+                table.rows[i].cells[8].innerHTML = CGSTRate;
+                table.rows[i].cells[9].innerHTML = CGSTAmt;
+                table.rows[i].cells[10].innerHTML = SGSTRate;
+                table.rows[i].cells[11].innerHTML = SGSTAmt;
+                table.rows[i].cells[12].innerHTML = TotAmt;
+
                 $('#txtDescription').val('');
                 $('#txtQuantity').val('');
                 $('#txtPrice').val('');
@@ -738,6 +843,10 @@
                 $("#TotAmt").val(''),
                 $("#txtTotAmt").val('')
                 $("#txtAmount").val('');
+
+                $('#addToList').show();
+                $("#editToList").hide();
+
                 //blankme("SubTotal");
                 //blankme("GrandTotal")
                 //}
@@ -785,13 +894,14 @@
                     ClientEMail: $("#ClientEMail").val(),
                     Payment_Method: $("#Payment").val(),
                     InvoiceStatus: $("#InvoiceStatus").val(),
-                    AdditionalDiscount: parseFloat($('#Discount').val()).toFixed(2),
+                    AdditionalDiscount: parseFloat($('#AdditionalDiscount').val()).toFixed(2),
                     Notes: $("#Notes").val(),
                     GrandTotal: parseFloat($('#GrandTotal').text()).toFixed(2),
                     ArchiveUserID: $("#AddUserID").val(),
                     ArchiveDate: $("#AddDate").val(),
                     Items: orderArr
                 });
+
                 console.log(data);
                 if (this.id == "BtnEdit") {
                     UpdateOrder(data);

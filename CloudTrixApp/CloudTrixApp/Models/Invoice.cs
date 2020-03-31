@@ -54,7 +54,7 @@ namespace CloudTrixApp.Models
         public String ClientEMail { get; set; }
 
         [Display(Name = "Additional Discount")]
-        public Decimal? Discount { get; set; }
+        public Decimal? AdditionalDiscount { get; set; }
 
         [StringLength(8000)]
         [Display(Name = "Notes")]
@@ -91,6 +91,8 @@ namespace CloudTrixApp.Models
         public virtual Company Company { get; set; }
         public List<InvoiceItem> Items { get; set; }
 
+        [StringLength(8000)]
+        [Display(Name = "Invoice_Type")]
         public String Invoice_Type { get; set; }
         public String Payment_Method { get; set; }
         public String InvoiceStatus { get; set; }

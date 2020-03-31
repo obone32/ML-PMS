@@ -234,7 +234,7 @@ namespace CloudTrixApp.Data
                     Invoice.ClientGSTIN = reader["ClientGSTIN"] is DBNull ? null : reader["ClientGSTIN"].ToString();
                     Invoice.ClientContactNo = reader["ClientContactNo"] is DBNull ? null : reader["ClientContactNo"].ToString();
                     Invoice.ClientEMail = reader["ClientEMail"] is DBNull ? null : reader["ClientEMail"].ToString();
-                    Invoice.Discount = reader["Discount"] is DBNull ? null : (Decimal?)reader["Discount"];
+                    Invoice.AdditionalDiscount = reader["Discount"] is DBNull ? null : (Decimal?)reader["Discount"];
                     Invoice.Notes = reader["Notes"] is DBNull ? null : reader["Notes"].ToString();
                     Invoice.CompanyID = reader["CompanyID"] is DBNull ? null : (Int32?)reader["CompanyID"];
                     Invoice.AddUserID = System.Convert.ToInt32(reader["AddUserID"]);
@@ -320,13 +320,13 @@ namespace CloudTrixApp.Data
             {
                 insertCommand.Parameters.AddWithValue("@ClientEMail", DBNull.Value);
             }
-            if (Invoice.Discount != null)
+            if (Invoice.AdditionalDiscount != null)
             {
-                insertCommand.Parameters.AddWithValue("@Discount", Invoice.Discount);
+                insertCommand.Parameters.AddWithValue("@AdditionalDiscount", Invoice.AdditionalDiscount);
             }
             else
             {
-                insertCommand.Parameters.AddWithValue("@Discount", DBNull.Value);
+                insertCommand.Parameters.AddWithValue("@AdditionalDiscount", DBNull.Value);
             }
             if (Invoice.Notes != null)
             {
@@ -489,13 +489,13 @@ namespace CloudTrixApp.Data
             {
                 updateCommand.Parameters.AddWithValue("@ClientEMail", DBNull.Value);
             }
-            if (Invoice.Discount.HasValue == true)
+            if (Invoice.AdditionalDiscount.HasValue == true)
             {
-                updateCommand.Parameters.AddWithValue("@Discount", Invoice.Discount);
+                updateCommand.Parameters.AddWithValue("@AdditionalDiscount", Invoice.AdditionalDiscount);
             }
             else
             {
-                updateCommand.Parameters.AddWithValue("@Discount", DBNull.Value);
+                updateCommand.Parameters.AddWithValue("@AdditionalDiscount", DBNull.Value);
             }
             if (Invoice.Notes != null)
             {
@@ -505,7 +505,7 @@ namespace CloudTrixApp.Data
             {
                 updateCommand.Parameters.AddWithValue("@Notes", DBNull.Value);
             }
-          
+
             if (Invoice.CompanyID.HasValue == true)
             {
                 updateCommand.Parameters.AddWithValue("@CompanyID", Invoice.CompanyID);
@@ -628,9 +628,9 @@ namespace CloudTrixApp.Data
             {
                 deleteCommand.Parameters.AddWithValue("@OldClientEMail", DBNull.Value);
             }
-            if (Invoice.Discount.HasValue == true)
+            if (Invoice.AdditionalDiscount.HasValue == true)
             {
-                deleteCommand.Parameters.AddWithValue("@OldAdditionalDiscount", Invoice.Discount);
+                deleteCommand.Parameters.AddWithValue("@OldAdditionalDiscount", Invoice.AdditionalDiscount);
             }
             else
             {
@@ -789,6 +789,64 @@ namespace CloudTrixApp.Data
             selectCommand.CommandType = CommandType.StoredProcedure;
             selectCommand.Parameters.AddWithValue("@CompanyID", CompanyID);
             selectCommand.Parameters.AddWithValue("@ClientID", ClientID);
+            DataTable dt = new DataTable();
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    dt.Load(reader);
+                }
+                reader.Close();
+            }
+            catch (SqlException)
+            {
+                return dt;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return dt;
+        }
+
+        public static DataTable Select_LastInvoiceNo(int CompanyID)
+        {
+            SqlConnection connection = PMMSData.GetConnection();
+            string selectProcedure = "[Select_LastInvoiceNo]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            selectCommand.CommandType = CommandType.StoredProcedure;
+            selectCommand.Parameters.AddWithValue("@CompanyID", CompanyID);
+            DataTable dt = new DataTable();
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    dt.Load(reader);
+                }
+                reader.Close();
+            }
+            catch (SqlException)
+            {
+                return dt;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return dt;
+        }
+
+        public static DataTable Invoice_Company_SelectAll(int CompanyID)
+        {
+            SqlConnection connection = PMMSData.GetConnection();
+            string selectProcedure = "[Invoice_Company_SelectAll]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            selectCommand.CommandType = CommandType.StoredProcedure;
+            selectCommand.Parameters.AddWithValue("@CompanyID", CompanyID);
             DataTable dt = new DataTable();
             try
             {

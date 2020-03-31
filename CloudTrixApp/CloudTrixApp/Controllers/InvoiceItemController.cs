@@ -326,7 +326,7 @@ namespace CloudTrixApp.Controllers
             if (ModelState.IsValid)
             {
                 bool bSucess = false;
-                bSucess = InvoiceItemData.Update(oInvoiceItem, InvoiceItem);
+                bSucess = InvoiceItemData.Update(InvoiceItem);
                 if (bSucess == true)
                 {
                     return RedirectToAction("Index");

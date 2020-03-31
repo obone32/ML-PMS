@@ -314,7 +314,7 @@ namespace CloudTrixApp.Controllers
                 invoice.InvoiceNo = Data.Rows[i]["InvoiceNo"].ToString();
                 invoice.InvoiceDate = Convert.ToDateTime(Data.Rows[i]["InvoiceDate"].ToString());
                 invoice.ClientName = Data.Rows[i]["ClientName"].ToString();
-                invoice.GrandTotal = Convert.ToDecimal(Data.Rows[i]["GrandTotal"]);
+                invoice.GrandTotal = (Data.Rows[i]["GrandTotal"] == null || Convert.ToString(Data.Rows[i]["GrandTotal"]) == "") ? 0 : Convert.ToDecimal(Data.Rows[i]["GrandTotal"]);
                 InvoiceList.Add(invoice);
             }
             return View(InvoiceList.ToList());
@@ -428,7 +428,7 @@ namespace CloudTrixApp.Controllers
                            ,
                             ClientEMail = rowInvoice.Field<String>("ClientEMail")
                            ,
-                            Discount = rowInvoice.Field<Decimal?>("Discount")
+                            AdditionalDiscount = rowInvoice.Field<Decimal?>("AdditionalDiscount")
                            ,
                             Notes = rowInvoice.Field<String>("Notes")
                            ,
@@ -513,10 +513,10 @@ namespace CloudTrixApp.Controllers
                     Query = Query.OrderBy(s => s.ClientEMail);
                     break;
                 case "AdditionalDiscount_desc":
-                    Query = Query.OrderByDescending(s => s.Discount);
+                    Query = Query.OrderByDescending(s => s.AdditionalDiscount);
                     break;
                 case "AdditionalDiscount_asc":
-                    Query = Query.OrderBy(s => s.Discount);
+                    Query = Query.OrderBy(s => s.AdditionalDiscount);
                     break;
                 case "Remarks_desc":
                     Query = Query.OrderByDescending(s => s.Notes);
@@ -600,7 +600,7 @@ namespace CloudTrixApp.Controllers
                        , item.ClientGSTIN
                        , item.ClientContactNo
                        , item.ClientEMail
-                       , item.Discount
+                       , item.AdditionalDiscount
                        , item.Notes
                        , item.PDFUrl
                        , item.Company.CompanyName
@@ -748,9 +748,9 @@ namespace CloudTrixApp.Controllers
         public ActionResult Edit(Invoice Invoice)
         {
 
-            Invoice oInvoice = new Invoice();
-            oInvoice.InvoiceID = System.Convert.ToInt32(Invoice.InvoiceID);
-            oInvoice = InvoiceData.Select_Record(Invoice);
+            //Invoice oInvoice = new Invoice();
+            //oInvoice.InvoiceID = System.Convert.ToInt32(Invoice.InvoiceID);
+            //oInvoice = InvoiceData.Select_Record(Invoice);
 
             //if (ModelState.IsValid)
             //{
@@ -764,6 +764,11 @@ namespace CloudTrixApp.Controllers
                     if (item.InvoiceItemID == 0)
                     {
                         InvoiceItemData.Add(item);
+                    }
+                    else
+                    {
+                        InvoiceItemData.Update(item);
+
                     }
                 }
             }
@@ -988,9 +993,25 @@ namespace CloudTrixApp.Controllers
             Company Company = new Company();
             Company.CompanyID = System.Convert.ToInt32(CompanyID);
             var result = InvoiceData.Company_InvoiceInitials(Company);
-            if (result == null)
+            var finalresult = "";
+            if (result != null)
+                finalresult = result.InvoiceInitials;
+            dtInvoice = InvoiceData.Invoice_Company_SelectAll(CompanyID);
+            if (dtInvoice.Rows.Count > 0)
+            {
+                DataRow lastRow = dtInvoice.Rows[dtInvoice.Rows.Count - 1];
+                var lastInvoiceNo = lastRow["InvoiceNo"].ToString().Split('/').Last();
+                int no = Convert.ToInt32(lastInvoiceNo);
+                int newInvoiceNo = no + 1;
+                finalresult = finalresult + "/" + newInvoiceNo;
+            }
+            else
+            {
+                finalresult = finalresult + "/ 100001";
+            }
+            if (finalresult == null)
                 return null;
-            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(finalresult, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }

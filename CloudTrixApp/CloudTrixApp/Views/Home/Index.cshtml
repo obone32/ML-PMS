@@ -66,19 +66,22 @@
                                 <th>Start Date</th>
                                 <th>End Date</th>
                             </tr>
-                            @foreach (var item in ViewBag.ProjectDetailsList)
+                            @if (ViewBag.ProjectDetailsList != null)
                             {
-                                <tr>
-                                    <td>@item.ProjectName</td>
-                                    <td>@item.Location</td>
-                                    <td>@item.StartDate</td>
-                                    <td>
-                                        @if(item.EndDate !=null)
-                                        {
-                                              @item.EndDate
-                                        }
-                                </td>
-                            </tr>
+                                foreach (var item in ViewBag.ProjectDetailsList)
+                                {
+                                    <tr>
+                                        <td>@item.ProjectName</td>
+                                        <td>@item.Location</td>
+                                        <td>@item.StartDate</td>
+                                        <td>
+                                            @if (item.EndDate != null)
+                                            {
+                                                @item.EndDate
+                                            }
+                                        </td>
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
@@ -118,15 +121,18 @@
                                 <th>E Mail</th>
                                 <th>GST IN</th>
                             </tr>
-                            @foreach (var item in ViewBag.CompanyDetailsList)
+                            @if (ViewBag.CompanyDetailsList != null)
                             {
-                                <tr>
-                                    <td>@item.CompanyName</td>
-                                    <td>@item.City</td>
-                                    <td>@item.ContactNo</td>
-                                    <td>@item.EMail</td>
-                                    <td>@item.GSTIN</td>
-                                </tr>
+                                foreach (var item in ViewBag.CompanyDetailsList)
+                                {
+                                    <tr>
+                                        <td>@item.CompanyName</td>
+                                        <td>@item.City</td>
+                                        <td>@item.ContactNo</td>
+                                        <td>@item.EMail</td>
+                                        <td>@item.GSTIN</td>
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
@@ -167,15 +173,18 @@
                                 <th>E Mail</th>
                                 <th>GST IN</th>
                             </tr>
-                            @foreach (var item in ViewBag.ClientDetailsList)
+                            @if (ViewBag.ClientDetailsList != null)
                             {
-                                <tr>
-                                    <td>@item.ClientName</td>
-                                    <td>@item.City</td>
-                                    <td>@item.ContactNo</td>
-                                    <td>@item.EMail</td>
-                                    <td>@item.GSTIN</td>
-                                </tr>
+                                foreach (var item in ViewBag.ClientDetailsList)
+                                {
+                                    <tr>
+                                        <td>@item.ClientName</td>
+                                        <td>@item.City</td>
+                                        <td>@item.ContactNo</td>
+                                        <td>@item.EMail</td>
+                                        <td>@item.GSTIN</td>
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
@@ -219,18 +228,21 @@
                                 <th>Mobile</th>
                                 <th>Salary</th>
                             </tr>
-                            @foreach (var item in ViewBag.EmployeeDetailsList)
+                            @if (ViewBag.EmployeeDetailsList != null)
                             {
-                                <tr>
-                                    <td>@item.FirstName</td>
-                                    <td>@item.LastName</td>
-                                    <td>@item.DOB</td>
-                                    <td>@item.DOJ</td>
-                                    <td>@item.Gender</td>
-                                    <td>@item.EMail</td>
-                                    <td>@item.Mobile</td>
-                                    <td>@item.Salary</td>
-                                </tr>
+                                foreach (var item in ViewBag.EmployeeDetailsList)
+                                {
+                                    <tr>
+                                        <td>@item.FirstName</td>
+                                        <td>@item.LastName</td>
+                                        <td>@item.DOB</td>
+                                        <td>@item.DOJ</td>
+                                        <td>@item.Gender</td>
+                                        <td>@item.EMail</td>
+                                        <td>@item.Mobile</td>
+                                        <td>@item.Salary</td>
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
@@ -270,14 +282,17 @@
                                 <th>Client Name</th>
                                 <th>GrandTotal</th>
                             </tr>
-                            @foreach (var item in ViewBag.InvoiceDetailsList)
+                            @if (ViewBag.InvoiceDetailsList != null)
                             {
-                                <tr>
-                                    <td>@item.InvoiceNo</td>
-                                    <td>@item.InvoiceDate</td>
-                                    <td>@item.ClientName</td>
-                                    <td>@item.GrandTotal</td>
-                                </tr>
+                                foreach (var item in ViewBag.InvoiceDetailsList)
+                                {
+                                    <tr>
+                                        <td>@item.InvoiceNo</td>
+                                        <td>@item.InvoiceDate</td>
+                                        <td>@item.ClientName</td>
+                                        <td>@item.GrandTotal</td>
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
@@ -317,14 +332,17 @@
                                 <th>First Name</th>
                                 <th>Task State Name</th>
                             </tr>
-                            @foreach (var item in ViewBag.TaskManagementDetailsList)
+                            @if (ViewBag.TaskManagementDetailsList != null)
                             {
-                                <tr>
-                                    @*<td>@item.AssignmentDate</td>
-                                    <td>@item.TaskName</td>
-                                    <td>@item.FirstName</td>
-                                    <td>@item.TaskStateName</td>*@
-                                </tr>
+                                foreach (var item in ViewBag.TaskManagementDetailsList)
+                                {
+                                    <tr>
+                                        @*<td>@item.AssignmentDate</td>
+                                            <td>@item.TaskName</td>
+                                            <td>@item.FirstName</td>
+                                            <td>@item.TaskStateName</td>*@
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
@@ -366,16 +384,19 @@
                                 <th>EndTime</th>
                                 <th>Remarks</th>
                             </tr>
-                            @foreach (var item in ViewBag.TimeSheetDetailsList)
+                            @if (ViewBag.TimeSheetDetailsList != null)
                             {
-                                <tr>
-                                    <td>@item.Employee</td>
-                                    <td>@item.Project</td>
-                                    <td>@item.EntryDate</td>
-                                    <td>@item.StartTime</td>
-                                    <td>@item.EndTime</td>
-                                    <td>@item.Remarks</td>
-                                </tr>
+                                foreach (var item in ViewBag.TimeSheetDetailsList)
+                                {
+                                    <tr>
+                                        <td>@item.Employee</td>
+                                        <td>@item.Project</td>
+                                        <td>@item.EntryDate</td>
+                                        <td>@item.StartTime</td>
+                                        <td>@item.EndTime</td>
+                                        <td>@item.Remarks</td>
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
