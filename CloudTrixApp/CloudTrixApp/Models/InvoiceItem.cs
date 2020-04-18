@@ -10,13 +10,11 @@ namespace CloudTrixApp.Models
     {
         [Key]
         [Column(Order = 0)]
-        [Required]
         [Display(Name = "Invoice I D")]
         public Int32 InvoiceID { get; set; }
 
         [Key]
         [Column(Order = 1)]
-        [Required]
         [Display(Name = "Invoice Item I D")]
         public Int32 InvoiceItemID { get; set; }
 

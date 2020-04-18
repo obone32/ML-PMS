@@ -45,6 +45,13 @@
       <HintPath>..\packages\AdminLteMvc.1.0.0\lib\AdminLte.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\iTextSharp.5.5.13.1\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>..\packages\itextsharp.pdfa.5.5.13.1\lib\itextsharp.pdfa.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MigraDoc.DocumentObjectModel">
       <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.DocumentObjectModel.dll</HintPath>
@@ -68,6 +75,29 @@
     </Reference>
     <Reference Include="PdfSharp.Charting">
       <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorPDF">
+      <HintPath>..\packages\RazorPDF.1.0.0\lib\net45\RazorPDF.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa.Core">
+      <HintPath>..\packages\Rotativa.Core.2.0.2.1\lib\net45\Rotativa.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa.MVC">
+      <HintPath>..\packages\Rotativa.MVC.2.0.3\lib\net45\Rotativa.MVC.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Compression.Base, Version=18.1450.0.42, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Syncfusion.HtmlToPdfConverter.QtWebKit.AspNet.Mvc5.18.1.0.42\lib\net45\Syncfusion.Compression.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.HtmlConverter.Base">
+      <HintPath>..\packages\Syncfusion.HtmlToPdfConverter.QtWebKit.AspNet.Mvc5.18.1.0.42\lib\net45\Syncfusion.HtmlConverter.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing">
+      <HintPath>..\packages\Syncfusion.Licensing.18.1.0.44\lib\net45\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.Base, Version=18.1450.0.42, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Syncfusion.HtmlToPdfConverter.QtWebKit.AspNet.Mvc5.18.1.0.42\lib\net45\Syncfusion.Pdf.Base.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -369,6 +399,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Properties\PublishProfiles\CloudTRIX.pubxml" />
     <Content Include="Scripts\AdminLTE\app.js" />
     <Content Include="Scripts\AdminLTE\app.min.js" />
@@ -4674,6 +4705,7 @@
     <Content Include="Scripts\AdminLTE\components\jquery\dist\jquery.min.map" />
     <Content Include="Scripts\AdminLTE\components\jquery\dist\jquery.slim.min.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -4843,6 +4875,9 @@
     <Content Include="Views\RoleManagement\Edit.cshtml" />
     <Content Include="Views\RoleManagement\Index.cshtml" />
     <Content Include="Views\Home\Logout.cshtml" />
+    <Content Include="Views\Invoice\PrintInvoice.cshtml" />
+    <Content Include="Views\Invoice\test.cshtml" />
+    <Content Include="Views\Invoice\PDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

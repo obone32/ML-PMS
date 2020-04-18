@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Syncfusion.HtmlToPdfConverter.QtWebKit.AspNet.Mvc5</id>
+    <version>18.1.0.42</version>
+    <title>Syncfusion Html to Pdf convertion for ASP.NET MVC using QtWebKit rendering engine</title>
+    <authors>Syncfusion Inc.</authors>
+    <owners>Syncfusion Inc.</owners>
+    <licenseUrl>https://www.syncfusion.com/nuget/license?utm_source=nuget&amp;utm_medium=listing</licenseUrl>
+    <projectUrl>https://www.syncfusion.com/?utm_source=nuget&amp;utm_medium=listing</projectUrl>
+    <iconUrl>https://api.nuget.org/v3-flatcontainer/syncfusion.htmltopdfconverter.qtwebkit.aspnet.mvc5/18.1.0.42/icon</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The Syncfusion Essential HTML to PDF converter is a .NET library that converts URLs, HTML string, SVG, MHTML to PDF in ASP.NET MVC application. This converter uses advanced WebKit rendering engine, thus generating pixel perfect PDF from HTML or URL.
+
+	Key features:
+	• Converts any webpage to PDF.
+	• Converts any raw HTML string to PDF.
+	• Prevents text and image split across pages.
+	• Converts HTML form to fillable PDF form.
+	• Works both in 32-bit and 64-bit environments.
+	• Automatically creates Table of Contents.
+	• Automatically creates bookmark hierarchy.
+	• Converts only a part of the web page to PDF.
+	• Supports header and footer.
+	• Repeats HTML table header and footer in PDF.
+	• Supports HTML5, CSS3, SVG, and Web fonts.
+	• Converts any HTML to MHTML.
+	• Converts any HTML to SVG.
+	• Converts any HTML to image.
+	• Converts any SVG to image.
+	• Supports accessing HTML page using both HTTP POST and GET methods.
+	• Supports HTTP cookies.
+	• Supports cookies-based form authentication.
+	• Thread safe.
+	• Supports internal and external hyperlinks.
+	• Sets document properties, page settings, security, viewer preferences, etc.
+	• Protects PDF document with password and permission.
+
+	Learn more: https://www.syncfusion.com/pdf-framework/net/html-to-pdf?utm_source=nuget&amp;utm_medium=listing
+
+	Documentation: https://help.syncfusion.com/file-formats/pdf/converting-html-to-pdf?utm_source=nuget&amp;utm_medium=listing
+
+	Support:
+	Incident: https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=nuget&amp;utm_medium=listing
+	Forum: https://www.syncfusion.com/forums/aspnetmvc?utm_source=nuget&amp;utm_medium=listing</description>
+    <summary />
+    <releaseNotes>https://help.syncfusion.com/common/essential-studio/release-notes/v18.1.0.42?utm_source=nuget&amp;utm_medium=listing</releaseNotes>
+    <copyright>Copyright 2001 - 2020 Syncfusion Inc.</copyright>
+    <tags>syncfusion syncfusion.aspnetmvc aspnetmvc mvc .net c# html-to-pdf html pdf html-to-image mhtml svg syncfusion.html-to-pdf</tags>
+  </metadata>
+</package>

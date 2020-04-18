@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace CloudTrixApp
+namespace CloudTrixApp.App_Start
 {
     public class BundleConfig
     {
@@ -13,6 +13,7 @@ namespace CloudTrixApp
             string lte = "~/Scripts/adminlte/";
 
             bundles.Add(new ScriptBundle("~/bundles/jquery")
+                .Include("~/Scripts/jquery.min.js")
                 .Include(ltecomponents + "jquery/dist/jquery-3.4.1.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/lib")
@@ -20,10 +21,10 @@ namespace CloudTrixApp
                 .Include(ltecomponents + "bootstrap/dist/js/bootstrap.min.js")
                 .Include(ltecomponents + "moment/moment.js")
                 .Include(ltecomponents + "ckeditor/ckeditor.js")
-                
+
                 .Include(ltecomponents + "datatables.net/js/jquery.dataTables.min.js")
                 .Include(ltecomponents + "datatables.net-bs/js/dataTables.bootstrap.min.js")
-                
+
                 .Include(ltecomponents + "bootstrap-daterangepicker/daterangepicker.js")
                 .Include(ltecomponents + "bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")
                 .Include(ltecomponents + "bootstrap-timepicker/js/bootstrap-timepicker.js")
@@ -34,19 +35,19 @@ namespace CloudTrixApp
                 .Include(ltecomponents + "fastclick/lib/fastclick.js")
                 .Include(lte + "js/adminlte.min.js")
                 .Include(lteplugins + "bootstrap-slider/bootstrap-slider.js")
-                
-                
-                
+
+
+
                 .Include(lteplugins + "input-mask/jquery.inputmask.js")
                 .Include(lteplugins + "input-mask/jquery.inputmask.date.extensions.js")
                 .Include(lteplugins + "input-mask/jquery.inputmask.extensions.js")
                 .Include(lteplugins + "iCheck/icheck.min.js"));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/dashboard1")
                 .Include(lte + "js/pages/dashboard.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/dashboard2")
-                .Include(lte + "js/pages/dashboard2.js"));            
+                .Include(lte + "js/pages/dashboard2.js"));
 
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include("~/Content/bootstrap.css")
@@ -56,7 +57,7 @@ namespace CloudTrixApp
                 .Include(ltecomponents + "datatables.net-bs/css/dataTables.bootstrap.min.css")
                 .Include("~/Content/adminlte/css/AdminLTE.min.css")
                 .Include("~/Content/adminlte/css/skins/_all-skins.min.css")
-                
+
                 .Include(ltecomponents + "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")
                 .Include(ltecomponents + "bootstrap-daterangepicker/daterangepicker.css")
                 .Include(lteplugins + "timepicker/bootstrap-timepicker.min.css")
@@ -68,10 +69,17 @@ namespace CloudTrixApp
                 .Include(lteplugins + "iCheck/all.css")
                 /*.Include(ltecomponents + "fullcalendar/dist/fullcalendar.min.css")*/);
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+                  // "~/Scripts/jquery.min.js",
+                   "~/Scripts/jquery-1.7.1.min.js",
+                        "~/Scripts/jquery.validate.js",
+                        "~/Scripts/jquery.validate.unobtrusive.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/App3").Include(
                 //"~/Scripts/App/Invoice.js",
-           "~/Scripts/App/NewJS.js"));          
-           
+        "~/Scripts/App/NewJS.js"));
+
         }
+
     }
 }

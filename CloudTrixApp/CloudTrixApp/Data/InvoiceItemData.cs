@@ -8,7 +8,6 @@ namespace CloudTrixApp.Data
 {
     public class InvoiceItemData
     {
-
         public static DataTable SelectAll()
         {
             SqlConnection connection = PMMSData.GetConnection();
@@ -232,27 +231,76 @@ namespace CloudTrixApp.Data
             string insertProcedure = "[InvoiceItemInsert]";
             SqlCommand insertCommand = new SqlCommand(insertProcedure, connection);
             insertCommand.CommandType = CommandType.StoredProcedure;
-            insertCommand.Parameters.AddWithValue("@InvoiceID", InvoiceItem.InvoiceID);
-            insertCommand.Parameters.AddWithValue("@InvoiceItemID", InvoiceItem.InvoiceItemID);
-            if (InvoiceItem.Description != null)
-            {
-                insertCommand.Parameters.AddWithValue("@Description", InvoiceItem.Description);
-            }
+            if (InvoiceItem.InvoiceID != null)
+            { insertCommand.Parameters.AddWithValue("@InvoiceID", InvoiceItem.InvoiceID); }
             else
-            {
-                insertCommand.Parameters.AddWithValue("@Description", DBNull.Value);
-            }
-            insertCommand.Parameters.AddWithValue("@Quantity", InvoiceItem.Quantity);
-            insertCommand.Parameters.AddWithValue("@Rate", InvoiceItem.Rate);
-            insertCommand.Parameters.AddWithValue("@CGSTRate", InvoiceItem.CGSTRate);
-            insertCommand.Parameters.AddWithValue("@SGSTRate", InvoiceItem.SGSTRate);
-            insertCommand.Parameters.AddWithValue("@IGSTRate", InvoiceItem.IGSTRate);
-            insertCommand.Parameters.AddWithValue("@Tax", InvoiceItem.Tax);
-            insertCommand.Parameters.AddWithValue("@Amount ", InvoiceItem.Amount);
-            insertCommand.Parameters.AddWithValue("@IGST_Amt", InvoiceItem.IGST_Amt);
-            insertCommand.Parameters.AddWithValue("@CGST_Amt", InvoiceItem.CGST_Amt);
-            insertCommand.Parameters.AddWithValue("@SGST_Amt", InvoiceItem.SGST_Amt);
-            insertCommand.Parameters.AddWithValue("@Total_Amt", InvoiceItem.Total_Amt);
+            { insertCommand.Parameters.AddWithValue("@InvoiceID", 0); }
+
+            if (InvoiceItem.InvoiceItemID != null)
+            { insertCommand.Parameters.AddWithValue("@InvoiceItemID", InvoiceItem.InvoiceItemID); }
+            else
+            { insertCommand.Parameters.AddWithValue("@InvoiceItemID", 0); }
+
+            if (InvoiceItem.Description != null)
+            { insertCommand.Parameters.AddWithValue("@Description", InvoiceItem.Description); }
+            else
+            { insertCommand.Parameters.AddWithValue("@Description", DBNull.Value); }
+
+            if (InvoiceItem.Quantity != null)
+            { insertCommand.Parameters.AddWithValue("@Quantity", InvoiceItem.Quantity); }
+            else
+            { insertCommand.Parameters.AddWithValue("@Quantity", 0); }
+
+            if (InvoiceItem.Rate != null)
+            { insertCommand.Parameters.AddWithValue("@Rate", InvoiceItem.Rate); }
+            else
+            { insertCommand.Parameters.AddWithValue("@Rate", 0); }
+
+            if (InvoiceItem.CGSTRate != null)
+            { insertCommand.Parameters.AddWithValue("@CGSTRate", InvoiceItem.CGSTRate); }
+            else
+            { insertCommand.Parameters.AddWithValue("@CGSTRate", 0); }
+
+            if (InvoiceItem.SGSTRate != null)
+            { insertCommand.Parameters.AddWithValue("@SGSTRate", InvoiceItem.SGSTRate); }
+            else
+            { insertCommand.Parameters.AddWithValue("@SGSTRate", 0); }
+
+            if (InvoiceItem.IGSTRate != null)
+            { insertCommand.Parameters.AddWithValue("@IGSTRate", InvoiceItem.IGSTRate); }
+            else
+            { insertCommand.Parameters.AddWithValue("@IGSTRate", 0); }
+
+            if (InvoiceItem.Tax != null)
+            { insertCommand.Parameters.AddWithValue("@Tax", InvoiceItem.Tax); }
+            else
+            { insertCommand.Parameters.AddWithValue("@Tax", 0); }
+
+            if (InvoiceItem.Amount != null)
+            { insertCommand.Parameters.AddWithValue("@Amount ", InvoiceItem.Amount); }
+            else
+            { insertCommand.Parameters.AddWithValue("@Amount ", 0); }
+
+            if (InvoiceItem.IGST_Amt != null)
+            { insertCommand.Parameters.AddWithValue("@IGST_Amt", InvoiceItem.IGST_Amt); }
+            else
+            { insertCommand.Parameters.AddWithValue("@IGST_Amt", 0); }
+
+            if (InvoiceItem.CGST_Amt != null)
+            { insertCommand.Parameters.AddWithValue("@CGST_Amt", InvoiceItem.CGST_Amt); }
+            else
+            { insertCommand.Parameters.AddWithValue("@CGST_Amt", 0); }
+
+            if (InvoiceItem.SGST_Amt != null)
+            { insertCommand.Parameters.AddWithValue("@SGST_Amt", InvoiceItem.SGST_Amt); }
+            else
+            { insertCommand.Parameters.AddWithValue("@SGST_Amt", 0); }
+
+            if (InvoiceItem.Total_Amt != null)
+            { insertCommand.Parameters.AddWithValue("@Total_Amt", InvoiceItem.Total_Amt); }
+            else
+            { insertCommand.Parameters.AddWithValue("@Total_Amt", 0); }
+
             insertCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
             insertCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
             try
@@ -362,6 +410,34 @@ namespace CloudTrixApp.Data
             {
                 connection.Close();
             }
+        }
+        public static DataTable Select_InvoiceItems(int InvoiceID)
+        {
+            SqlConnection connection = PMMSData.GetConnection();
+            string selectProcedure = "[Select_InvoiceItems]";
+            SqlCommand selectCommand = new SqlCommand(selectProcedure, connection);
+            selectCommand.CommandType = CommandType.StoredProcedure;
+            selectCommand.Parameters.AddWithValue("@InvoiceID", InvoiceID);
+            DataTable dt = new DataTable();
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    dt.Load(reader);
+                }
+                reader.Close();
+            }
+            catch (SqlException)
+            {
+                return dt;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return dt;
         }
     }
 }

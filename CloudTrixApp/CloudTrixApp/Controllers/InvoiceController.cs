@@ -1,20 +1,33 @@
+using CloudTrixApp.Data;
+using CloudTrixApp.Models;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.Rendering;
+using PagedList;
+using PagedList.Mvc;
+using RazorPDF;
+using Rotativa.MVC;
+using Syncfusion.HtmlConverter;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using System.IO;
+using System.Web.Security;
 using System.Web.UI;
-using PagedList;
-using PagedList.Mvc;
-using MigraDoc.DocumentObjectModel;
-using MigraDoc.Rendering;
-using CloudTrixApp.Models;
-using CloudTrixApp.Data;
+using System.Web.UI.WebControls;
 
 namespace CloudTrixApp.Controllers
 {
@@ -302,22 +315,169 @@ namespace CloudTrixApp.Controllers
         //    int? pageSZ = (Convert.ToInt32(Session["PageSize"]) == 0 ? 5 : Convert.ToInt32(Session["PageSize"]));
         //    return View(Query.ToPagedList(pageNumber, (pageSZ ?? 5)));
         //}
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder,
+                                  String SearchField,
+                                  String SearchCondition,
+                                  String SearchText,
+                                  String Export,
+                                  int? PageSize,
+                                  int? page,
+                                  string command)
         {
-            var Data = InvoiceData.SelectAll();
 
-            List<Invoice> InvoiceList = new List<Invoice>();
-            for (int i = 0; i < Data.Rows.Count; i++)
+            if (command == "Show All")
             {
-                Invoice invoice = new Invoice();
-                invoice.InvoiceID = Convert.ToInt32(Data.Rows[i]["InvoiceID"]);
-                invoice.InvoiceNo = Data.Rows[i]["InvoiceNo"].ToString();
-                invoice.InvoiceDate = Convert.ToDateTime(Data.Rows[i]["InvoiceDate"].ToString());
-                invoice.ClientName = Data.Rows[i]["ClientName"].ToString();
-                invoice.GrandTotal = (Data.Rows[i]["GrandTotal"] == null || Convert.ToString(Data.Rows[i]["GrandTotal"]) == "") ? 0 : Convert.ToDecimal(Data.Rows[i]["GrandTotal"]);
-                InvoiceList.Add(invoice);
+                SearchField = null;
+                SearchCondition = null;
+                SearchText = null;
+                Session["SearchField"] = null;
+                Session["SearchCondition"] = null;
+                Session["SearchText"] = null;
             }
-            return View(InvoiceList.ToList());
+            else if (command == "Add New Record") { return RedirectToAction("Create"); }
+            else if (command == "Export") { Session["Export"] = Export; }
+            else if (command == "Search" | command == "Page Size")
+            {
+                if (!string.IsNullOrEmpty(SearchText))
+                {
+                    Session["SearchField"] = SearchField;
+                    Session["SearchCondition"] = SearchCondition;
+                    Session["SearchText"] = SearchText;
+                }
+            }
+            if (command == "Page Size") { Session["PageSize"] = PageSize; }
+
+            ViewData["SearchFields"] = GetFields((Session["SearchField"] == null ? "Invoice I D" : Convert.ToString(Session["SearchField"])));
+            ViewData["SearchConditions"] = Library.GetConditions((Session["SearchCondition"] == null ? "Contains" : Convert.ToString(Session["SearchCondition"])));
+            ViewData["SearchText"] = Session["SearchText"];
+            ViewData["Exports"] = Library.GetExports((Session["Export"] == null ? "Pdf" : Convert.ToString(Session["Export"])));
+            ViewData["PageSizes"] = Library.GetPageSizes();
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["InvoiceIDSortParm"] = sortOrder == "InvoiceID_asc" ? "InvoiceID_desc" : "InvoiceID_asc";
+            ViewData["InvoiceNoSortParm"] = sortOrder == "InvoiceNo_asc" ? "InvoiceNo_desc" : "InvoiceNo_asc";
+            ViewData["InvoiceDateSortParm"] = sortOrder == "InvoiceDate_asc" ? "InvoiceDate_desc" : "InvoiceDate_asc";
+            ViewData["ProjectIDSortParm"] = sortOrder == "ProjectID_asc" ? "ProjectID_desc" : "ProjectID_asc";
+            ViewData["ClientIDSortParm"] = sortOrder == "ClientID_asc" ? "ClientID_desc" : "ClientID_asc";
+            ViewData["CompanyIDSortParm"] = sortOrder == "CompanyID_asc" ? "CompanyID_desc" : "CompanyID_asc";
+            dtInvoice = InvoiceData.SelectAll();
+            dtProject = Invoice_ProjectData.SelectAll();
+            dtClient = Invoice_ClientData.SelectAll();
+            dtCompany = Invoice_CompanyData.SelectAll();
+
+            try
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(Session["SearchField"])) & !string.IsNullOrEmpty(Convert.ToString(Session["SearchCondition"])) & !string.IsNullOrEmpty(Convert.ToString(Session["SearchText"])))
+                {
+                    dtInvoice = InvoiceData.Search(Convert.ToString(Session["SearchField"]), Convert.ToString(Session["SearchCondition"]), Convert.ToString(Session["SearchText"]));
+                }
+            }
+            catch { }
+
+            var Query = from rowInvoice in dtInvoice.AsEnumerable()
+                        join rowProject in dtProject.AsEnumerable() on rowInvoice.Field<Int32?>("ProjectID") equals rowProject.Field<Int32>("ProjectID")
+                        join rowClient in dtClient.AsEnumerable() on rowInvoice.Field<Int32>("ClientID") equals rowClient.Field<Int32>("ClientID")
+                        join rowCompany in dtCompany.AsEnumerable() on rowInvoice.Field<Int32?>("CompanyID") equals rowCompany.Field<Int32>("CompanyID")
+                        select new Invoice()
+                        {
+                            InvoiceID = rowInvoice.Field<Int32>("InvoiceID")
+                           ,
+                            InvoiceNo = rowInvoice.Field<String>("InvoiceNo")
+                           ,
+                            InvoiceDate = rowInvoice.Field<DateTime>("InvoiceDate")
+                           ,
+                            ClientName = rowInvoice.Field<String>("ClientName")
+                           ,
+                            GrandTotal = rowInvoice.Field<decimal>("GrandTotal")
+                           ,
+                        };
+
+            switch (sortOrder)
+            {
+                case "InvoiceID_desc":
+                    Query = Query.OrderByDescending(s => s.InvoiceID);
+                    break;
+                case "InvoiceID_asc":
+                    Query = Query.OrderBy(s => s.InvoiceID);
+                    break;
+                case "InvoiceNo_desc":
+                    Query = Query.OrderByDescending(s => s.InvoiceNo);
+                    break;
+                case "InvoiceNo_asc":
+                    Query = Query.OrderBy(s => s.InvoiceNo);
+                    break;
+                case "InvoiceDate_desc":
+                    Query = Query.OrderByDescending(s => s.InvoiceDate);
+                    break;
+                case "InvoiceDate_asc":
+                    Query = Query.OrderBy(s => s.InvoiceDate);
+                    break;
+                case "ProjectID_desc":
+                    Query = Query.OrderByDescending(s => s.Project.ProjectName);
+                    break;
+                case "ProjectID_asc":
+                    Query = Query.OrderBy(s => s.Project.ProjectName);
+                    break;
+                case "ClientID_desc":
+                    Query = Query.OrderByDescending(s => s.Client.ClientName);
+                    break;
+                case "ClientID_asc":
+                    Query = Query.OrderBy(s => s.Client.ClientName);
+                    break;
+                case "CompanyID_desc":
+                    Query = Query.OrderByDescending(s => s.Company.CompanyName);
+                    break;
+                case "CompanyID_asc":
+                    Query = Query.OrderBy(s => s.Company.CompanyName);
+                    break;
+                default:  // Name ascending 
+                    Query = Query.OrderBy(s => s.InvoiceID);
+                    break;
+            }
+
+            if (command == "Export")
+            {
+                GridView gv = new GridView();
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Invoice I D", typeof(string));
+                dt.Columns.Add("Invoice No", typeof(string));
+                dt.Columns.Add("Invoice Date", typeof(string));
+                dt.Columns.Add("Project I D", typeof(string));
+                dt.Columns.Add("Client I D", typeof(string));
+                dt.Columns.Add("Company I D", typeof(string));
+                foreach (var item in Query)
+                {
+                    dt.Rows.Add(
+                        item.InvoiceID
+                       , item.InvoiceNo
+                       , item.InvoiceDate
+                       , item.Client.ClientName
+                       , item.GrandTotal
+                    );
+                }
+                gv.DataSource = dt;
+                gv.DataBind();
+                ExportData(Export, gv, dt);
+            }
+
+            int pageNumber = (page ?? 1);
+            int? pageSZ = (Convert.ToInt32(Session["PageSize"]) == 0 ? 5 : Convert.ToInt32(Session["PageSize"]));
+            return View(Query.ToPagedList(pageNumber, (pageSZ ?? 5)));
+            //var Data = InvoiceData.SelectAll();
+            //List<Invoice> InvoiceList = new List<Invoice>();
+            //for (int i = 0; i < Data.Rows.Count; i++)
+            //{
+            //    Invoice invoice = new Invoice();
+            //    invoice.InvoiceID = Convert.ToInt32(Data.Rows[i]["InvoiceID"]);
+            //    invoice.InvoiceNo = Data.Rows[i]["InvoiceNo"].ToString();
+            //    invoice.InvoiceDate = Convert.ToDateTime(Data.Rows[i]["InvoiceDate"].ToString());
+            //    invoice.ClientName = Data.Rows[i]["ClientName"].ToString();
+            //    invoice.GrandTotal = (Data.Rows[i]["GrandTotal"] == null || Convert.ToString(Data.Rows[i]["GrandTotal"]) == "") ? 0 : Convert.ToDecimal(Data.Rows[i]["GrandTotal"]);
+            //    InvoiceList.Add(invoice);
+            //}
+            //if (command == "Add New Record") { return RedirectToAction("Create"); }
+
+            //  return View(InvoiceList.ToList());
         }
         // Invoice1
         public ActionResult Invoice1(string sortOrder,
@@ -432,8 +592,7 @@ namespace CloudTrixApp.Controllers
                            ,
                             Notes = rowInvoice.Field<String>("Notes")
                            ,
-                            PDFUrl = rowInvoice.Field<String>("PDFUrl")
-                           ,
+
                             Company = new Company()
                             {
                                 CompanyID = rowCompany.Field<Int32>("CompanyID")
@@ -524,12 +683,6 @@ namespace CloudTrixApp.Controllers
                 case "Remarks_asc":
                     Query = Query.OrderBy(s => s.Notes);
                     break;
-                case "PDFUrl_desc":
-                    Query = Query.OrderByDescending(s => s.PDFUrl);
-                    break;
-                case "PDFUrl_asc":
-                    Query = Query.OrderBy(s => s.PDFUrl);
-                    break;
                 case "CompanyID_desc":
                     Query = Query.OrderByDescending(s => s.Company.CompanyName);
                     break;
@@ -602,7 +755,6 @@ namespace CloudTrixApp.Controllers
                        , item.ClientEMail
                        , item.AdditionalDiscount
                        , item.Notes
-                       , item.PDFUrl
                        , item.Company.CompanyName
                        , item.AddUserID
                        , item.AddDate
@@ -665,7 +817,10 @@ namespace CloudTrixApp.Controllers
                                where Invoice.CompanyID == (int)rowCompany["CompanyID"]
                                select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
-
+            InvoiceItem InvoiceItem = new InvoiceItem();
+            InvoiceItem.InvoiceID = Convert.ToInt32(InvoiceID);
+            List<InvoiceItem> InvoiceItemList = InvoiceItemData.List(InvoiceItem);
+            ViewBag.InvoiceItem = InvoiceItemList;
             if (Invoice == null)
             {
                 return HttpNotFound();
@@ -690,33 +845,126 @@ namespace CloudTrixApp.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create(Invoice Invoice)
+        public ActionResult Create(Invoice Invoice, string calltype)
         {
-            //if (ModelState.IsValid)
-            //{
-            bool bSucess = false; int invoiceID = 0;
-            invoiceID = InvoiceData.Add(Invoice);
-            foreach (var item in Invoice.Items)
+            ModelState.Remove("InvoiceID");
+            bool bSucess = false;
+            if (Invoice.Items == null && calltype == "ajax")
             {
-                item.InvoiceID = invoiceID;
-                bSucess = InvoiceItemData.Add(item);
+                ModelState.AddModelError("CustomError", "Add data in Item List.");
             }
-            if (bSucess == true)
+            if (ModelState.IsValid && calltype == "ajax")
             {
-                return RedirectToAction("Index", "Invoice");
+                int invoiceID = 0;
+                invoiceID = InvoiceData.Add(Invoice);
+                foreach (var item in Invoice.Items)
+                {
+                    item.InvoiceID = invoiceID;
+                    bSucess = InvoiceItemData.Add(item);
+                }
+                if (bSucess == true)
+                {
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Can Not Insert");
+                }
             }
-            else
+            if (Invoice.InvoiceNo != null)
             {
-                ModelState.AddModelError("", "Can Not Insert");
+                DataTable dtInvoiceNo = InvoiceData.Select_InvoiceNo(Invoice.InvoiceNo);
+                if (dtInvoiceNo.Rows.Count > 0 && calltype == null)
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            //}
             // ComboBox
-            //ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
+            ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
             ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName", Invoice.ClientID);
             ViewData["CompanyID"] = new SelectList(Invoice_CompanyData.List(), "CompanyID", "CompanyName", Invoice.CompanyID);
-
             return View(Invoice);
         }
+
+        //[HttpPost]
+        ////[ValidateAntiForgeryToken]
+        //public ActionResult Create(Invoice Invoice, string calltype)
+        //{
+        //    ModelState.Remove("InvoiceID");
+        //    if (calltype == "ajax")
+        //    {
+        //        bool bSucess = false;
+        //        if (Invoice.Items == null)
+        //        {
+        //            ModelState.AddModelError("CustomError", "Add data in Item List.");
+        //            // return View();
+        //        }
+        //        if (Invoice.GrandTotal == null)
+        //        {
+        //            ModelState.AddModelError("GrandTotal", "Grand Total is empty.");
+        //        }
+        //        if (ModelState.IsValid)
+        //        {
+        //            int invoiceID = 0;
+        //            invoiceID = InvoiceData.Add(Invoice);
+        //            foreach (var item in Invoice.Items)
+        //            {
+        //                item.InvoiceID = invoiceID;
+        //                bSucess = InvoiceItemData.Add(item);
+        //            }
+        //            if (bSucess == true)
+        //            {
+
+        //                return RedirectToAction("Index", "Invoice");
+        //            }
+        //            else
+        //            {
+        //                ModelState.AddModelError("", "Can Not Insert");
+        //            }
+        //        }
+        //        // ComboBox
+        //        ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
+        //        ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName", Invoice.ClientID);
+        //        ViewData["CompanyID"] = new SelectList(Invoice_CompanyData.List(), "CompanyID", "CompanyName", Invoice.CompanyID);
+
+        //        //if (bSucess == true)
+        //        //{
+        //        //    return RedirectToAction("Index", "Invoice");
+        //        //}
+        //        //else
+        //        //{
+        //        //    ModelState.AddModelError("", "Can Not Insert");
+        //        //    return View(Invoice);
+        //        //   // return RedirectToAction("Create", "Invoice");
+        //        //}
+
+        //        //    return View();
+        //        ////  return "failure";
+        //        //else
+        //        return View(Invoice);
+        //        //   // return "success";
+        //    }
+        //    else
+        //    {
+        //        if (Invoice.Items == null)
+        //        {
+        //            ModelState.AddModelError("CustomError", "Add data in Item List.");
+        //            // return View();
+        //        }
+        //        if (Invoice.GrandTotal == null)
+        //        {
+        //            ModelState.AddModelError("GrandTotal", "Grand Total is empty.");
+        //        }
+        //        // ComboBox
+        //        ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
+        //        ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName", Invoice.ClientID);
+        //        ViewData["CompanyID"] = new SelectList(Invoice_CompanyData.List(), "CompanyID", "CompanyName", Invoice.CompanyID);
+        //        return View(Invoice);
+        //        //return "notajax";
+        //    }
+
+        //}
 
         // GET: /Invoice/Edit/<id>
         public ActionResult Edit(int InvoiceID)
@@ -938,7 +1186,7 @@ namespace CloudTrixApp.Controllers
             if (Export == "Pdf")
             {
                 PDFform pdfForm = new PDFform(dt, "Dbo. Invoice", "Many");
-                Document document = pdfForm.CreateDocument();
+                MigraDoc.DocumentObjectModel.Document document = pdfForm.CreateDocument();
                 PdfDocumentRenderer renderer = new PdfDocumentRenderer(true);
                 renderer.Document = document;
                 renderer.RenderDocument();
@@ -1056,6 +1304,177 @@ namespace CloudTrixApp.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;
+        }
+
+        //public ActionResult PrintAll(int InvoiceID)
+        //{
+        //    var q = new ActionAsPdf("PrintInvoice", InvoiceID);
+        //    return q;
+        //}
+        List<Invoice> list = null;
+        public ActionResult PDF()
+        {
+            list = new List<Invoice>() {
+            new Invoice{InvoiceID=1,InvoiceNo="Yogesh"},
+            new Invoice{InvoiceID=2,InvoiceNo="Mary"},
+            new Invoice{InvoiceID=3,InvoiceNo="Mike"},
+            new Invoice{InvoiceID=4,InvoiceNo="Rahul"},
+            };
+            return View(list);
+        }
+        //public FileStreamResult PrintPdf(int InvoiceID)
+        //{
+        //    // Set up the document and the MS to write it to and create the PDF writer instance
+        //    var ms = new MemoryStream();
+        //    var document = new iTextSharp.text.Document(PageSize.A4, 0, 0, 0, 0);
+        //    PdfWriter writer = PdfWriter.GetInstance(document, ms);
+        //    //var obj = new simphiwe();
+        //    //  var obj = new DataContext();
+
+        //    // Open the PDF document
+        //    document.Open();
+
+        //    // Set up fonts used in the document
+        //    iTextSharp.text.Font font_heading_3 = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 12, iTextSharp.text.Font.BOLD, BaseColor.RED);
+        //    iTextSharp.text.Font font_body = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 9, BaseColor.BLUE);
+
+        //    // Create the heading paragraph with the headig font
+        //    iTextSharp.text.Paragraph paragraph;
+        //    paragraph = new iTextSharp.text.Paragraph("Fuze Events Managers", font_heading_3);
+        //    iTextSharp.text.Paragraph paraslip;
+        //    paraslip = new iTextSharp.text.Paragraph("**********************Invoice Details***********************");
+
+        //    // Add image to pdf    
+        //    // Create the heading paragraph with the headig font
+        //    //var info = from x in obj.Payments
+        //    //           where x.PayId == (id)
+        //    //           select x;
+        //    Invoice Invoice = new Invoice();
+        //    Invoice.InvoiceID = System.Convert.ToInt32(InvoiceID);
+        //    Invoice = InvoiceData.Select_Record(Invoice);
+        //    InvoiceItem InvoiceItem = new InvoiceItem();
+        //    InvoiceItem.InvoiceID = InvoiceID;
+        //    List<InvoiceItem> InvoiceItemList = InvoiceItemData.List(InvoiceItem);
+        //    ViewBag.InvoiceItem = InvoiceItemList;
+
+        //    //foreach (var q in a)
+        //    //{
+        //    //paragraph;
+        //    // Add a horizontal line below the headig text and add it to the paragraph
+        //    iTextSharp.text.pdf.draw.VerticalPositionMark seperator = new iTextSharp.text.pdf.draw.LineSeparator();
+        //    seperator.Offset = -6f;
+        //    PdfPTable table = new PdfPTable(2);
+        //    PdfPTable tableDetails = new PdfPTable(12);
+        //    var table1 = new PdfPTable(1);
+        //    //   var table = new PdfPTable(1);
+        //    var table3 = new PdfPTable(1);
+        //    var table7 = new PdfPTable(1);
+
+        //    table.WidthPercentage = 80;
+        //    tableDetails.WidthPercentage = 80;
+        //    table3.SetWidths(new float[] { 100 });
+        //    table3.WidthPercentage = 80;
+        //    table7.SetWidths(new float[] { 100 });
+        //    table7.WidthPercentage = 80;
+        //    var cell = new PdfPCell(new Phrase(""));
+        //    cell.Colspan = 3;
+        //    table1.AddCell(cell);
+        //    table7.AddCell("Invoice");
+        //    table7.AddCell("");
+        //    PdfPCell defaultCell = table.DefaultCell;
+
+        //    //table7.AddCell("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + "Fuze Events Managers" + "\n\n" +
+        //    //  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + "**********************Fuze Events Managerst***********************");
+
+
+
+        //    table.AddCell("Invoice Type: " + Invoice.Invoice_Type);
+        //    table.AddCell("Invoice No: " + Invoice.InvoiceNo);
+        //    table.AddCell("Invoice Date: " + Invoice.InvoiceDate);
+        //    table.AddCell("Client Name :" + Invoice.ClientName);
+        //    table.AddCell("Client Address :" + Invoice.ClientAddress);
+        //    table.AddCell("Client Contact No : " + Invoice.ClientContactNo);
+        //    table.AddCell("Client GSTIN :" + Invoice.ClientGSTIN);
+        //    table.AddCell("Client EMail :" + Invoice.ClientEMail);
+        //    tableDetails.AddCell("Description");
+        //    tableDetails.AddCell("Qty");
+        //    tableDetails.AddCell("Rate");
+        //    tableDetails.AddCell("Tax(%)");
+        //    tableDetails.AddCell("Amount");
+        //    tableDetails.AddCell("IGST(%)");
+        //    tableDetails.AddCell("IGST Amt");
+        //    tableDetails.AddCell("CGST(%)");
+        //    tableDetails.AddCell("CGST Amt");
+        //    tableDetails.AddCell("SGST(%)");
+        //    tableDetails.AddCell("SGST Amt");
+        //    tableDetails.AddCell("Total Amt");
+        //    foreach (var item in InvoiceItemList)
+        //    {
+        //        tableDetails.AddCell("" + item.Description);
+        //        tableDetails.AddCell("" + item.Quantity);
+        //        tableDetails.AddCell("" + item.Tax);
+        //        tableDetails.AddCell("" + item.Amount);
+        //        tableDetails.AddCell("" + item.IGSTRate);
+        //        tableDetails.AddCell("" + item.IGST_Amt);
+        //        tableDetails.AddCell("" + item.CGSTRate);
+        //        tableDetails.AddCell("" + item.CGST_Amt);
+        //        tableDetails.AddCell("" + item.SGSTRate);
+        //        tableDetails.AddCell("" + item.SGST_Amt);
+        //        tableDetails.AddCell("" + item.Total_Amt);
+        //    }
+        //    //table.AddCell("Date Issued : " + DateTime.Today.Day + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
+        //    table.AddCell(cell);
+        //    tableDetails.AddCell(cell);
+        //    document.Add(table3);
+        //    document.Add(table7);
+        //    document.Add(table1);
+        //    document.Add(table);
+        //    document.Add(tableDetails);
+        //    document.Close();
+
+        //    byte[] file = ms.ToArray();
+        //    var output = new MemoryStream();
+        //    output.Write(file, 0, file.Length);
+        //    output.Position = 0;
+        //    var f = new FileStreamResult(output, "application/pdf");
+        //    return f; //File(output, "application/pdf"); //new FileStreamResult(output, "application/pdf");
+        //}
+        public ActionResult PrintInvoice(int InvoiceID)
+        {
+            dtCompany = Invoice_CompanyData.SelectAll();
+            Invoice Invoice = new Invoice();
+            Invoice.InvoiceID = System.Convert.ToInt32(InvoiceID);
+            Invoice = InvoiceData.Select_Record(Invoice);
+            Invoice.Company = new Company()
+            {
+                CompanyID = (Int32)Invoice.CompanyID
+               ,
+                CompanyName = (from DataRow rowCompany in dtCompany.Rows
+                               where Invoice.CompanyID == (int)rowCompany["CompanyID"]
+                               select (String)rowCompany["CompanyName"]).FirstOrDefault()
+                ,
+                Address1 = (from DataRow rowCompany in dtCompany.Rows
+                            where Invoice.CompanyID == (int)rowCompany["CompanyID"]
+                            select (String)rowCompany["Address1"]).FirstOrDefault()
+                ,
+                ContactNo = (from DataRow rowCompany in dtCompany.Rows
+                             where Invoice.CompanyID == (int)rowCompany["CompanyID"]
+                             select (String)rowCompany["ContactNo"]).FirstOrDefault()
+                ,
+                EMail = (from DataRow rowCompany in dtCompany.Rows
+                         where Invoice.CompanyID == (int)rowCompany["CompanyID"]
+                         select (String)rowCompany["EMail"]).FirstOrDefault()
+            };
+            InvoiceItem InvoiceItem = new InvoiceItem();
+            InvoiceItem.InvoiceID = InvoiceID;
+            List<InvoiceItem> InvoiceItemList = InvoiceItemData.List(InvoiceItem);
+            ViewBag.InvoiceItem = InvoiceItemList;
+
+            return View(Invoice);
+        }
+        public ActionResult GeneratePDF(int InvoiceID)
+        {
+            return new ActionAsPdf("PrintInvoice", new { InvoiceID = InvoiceID });
         }
     }
 }

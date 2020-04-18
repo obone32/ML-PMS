@@ -9,81 +9,81 @@ namespace CloudTrixApp.Models
     [Table("Invoice")]
     public class Invoice
     {
-        [Key]
-        [Column(Order = 0)]
-        [Required]
-        [Display(Name = "Invoice I D")]
+        //[Key]
+        //[Column(Order = 0)]
+        //[Display(Name = "Invoice I D")]
+        // [Required]
         public Int32 InvoiceID { get; set; }
 
-        [Required]
-        [StringLength(8000)]
-        [Display(Name = "Invoice No")]
+        //[Required]
+        //[StringLength(8000)]
+        //[Display(Name = "Invoice No")]
         public String InvoiceNo { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Invoice Date")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[Display(Name = "Invoice Date")]
         public DateTime InvoiceDate { get; set; }
 
-        [Display(Name = "Project I D")]
+        // [Required]
+        //  [Display(Name = "Project I D")]
         public Int32? ProjectID { get; set; }
 
-        [Required]
-        [Display(Name = "Client I D")]
+        [Required(ErrorMessage = "Please select Client Name.")]
+        // [Display(Name = "Client I D")]
         public Int32 ClientID { get; set; }
 
-        [StringLength(8000)]
-        [Display(Name = "Client Name")]
+        //[StringLength(8000)]
+        //[Display(Name = "Client Name")]
         public String ClientName { get; set; }
 
-        [StringLength(8000)]
-        [Display(Name = "Client Address")]
+        //[StringLength(8000)]
+        //[Display(Name = "Client Address")]
         public String ClientAddress { get; set; }
 
-        [StringLength(8000)]
-        [Display(Name = "Client G S T I N")]
+        //[StringLength(8000)]
+        //[Display(Name = "Client G S T I N")]
         public String ClientGSTIN { get; set; }
 
-        [StringLength(8000)]
-        [Display(Name = "Client Contact No")]
+        //[StringLength(8000)]
+        //[Display(Name = "Client Contact No")]
         public String ClientContactNo { get; set; }
 
-        [StringLength(8000)]
-        [Display(Name = "Client E Mail")]
+        //[StringLength(8000)]
+        //[Display(Name = "Client E Mail")]
         public String ClientEMail { get; set; }
 
-        [Display(Name = "Additional Discount")]
+
+        //  [Display(Name = "Additional Discount")]
         public Decimal? AdditionalDiscount { get; set; }
 
-        [StringLength(8000)]
-        [Display(Name = "Notes")]
+        //[StringLength(8000)]
+        //[Display(Name = "Notes")]
         public String Notes { get; set; }
 
-        [StringLength(8000)]
-        [Display(Name = "P D F Url")]
-        public String PDFUrl { get; set; }
-
-        [Display(Name = "Company I D")]
+        [Required(ErrorMessage = "Please select company Name.")]
+        // [Display(Name = "CompanyID")]
         public Int32? CompanyID { get; set; }
 
-        [Required]
-        [Display(Name = "Add User I D")]
-        public Int32 AddUserID { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Add Date")]
+        //  [Display(Name = "Add User I D")]
+        public Int32? AddUserID { get; set; }
+
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[Display(Name = "Add Date")]
         public DateTime? AddDate { get; set; }
 
-        [Display(Name = "Archive User I D")]
+        //   [Display(Name = "Archive User I D")]
         public Int32? ArchiveUserID { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Archive Date")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[Display(Name = "Archive Date")]
         public DateTime? ArchiveDate { get; set; }
 
+        [Required(ErrorMessage = "Grand Total is empty.")]
         public Decimal? GrandTotal { get; set; }
         // ComboBox
         public virtual Project Project { get; set; }
@@ -91,11 +91,20 @@ namespace CloudTrixApp.Models
         public virtual Company Company { get; set; }
         public List<InvoiceItem> Items { get; set; }
 
-        [StringLength(8000)]
-        [Display(Name = "Invoice_Type")]
+
+        [Required(ErrorMessage = "Please select Invoice Type.")]
+        //  [Display(Name = "Invoice_Type")]
         public String Invoice_Type { get; set; }
+
+
+        [Required(ErrorMessage = "Please select Payment Method.")]
+        // [Display(Name = "Payment_Method")]
         public String Payment_Method { get; set; }
+
+
+        [Required(ErrorMessage = "Please select Invoice Status.")]
+        //  [Display(Name = "InvoiceStatus")]
         public String InvoiceStatus { get; set; }
     }
 }
- 
+

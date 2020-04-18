@@ -12,16 +12,16 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-
             <small></small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Invoice</a></li>
+            <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a>Invoice</a></li>
             <li class="active">Create Invoice</li>
         </ol>
     </section>
     <div class="wraper container-fluid ">
+        @*<form id="InvoiceForm" name="InvoiceForm">*@
         <div class="row">
             <div class="col col-md-12">
                 <div class="panel panel-primary">
@@ -29,37 +29,47 @@
                         <h3 class="panel-title">Create Invoice </h3>
                     </div>
                     <div class="panel-body">
+                        @*@using (Html.BeginForm("Create", "Invoice", FormMethod.Post))*@
                         @using (Html.BeginForm())
                         {
-                            @Html.AntiForgeryToken()
+                            @*@Html.AntiForgeryToken()*@
 
                             <div class="form-horizontal">
                                 <hr />
-                                @Html.ValidationSummary(true)
+                                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                                @*@Html.AntiForgeryToken()*@
                                 @Html.HiddenFor(model => model.InvoiceID)
 
                                 <div class="container-fluid">
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="CompanyName"> Company Name :</label>
-                                            @Html.DropDownList("CompanyID", null, "Select Company Name", new { @class = "form-control clsCustomer", @id = "CompanyID", @autocomplete = "off" })
+                                            @Html.DropDownListFor(m => m.CompanyID, null, "Select Company Name", new { @class = "form-control clsCustomer", @id = "CompanyID", @autocomplete = "off" })
+                                            @Html.ValidationMessageFor(m => m.CompanyID, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="InvoiceType"> Invoice Type :</label>
-                                            <select id="InvoiceType" class="form-control">
-                                                <option>Select</option>
-                                                <option>Tax Invoice</option>
-                                                <option>Proforma Invoice</option>
-                                            </select>
+                                            @*<select id="InvoiceType" class="form-control">
+                                                    <option>Select</option>
+                                                    <option>Tax Invoice</option>
+                                                    <option>Proforma Invoice</option>
+                                                </select>*@
+                                            @Html.DropDownListFor(m => m.Invoice_Type, new List<SelectListItem>
+                                        {
+                                            new SelectListItem() {Text = "Tax Invoice", Value="TaxInvoice"},
+                                            new SelectListItem() {Text = "Proforma Invoice", Value="ProformaInvoice"},
+                                        }, "Select Payment", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                            @Html.ValidationMessageFor(m => m.Invoice_Type, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="AddUserID"> Created By :</label>
                                             @*@Html.TextBox("AddUserID", User.Identity.Name.Split('|')[0], new { @class = "form-control", @placeholder = "", @id = "AddUserID", @style = "width : 100%", autocomplete = "off", @readonly = "readonly" })*@
-                                            @Html.TextBox("AddUserID", User.Identity.Name.Split('|')[0], new { @class = "form-control  ", @placeholder = "Created by ", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.TextBox("AddUserID", User.Identity.Name.Split('|')[1], new { @class = "form-control  ", @placeholder = "Created by ", autocomplete = "off", @readonly = "readonly" })
+
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +78,10 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="InvoiceNo"> Invoice No : </label>
-                                            @Html.TextBox("InvoiceNo", null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.TextBoxFor(m => m.InvoiceNo, null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off", @readonly = "readonly" })
+                                            @*@Html.ValidationMessage("InvoiceNo", "senter InvoiceNo", new { @class = "text-danger", @style = "color:red;" })*@
+
+                                            @*@Html.ValidationMessageFor(m => m.InvoiceNo)*@
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -88,7 +101,8 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="ClientID"> Client Name : </label>
-                                            @Html.DropDownList("ClientID", null, "Select Client Name", new { @class = "form-control clsCustomer", @id = "ClientID", @autocomplete = "off" })
+                                            @Html.DropDownListFor(m => m.ClientID, null, "Select Client Name", new { @class = "form-control clsCustomer", @id = "ClientID", @autocomplete = "off" })
+                                            @Html.ValidationMessageFor(m => m.ClientID, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -109,10 +123,11 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="ProjectID"> Project Name :</label>
-                                            @*@Html.DropDownList("ProjectID", null, "Select Project Name", new { @class = "form-control  ", @placeholder = "Project Name ", autocomplete = "off" })*@
+                                            @*  @Html.DropDownList("ProjectID", null, "Select Project Name", new { @class = "form-control  ", @placeholder = "Project Name ", autocomplete = "off" })*@
                                             <select id="ProjectID" class="form-control">
                                                 <option value="">Select Project</option>
                                             </select>
+                                            @*@Html.ValidationMessageFor(m => m.ProjectID, "", new { @class = "text-danger" })*@
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -128,122 +143,14 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 @* Modal PopUp for adding New Item Details*@
                                 <div class="container-fluid">
-                                    <button type="button" id="btnShowModal" class="btn btn-success">Add New Item To List</button>
+                                    <button type="button" id="btnShowModal" class="btn btn-success" data-toggle="modal" data-target="#loginModal">Add New Item To List</button>
                                     &nbsp;&nbsp;&nbsp;
-                                    <small id="error_SubTotal" class="form-text error_msg">Atleast add one item</small>
-
+                                    @*<small id="error_SubTotal" class="form-text error_msg">Atleast add one item</small>*@
+                                    @Html.ValidationMessage("CustomError")
                                 </div>
-                                <div class="modal fade" tabindex="-1" id="loginModal" data-keyboard="false" data-backdrop="static">
-                                    @*<div class="modal-dialog modal-lg">*@
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">
-                                                ×
-                                            </button>
-                                            <h4 class="modal-title">Add Invoice Items</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="text" id="CompanyID_GST" hidden />
-                                            <input type="text" id="ClientID_GST" hidden />
-                                            <input type="text" id="edit_row_index" hidden />
-                                            <form class="row" role="form">
-                                                <table class="table table-hover table-responsive ">
-                                                    <thead class="bg-light-blue">
-                                                        <tr>
-                                                            <td style="width:60%"><b>Description</b></td>
-                                                            <td style="width:5%"><b>Quantity</b></td>
-                                                            <td style="width:10%"><b>Rate</b></td>
-                                                            <td style="width:10%"><b>Tax(%)</b></td>
-                                                            <td style="width:15%"><b>Amount</b></td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="bg-gray">
-                                                        <tr>
-                                                            <td style="width:60%">
-                                                                @Html.TextBox("Description", null, new { @class = "form-control", @id = "txtDescription", @type = "text", @placeholder = "Enter Description ", autocomplete = "off" })
-                                                            </td>
-                                                            <td style="width:5%">
-                                                                @Html.TextBox("Quantity", null, new { @class = "form-control", @id = "txtQuantity", @type = "text", @placeholder = "Enter Quantity ", autocomplete = "off" })
-                                                            </td>
-                                                            <td style="width:10%">
-                                                                @Html.TextBox("Price", null, new { @class = "form-control", @type = "text", @id = "txtPrice", @placeholder = "Enter Rate ", autocomplete = "off" })
-                                                            </td>
-                                                            <td style="width:10%">
-                                                                <select id="txtTAX" class="form-control">
-                                                                    <option>0 %</option>
-                                                                    <option>5 %</option>
-                                                                    <option>8 %</option>
-                                                                    <option>12 %</option>
-                                                                    <option>18 %</option>
-                                                                </select>
-                                                            </td>
-                                                            <td style="width:15%">
-                                                                @Html.TextBox("Amount", null, new { @class = "form-control", @type = "text", @tabIndex = "-1", @id = "txtAmount", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
-                                                                <small id="error_price" class="form-text error_msg">Rate is required</small><br />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td><label>IGST</label></td>
-                                                            <td>
-                                                                @Html.TextBox("IGST_Per", null, new { @class = "form-control", @type = "text", @id = "IGST_Per", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
-                                                            </td>
-                                                            <td style="width:10%">@Html.TextBox("IGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "IGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td><label>CGST</label></td>
-                                                            <td>
-                                                                @Html.TextBox("CGST_Per", null, new { @class = "form-control", @type = "text", @id = "CGST_Per", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
-                                                            </td>
-                                                            <td style="width:10%">@Html.TextBox("CGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "CGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td><label>SGST</label></td>
-                                                            <td>
-                                                                @Html.TextBox("SGST_Per", null, new { @class = "form-control", @type = "text", @id = "SGST_Per", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
-                                                            </td>
-                                                            <td style="width:10%">@Html.TextBox("SGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "SGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td><label>Amount</label> </td>
-                                                            <td style="width:10%">@Html.TextBox("txtTotAmt", null, new { @class = "form-control", @type = "text", @id = "txtTotAmt", @style = "width : 150px", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
 
-                                                @*   Total Amount and Add to List Table*@
-                                                <table class="table table-hover table-responsive">
-                                                    <thead>
-                                                        <tr>
-                                                            <td style="width:80%"></td>
-                                                            <td style="width:10%">
-                                                                <button type="submit" id="addToList" class="btn btn-success">Add To List</button>
-                                                            </td>
-                                                            <td style="width:10%">
-                                                                <button type="submit" id="editToList" class="btn btn-success">Edit To List</button>
-                                                            </td>
-                                                            <td style="width:10%">
-                                                                <button type="button" id="btnHideModal" class="btn btn-primary ">Close</button>
-                                                            </td>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    @*</div>*@
-                                </div>
                                 @* END Modal PopUp for adding New Item Details*@
 
                                 <div class="col-sm-12">
@@ -294,31 +201,35 @@
                                                         </tr>
                                                     </tfoot>
                                                 </table>
+
                                             </div>
                                         </div>
                                         <br />
                                     </div>
+
                                 </div>
 
                                 <div class="container-fluid">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="Payment"> Payment Method : </label>
-                                            @Html.DropDownList("Payment", new List<SelectListItem>
+                                            @Html.DropDownListFor(m => m.Payment_Method, new List<SelectListItem>
                                         {
                                             new SelectListItem() {Text = "Cash", Value="Cash"},
                                             new SelectListItem() {Text = "Check", Value="Check"},
                                         }, "Select Payment", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                            @Html.ValidationMessageFor(m => m.Payment_Method, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="Status"> Status : </label>
-                                            @Html.DropDownList("InvoiceStatus", new List<SelectListItem>
+                                            @Html.DropDownListFor(m => m.InvoiceStatus, new List<SelectListItem>
                                         {
                                             new SelectListItem() {Text = "Due", Value="Due"},
                                             new SelectListItem() {Text = "Paid", Value="Paid"},
                                         }, "Select Status", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                            @Html.ValidationMessageFor(m => m.InvoiceStatus, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -338,9 +249,10 @@
                                     <div class="col-md-4"></div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="GrandTotal"> Grand Total : </label>
+                                            <label for="GrandTotal"> Grand Total :</label>
                                             <h5 id="GrandTotal" class="form-control"> </h5>
-                                            <small id="error_GrandTotal" class="form-text error_msg">Total is empty</small>
+                                            @Html.ValidationMessageFor(m => m.GrandTotal, "", new { @class = "text-danger" })
+                                            @*     <small id="error_GrandTotal" class="form-text error_msg">Total is empty</small>*@
                                         </div>
                                     </div>
                                 </div>
@@ -351,7 +263,8 @@
                                 </div>
                                 <div class="form-horizontal">
                                     <label> </label>
-                                    <input id="BtnInvoiceSave" class="btn btn-success col-md-3 pull-right" type="submit" value="Save Invoice" />
+                                    @*<input id="BtnInvoiceSave" class="btn btn-success col-md-3 pull-right" type="submit" value="Save Invoice" />*@
+                                    <input id="BtnInvoiceSave" class="btn btn-success col-md-3 pull-right" type="submit" value="Save Invoice" onclick="InvoiceSave_changes()" />
                                 </div>
                             </div>
                         }
@@ -359,223 +272,159 @@
                 </div>
             </div>
         </div>
+        @*</form>*@
+        <div class="modal fade" tabindex="-1" id="loginModal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Add Invoice Items</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="CompanyID_GST" hidden />
+                        <input type="text" id="ClientID_GST" hidden />
+                        <input type="text" id="edit_row_index" hidden />
+                        @*<form class="row" role="form">*@
+                        <table class="table table-hover table-responsive ">
+                            <thead class="bg-light-blue">
+                                <tr>
+                                    <td style="width:60%"><b>Description</b></td>
+                                    <td style="width:5%"><b>Quantity</b></td>
+                                    <td style="width:10%"><b>Rate</b></td>
+                                    <td style="width:10%"><b>Tax(%)</b></td>
+                                    <td style="width:15%"><b>Amount</b></td>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-gray">
+                                <tr>
+                                    <td style="width:60%">
+                                        @Html.TextBox("Description", null, new { @class = "form-control", @id = "txtDescription", @type = "text", @placeholder = "Enter Description ", autocomplete = "off" })
+                                    </td>
+                                    <td style="width:5%">
+                                        @Html.TextBox("Quantity", null, new { @class = "form-control", @id = "txtQuantity", @type = "text", @placeholder = "Enter Quantity ", autocomplete = "off" })
+                                    </td>
+                                    <td style="width:10%">
+                                        @Html.TextBox("Price", null, new { @class = "form-control", @type = "text", @id = "txtPrice", @placeholder = "Enter Rate ", autocomplete = "off" })
+                                    </td>
+                                    <td style="width:10%">
+                                        <select id="txtTAX" class="form-control">
+                                            <option>0 %</option>
+                                            <option>5 %</option>
+                                            <option>8 %</option>
+                                            <option>12 %</option>
+                                            <option>18 %</option>
+                                        </select>
+                                    </td>
+                                    <td style="width:15%">
+                                        @Html.TextBox("Amount", null, new { @class = "form-control", @type = "text", @tabIndex = "-1", @id = "txtAmount", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
+                                        <small id="error_price" class="form-text error_msg">Rate is required</small><br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><label>IGST</label></td>
+                                    <td>
+                                        @Html.TextBox("IGST_Per", null, new { @class = "form-control", @type = "text", @id = "IGST_Per", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
+                                    </td>
+                                    <td style="width:10%">@Html.TextBox("IGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "IGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><label>CGST</label></td>
+                                    <td>
+                                        @Html.TextBox("CGST_Per", null, new { @class = "form-control", @type = "text", @id = "CGST_Per", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
+                                    </td>
+                                    <td style="width:10%">@Html.TextBox("CGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "CGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><label>SGST</label></td>
+                                    <td>
+                                        @Html.TextBox("SGST_Per", null, new { @class = "form-control", @type = "text", @id = "SGST_Per", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })
+                                    </td>
+                                    <td style="width:10%">@Html.TextBox("SGST", null, new { @class = "form-control", @tabIndex = "-1", @type = "number", @id = "SGST", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><label>Amount</label> </td>
+                                    <td style="width:10%">@Html.TextBox("txtTotAmt", null, new { @class = "form-control", @type = "text", @id = "txtTotAmt", @style = "width : 150px", @placeholder = "0", autocomplete = "off", @readonly = "readonly" })</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        @*   Total Amount and Add to List Table*@
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <td style="width:80%"></td>
+                                    <td style="width:10%">
+                                        <button type="button" id="addToList" class="btn btn-success">Add To List</button>
+                                    </td>
+                                    <td style="width:10%">
+                                        <button type="button" id="editToList" class="btn btn-success">Edit To List</button>
+                                    </td>
+                                    <td style="width:10%">
+                                        <button type="button" id="btnHideModal" class="btn btn-primary ">Close</button>
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+                        @*</form>*@
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    @section Scripts {
-        @Scripts.Render("~/bundles/App3")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/ApplicationJquery")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
 
-        <script type="text/javascript">
-            $(document).ready(function () {
+    @*@Scripts.Render("~/bundles/lib")*@
+    @*<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+    <script>
+        $.noConflict();
+        // Code that uses other library's $ can follow here.
+    </script>
 
-                $("#InvoiceDate").datepicker({
-                    format: 'mm/dd/yyyy',
-                    startDate: new Date('2020-1-5'),
-                    endDate: new Date('2040-12-31')
-                });
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-                //$("#AddDate").datepicker({
-                //    format: 'mm/dd/yyyy',
-                //    startDate: new Date('2020-1-5'),
-                //    endDate: new Date('2040-12-31')
-                //});
-
-                $("#btnShowModal").click(function () {
-
-                    var CompanyID = $('#CompanyID').val();
-                    var ClientID = $('#ClientID').val();
-                    //alert("CompanyID=" + CompanyID);
-                    //alert("ClientID=" + ClientID);
-                    $("#loginModal").modal('show');
-                    $('#txtDescription').val('');
-                    $('#txtQuantity').val('');
-                    $('#txtPrice').val('');
-                    $('#txtTAX').val('0 %');
-                    $("#IGST_Per").val(''),
-                    $("#IGST").val(''),
-                    $("#CGST_Per").val(''),
-                    $("#CGST").val(''),
-                    $("#SGST_Per").val(''),
-                    $("#SGST").val(''),
-                    $("#txtTotAmt").val('')
-                    $("#txtAmount").val('');
-                    $("#addToList").show();
-                    $("#editToList").hide();
-                    $('#CompanyID_GST').val(CompanyID);
-                    $('#ClientID_GST').val(ClientID);
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/Invoice/GetCGT_Status",
-                        data: '{CompanyID: ' + CompanyID + ', ClientID: ' + ClientID + ' }',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (response) {
-                            if (response == 1) {
-                                var a = parseFloat($('#txtTAX').text()).toFixed(0.3);
-                                var b = a / 2;
-                                $('#CGST_Per').val(b + " %");
-                                $('#SGST_Per').val(b + " %");
-                            }
-                            else {
-                                var a = parseFloat($('#txtTAX').text()).toFixed(0.3);
-                                $('#IGST_Per').val(a + " %");
-                            }
-                        },
-                        failure: function (response) {
-                            // alert(response.responseText);
-                        },
-                        error: function (response) {
-                            // alert(response.responseText);
-                        }
-                    });
-                });
-
-                $("#btnHideModal").click(function () {
-                    $("#loginModal").modal('hide');
-                });
+            $("#InvoiceDate").datepicker({
+                format: 'mm/dd/yyyy',
+                startDate: new Date('2020-1-5'),
+                endDate: new Date('2040-12-31')
             });
 
-
-            $("#CompanyID").change(function () {
-                var id = $('#CompanyID').find(":selected").attr('value');
-                $.ajax({
-                    type: "GET",
-                    url: "/Invoice/GetCompany_InvoiceInitials",
-                    datatype: "Json",
-                    data: {
-                        CompanyID: $('#CompanyID').val(),
-                    },
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        $("#InvoiceNo").val(data);
-                    }
-                })
-            })
-
-
-
-
-            $('#ClientID').change(function () {
-                $('#ProjectID').empty();
-                $.ajax({
-                    type: "GET", url: "/Invoice/GetProjectByCustomer",
-                    datatype: "Json",
-                    data: { clientID: $('#ClientID').val() },
-                    success: function (data) {
-                        $.each(data, function (index, value) {
-                            $('#ProjectID').append('<option value="' + value.ProjectID + '">' + value.ProjectName + '</option>')
-                        });
-
-                    }
-                })
-            });
-
-            $("#divIGST").hide();
-            $("#divCGST").hide();
-            $('.clsCustomer').change(function () {
-                $("#divIGST").hide();
-                $("#divCGST").hide();
-
-                $('#TotAmt').val('');
-                $.ajax({
-                    type: "GET", url: "/Invoice/GetCustomerState",
-                    datatype: "Json",
-                    data: { clientID: $('#ClientID').val() },
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        console.log(data);
-                        $("#ClientContactNo").val(data.ContactNo);
-                        $("#ClientEMail").val(data.EMail);
-                        $("#ClientAddress").val(data.Address1);
-                        $("#ClientGSTIN").val(data.GSTIN);
-
-                        if (data.IsStateMatch) {
-                            $("#divCGST").show();
-                        } else {
-                            $("#divIGST").show();
-                        }
-                    }
-                })
-            });
-
-            //$('#Price, #Quantity').change(function () {
-            //    var sum = 0;
-            //    $('#Quantity').text(sum.toFixed(2));
-            //    $('#Price').text(sum.toFixed(2));
-            //    $('#Amount').text(sum.toFixed(2));
-            //    $('#TotAmt').text(sum.toFixed(2));
-            //    var a = parseFloat($('#Quantity').val()).toFixed(2);
-            //    var b = parseFloat($('#Price').val()).toFixed(2);
-            //    $('#Amount').val(a * b);
-            //    $('#TotAmt').val(a * b);
-            //    $('#txtAmount').val(a * b);
-
-            //});
-            $('#txtPrice, #txtQuantity').keyup(function () {
-                var sum = 0;
-                $('#txtQuantity').text(sum.toFixed(2));
-                $('#txtPrice').text(sum.toFixed(2));
-                $('#txtAmount').text(sum.toFixed(2));
-                $('#txtTotAmt').text(sum.toFixed(2));
-                var a = parseFloat($('#txtQuantity').val()).toFixed(2);
-                var b = parseFloat($('#txtPrice').val()).toFixed(2);
-                var c = parseFloat($('#IGST').val()).toFixed(2);
-                var d = parseFloat($('#CGST').val()).toFixed(2);
-                var e = parseFloat($('#SGST').val()).toFixed(2);
-                $('#txtAmount').val(a * b).toFixed(2);
-                $('#txtTotAmt').val(($('#txtAmount').val()) + c + d + e).toFixed(2);
-                calculateTotal();
-
-            });
-            $('#txtPrice, #txtQuantity, #txtAmount').change(function () {
-
-                var sum = 0;
-                $('#txtQuantity').text(sum.toFixed(2));
-                $('#txtPrice').text(sum.toFixed(2));
-                $('#txtAmount').text(sum.toFixed(2));
-                $('#txtTotAmt').text(sum.toFixed(2));
-
-                var a = parseFloat($('#txtQuantity').val()).toFixed(2);
-                var b = parseFloat($('#txtPrice').val()).toFixed(2);
-                var c = parseFloat($('#IGST').val()).toFixed(2);
-                var d = parseFloat($('#CGST').val()).toFixed(2);
-                var e = parseFloat($('#SGST').val()).toFixed(2);
-
-                if (c == "NaN" || c == "") {
-                    c = 0;
-                }
-                if (d == "NaN" || d == "") {
-                    d = 0;
-                }
-                if (e == "NaN" || e == "") {
-                    e = 0;
-                }
-
-                var txtAmount = (a * b).toFixed(2);
-                $('#txtAmount').val(txtAmount);
-
-                var txtTotAmt = parseFloat(txtAmount) + parseFloat(c) + parseFloat(d) + parseFloat(e);
-                var Total = txtTotAmt.toFixed(2);
-                $('#txtTotAmt').val(Total);
-
-                //calculateTotal();
-            });
-            // $('select[name="txtTAX"]').each(function () {
-            //   alert(txtTAX)
-
-            $('#txtTAX').change(function () {
-                calculateGST();
-            });
-
-
-            function calculateGST() {
+            $("#btnShowModal").click(function () {
                 var CompanyID = $('#CompanyID').val();
                 var ClientID = $('#ClientID').val();
-                //var a = parseFloat($('#txtTAX').val()).toFixed(0.3);
-                //var b = a / 2;
-                //$('#CGST_Per').val(b + " %");
-                //$('#SGST_Per').val(b + " %");
+                $('#txtDescription').val('');
+                $('#txtQuantity').val('');
+                $('#txtPrice').val('');
+                $('#txtTAX').val('0 %');
+                $("#IGST_Per").val(''),
+                $("#IGST").val(''),
+                $("#CGST_Per").val(''),
+                $("#CGST").val(''),
+                $("#SGST_Per").val(''),
+                $("#SGST").val(''),
+                $("#txtTotAmt").val('')
+                $("#txtAmount").val('');
+                $("#addToList").show();
+                $("#editToList").hide();
+                $('#CompanyID_GST').val(CompanyID);
+                $('#ClientID_GST').val(ClientID);
+
                 $.ajax({
                     type: "POST",
                     url: "/Invoice/GetCGT_Status",
@@ -584,401 +433,602 @@
                     dataType: "json",
                     success: function (response) {
                         if (response == 1) {
-                            var GSTId = document.getElementById("txtTAX");
-                            var GSTChosen = GSTId.options[GSTId.selectedIndex].value;
-                            var a = GSTChosen.replace('%', '');
-                            // var a = $("#txtTAX option:selected").text().replace('%', '');
-                            var b = (a / 2) + " %";
-                            $('#CGST_Per').val(b);
-                            $('#SGST_Per').val(b);
-                            calculateTotal();
+                            var a = parseFloat($('#txtTAX').text()).toFixed(0.3);
+                            var b = a / 2;
+                            $('#CGST_Per').val(b + " %");
+                            $('#SGST_Per').val(b + " %");
                         }
                         else {
-                            var GSTId = document.getElementById("txtTAX");
-                            var GSTChosen = GSTId.options[GSTId.selectedIndex].value;
-                            //  var a = GSTChosen.replace('%', '');
-                            //var a = $("#txtTAX option:selected").text().replace('%', '');
-                            // var a = parseFloat($('#txtTAX').text()).toFixed(0.3);
-                            $('#IGST_Per').val(GSTChosen);
-                            calculateTotal();
+                            var a = parseFloat($('#txtTAX').text()).toFixed(0.3);
+                            $('#IGST_Per').val(a + " %");
                         }
                     },
                     failure: function (response) {
-                        //alert(response.responseText);
+                        // alert(response.responseText);
                     },
                     error: function (response) {
                         // alert(response.responseText);
                     }
                 });
-            }
-            function calculateTotal() {
-
-                var sum = 0;
-                //$('#txtAmount').text(sum.toFixed(2));
-                //$('#txtTotAmt').text(sum.toFixed(2));
-                //$('#CGST_Per').text(sum.toFixed(2));
-                //$('#SGST_Per').text(sum.toFixed(2));
-                //$('#IGST_Per').text(sum.toFixed(2));
-                //alert($('#txtAmount').text(sum.toFixed(2)));
-                //var e = $('#CGST_Per').val();
-                //if (e == "") {
-                //    e = 0;
-                //}
-                //var e = $('#SGST_Per').val();
-                //if (e == "") {
-                //    e = 0;
-                //}
-                //var e = $('#IGST_Per').val();
-                //if (e == "") {
-                //    e = 0;
-                //}
-                var a = 0; var b = 0; var f = 0; var p = 0;
-
-                a = parseFloat($('#txtAmount').val()).toFixed(2);
-                b = $('#CGST_Per').val().replace('%', '');
-                f = $('#SGST_Per').val().replace('%', '');
-                p = $('#IGST_Per').val().replace('%', '');
-
-                if (a == "NaN" || a == "") {
-                    a = 0;
-                }
-                if (b == "NaN" || b == "") {
-                    b = 0;
-                }
-                if (f == "NaN" || f == "") {
-                    f = 0;
-                }
-                if (p == "NaN" || p == "") {
-                    p = 0;
-                }
-                var c = parseFloat((a * b) / 100).toFixed(2);
-                var g = parseFloat((a * f) / 100).toFixed(2);
-                var q = parseFloat((a * p) / 100).toFixed(2);
-                var d = parseFloat(parseFloat(a) + parseFloat(c) + parseFloat(g) + parseFloat(q)).toFixed(2);
-
-                $('#CGST').val(c);
-                $('#SGST').val(g);
-                $('#IGST').val(q);
-                $('#txtTotAmt').val(d);
-            }
-            function editRow(r) {
-                var table = document.getElementById('detailsTable');
-                var i = r.parentNode.parentNode.rowIndex;
-
-                //var InvoiceItemID = $("#detailsTable tbody tr td:eq(0)").html();
-                var InvoiceItemID = table.rows[i].cells[0].innerHTML
-                var Description = table.rows[i].cells[1].innerHTML;
-                var Quantity = table.rows[i].cells[2].innerHTML;
-                var Rate = table.rows[i].cells[3].innerHTML;
-                var Tax = table.rows[i].cells[4].innerHTML;
-                var Amount = table.rows[i].cells[5].innerHTML;
-                var IGSTRate = table.rows[i].cells[6].innerHTML;
-                var IGST_Amt = table.rows[i].cells[7].innerHTML;
-                var CGSTRate = table.rows[i].cells[8].innerHTML;
-                var CGST_Amt = table.rows[i].cells[9].innerHTML;
-                var SGSTRate = table.rows[i].cells[10].innerHTML;
-                var SGST_Amt = table.rows[i].cells[11].innerHTML;
-                var Total_Amt = table.rows[i].cells[12].innerHTML;
-
-                $('#edit_row_index').val(i);
-                $('#txtDescription').val(Description);
-                $('#txtQuantity').val(Quantity);
-                $('#txtPrice').val(Rate);
-                $('#txtTAX').val(Tax);
-                $('#txtAmount').val(Amount),
-                $("#Quantity").val(Quantity);
-                $("#IGST_Per").val(IGSTRate),
-                $("#IGST").val(IGST_Amt),
-                $("#CGST_Per").val(CGSTRate),
-                $("#CGST").val(CGST_Amt),
-                $("#SGST_Per").val(SGSTRate),
-                $("#SGST").val(SGST_Amt),
-                $("#txtTotAmt").val(Total_Amt),
-
-                $("#loginModal").modal('show');
-                $('#addToList').hide();
-                $("#editToList").show();
-            }
-
-            function deleteRow(r) {
-                var i = r.parentNode.parentNode.rowIndex;
-                document.getElementById("detailsTable").deleteRow(i);
-                calculateSum();
-            }
-
-            function DiscountAmount() {
-                blankme("#AdditionalDiscount");
-                blankme("#GrandTotal");
-                var b = parseFloat($("#AdditionalDiscount").val());
-                if (isNaN(b)) return;
-                var a = parseFloat($('#SubTotal').text()).toFixed(2); $('#GrandTotal').text(a - b)
-            }
-            $('#AdditionalDiscount').change(function () {
-                calculateSum();
-            });
-            function calculateSum() {
-                var sum = 0;
-                $(".amount").each(function () {
-                    var value = $(this).text();
-                    if (!isNaN(value) && value.length !== 0) { sum += parseFloat(value) }
-                });
-                if (sum == 0.0) {
-                    $('#AdditionalDiscount').text("0");
-                    $('#GrandTotal').text("0")
-                }
-                $('#SubTotal').text(sum.toFixed(2));
-                $('#GrandTotal').text(sum.toFixed(2));
-                var b = parseFloat($('#AdditionalDiscount').val()).toFixed(2);
-                if (isNaN(b)) return;
-                var a = parseFloat($('#SubTotal').text()).toFixed(2); $('#GrandTotal').text(a - b)
-            };
-
-            // Add to List
-            $("#addToList").click(function (e) {
-                e.preventDefault();
-                debugger;
-                //if (add_validation()) {
-                var productId = "0",
-                    description = $("#txtDescription").val(),
-                    quantity = $("#txtQuantity").val(),
-                    price = $("#txtPrice").val(),
-                    TAX = $("#txtTAX").val(),
-                    Amount = $("#txtAmount").val(),
-                    IGSTRate = $("#IGST_Per").val(),
-                    IGSTAmt = $("#IGST").val(),
-                    CGSTRate = $("#CGST_Per").val(),
-                    CGSTAmt = $("#CGST").val(),
-                    SGSTRate = $("#SGST_Per").val(),
-                    SGSTAmt = $("#SGST").val(),
-                    TotAmt = $("#txtTotAmt").val(),
-                    detailsTableBody = $("#detailsTable tbody");
-                var productItem = '<tr> <td style="display:none;">' + productId +
-                    '</td><td>' + description +
-                    '</td><td>' + quantity +
-                    '</td><td>' + price +
-                    '</td><td>' + TAX +
-                    '</td><td class="">' + (parseFloat(price) * parseInt(quantity)).toFixed(2) +
-                    '</td><td>' + IGSTRate +
-                    '</td><td>' + IGSTAmt +
-                    '</td><td>' + CGSTRate +
-                    '</td><td>' + CGSTAmt +
-                    '</td><td>' + SGSTRate +
-                    '</td><td>' + SGSTAmt +
-                    '</td><td class="amount">' + TotAmt +
-                    '</td><td> <input type="button" name="Editbutton" value="Edit" class="btn btn-success" onclick="editRow(this)"> <input type="button" name="Deletebutton" value="Delete" class="btn btn-success" onclick="deleteRow(this)">'
-                    '</td></tr>';
-                detailsTableBody.append(productItem);
-                $("#Editbutton").show();
-                $("#Deletebutton").show();
-                $('#txtDescription').val('');
-                $('#txtQuantity').val('');
-                $('#txtPrice').val('');
-                $('#txtTAX').val('0 %');
-                calculateSum();
-                $("#Quantity").val('');
-                $("#IGST_Per").val('');
-                $("#IGST").val('');
-                $("#CGST_Per").val('');
-                $("#CGST").val('');
-                $("#SGST_Per").val('');
-                $("#SGST").val('');
-                $("#TotAmt").val('');
-                $("#txtTotAmt").val('');
-                $("#txtAmount").val('');
-
-                //blankme("SubTotal");
-                //blankme("GrandTotal")
-                //}
             });
 
-
-            // Edit to List
-            $("#editToList").click(function (e) {
-                e.preventDefault();
-                debugger;
-                //if (add_validation()) {
-                var productId = "0",
-                    description = $("#txtDescription").val(),
-                    quantity = $("#txtQuantity").val(),
-                    price = $("#txtPrice").val(),
-                    TAX = $("#txtTAX").val(),
-                    Amount = $("#txtAmount").val(),
-                    IGSTRate = $("#IGST_Per").val(),
-                    IGSTAmt = $("#IGST").val(),
-                    CGSTRate = $("#CGST_Per").val(),
-                    CGSTAmt = $("#CGST").val(),
-                    SGSTRate = $("#SGST_Per").val(),
-                    SGSTAmt = $("#SGST").val(),
-                    TotAmt = $("#txtTotAmt").val(),
-                    detailsTableBody = $("#detailsTable tbody");
-
-                var table = document.getElementById('detailsTable');
-                var i = $("#edit_row_index").val();
-                table.rows[i].cells[0].innerHTML = productId;
-                table.rows[i].cells[1].innerHTML = description;
-                table.rows[i].cells[2].innerHTML = quantity;
-                table.rows[i].cells[3].innerHTML = price;
-                table.rows[i].cells[4].innerHTML = TAX;
-                table.rows[i].cells[5].innerHTML = Amount;
-                table.rows[i].cells[6].innerHTML = IGSTRate;
-                table.rows[i].cells[7].innerHTML = IGSTAmt;
-                table.rows[i].cells[8].innerHTML = CGSTRate;
-                table.rows[i].cells[9].innerHTML = CGSTAmt;
-                table.rows[i].cells[10].innerHTML = SGSTRate;
-                table.rows[i].cells[11].innerHTML = SGSTAmt;
-                table.rows[i].cells[12].innerHTML = TotAmt;
-
-                $('#txtDescription').val('');
-                $('#txtQuantity').val('');
-                $('#txtPrice').val('');
-                $('#txtTAX').val('0 %');
-                calculateSum();
-                $("#Quantity").val('');
-                $("#IGST_Per").val(''),
-                $("#IGST").val(''),
-                $("#CGST_Per").val(''),
-                $("#CGST").val(''),
-                $("#SGST_Per").val(''),
-                $("#SGST").val(''),
-                $("#TotAmt").val(''),
-                $("#txtTotAmt").val('')
-                $("#txtAmount").val('');
-
-                $('#addToList').show();
-                $("#editToList").hide();
-
-                //blankme("SubTotal");
-                //blankme("GrandTotal")
-                //}
+            $("#btnHideModal").click(function () {
+                $("#loginModal").modal('hide');
             });
+        });
 
+        $("#CompanyID").change(function () {
+            var id = $('#CompanyID').find(":selected").attr('value');
+            $.ajax({
+                type: "GET",
+                url: "/Invoice/GetCompany_InvoiceInitials",
+                datatype: "Json",
+                data: {
+                    CompanyID: $('#CompanyID').val(),
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#InvoiceNo").val(data);
+                }
+            })
+        })
 
-            $("#BtnInvoiceSave").click(function (e) {
-                e.preventDefault();
-                //  if (submitValidation()) {
-                var orderArr = [];
-                orderArr.length = 0;
-                $.each($("#detailsTable tbody tr"),
-                    function () {
-                        orderArr.push({
-                            InvoiceItemID: $(this).find('input').html(),
-                            Description: $(this).find('td:eq(1)').html(),
-                            Quantity: ($(this).find('td:eq(2)')).html(),
-                            Rate: ($(this).find('td:eq(3)')).html(),
-                            Tax: $(this).find('td:eq(4)').html(),
-                            Amount: $(this).find('td:eq(5)').html(),
-                            IGSTRate: $(this).find('td:eq(6)').html().replace('%', ''),
-                            IGST_Amt: $(this).find('td:eq(7)').html(),
-                            CGSTRate: ($(this).find('td:eq(8)')).html().replace('%', ''),
-                            CGST_Amt: $(this).find('td:eq(9)').html(),
-                            SGSTRate: ($(this).find('td:eq(10)')).html().replace('%', ''),
-                            SGST_Amt: $(this).find('td:eq(11)').html(),
-                            Total_Amt: $(this).find('td:eq(12)').html()
-
-                        })
+        $('#ClientID').change(function () {
+            $('#ProjectID').empty();
+            $.ajax({
+                type: "GET", url: "/Invoice/GetProjectByCustomer",
+                datatype: "Json",
+                data: { clientID: $('#ClientID').val() },
+                success: function (data) {
+                    $.each(data, function (index, value) {
+                        $('#ProjectID').append('<option value="' + value.ProjectID + '">' + value.ProjectName + '</option>')
                     });
-                var data = JSON.stringify({
-                    InvoiceID: $("#InvoiceID").val(),
-                    CompanyID: $("#CompanyID").val(),
-                    Invoice_Type: $("#InvoiceType").val(),
-                    AddUserID: $("#AddUserID").val(),
-                    InvoiceNo: $("#InvoiceNo").val(),
-                    InvoiceDate: $("#InvoiceDate").val(),
-                    AddDate: $("#AddDate").val(),
-                    ClientID: $("#ClientID").val(),
-                    ClientName: $("#ClientID").find("option:selected").text(),
-                    ClientAddress: $("#ClientAddress").val(),
-                    ClientContactNo: $("#ClientContactNo").val(),
-                    ProjectID: $("#ProjectID").val(),
-                    ClientGSTIN: $("#ClientGSTIN").val(),
-                    ClientEMail: $("#ClientEMail").val(),
-                    Payment_Method: $("#Payment").val(),
-                    InvoiceStatus: $("#InvoiceStatus").val(),
-                    AdditionalDiscount: parseFloat($('#AdditionalDiscount').val()).toFixed(2),
-                    Notes: $("#Notes").val(),
-                    GrandTotal: parseFloat($('#GrandTotal').text()).toFixed(2),
-                    ArchiveUserID: $("#AddUserID").val(),
-                    ArchiveDate: $("#AddDate").val(),
-                    Items: orderArr
-                });
+                }
+            })
+        });
 
-                console.log(data);
-                if (this.id == "BtnEdit") {
-                    UpdateOrder(data);
+        $("#divIGST").hide();
+        $("#divCGST").hide();
+        $('.clsCustomer').change(function () {
+            $("#divIGST").hide();
+            $("#divCGST").hide();
+
+            $('#TotAmt').val('');
+            $.ajax({
+                type: "GET", url: "/Invoice/GetCustomerState",
+                datatype: "Json",
+                data: { clientID: $('#ClientID').val() },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    $("#ClientContactNo").val(data.ContactNo);
+                    $("#ClientEMail").val(data.EMail);
+                    $("#ClientAddress").val(data.Address1);
+                    $("#ClientGSTIN").val(data.GSTIN);
+
+                    if (data.IsStateMatch) {
+                        $("#divCGST").show();
+                    } else {
+                        $("#divIGST").show();
+                    }
                 }
-                else {
-                    saveOrder(data);
+            })
+        });
+
+        $('#txtPrice, #txtQuantity').keyup(function () {
+            var sum = 0;
+            $('#txtQuantity').text(sum.toFixed(2));
+            $('#txtPrice').text(sum.toFixed(2));
+            $('#txtAmount').text(sum.toFixed(2));
+            $('#txtTotAmt').text(sum.toFixed(2));
+            var a = parseFloat($('#txtQuantity').val()).toFixed(2);
+            var b = parseFloat($('#txtPrice').val()).toFixed(2);
+            var c = parseFloat($('#IGST').val()).toFixed(2);
+            var d = parseFloat($('#CGST').val()).toFixed(2);
+            var e = parseFloat($('#SGST').val()).toFixed(2);
+            $('#txtAmount').val(a * b).toFixed(2);
+            $('#txtTotAmt').val(($('#txtAmount').val()) + c + d + e).toFixed(2);
+            calculateTotal();
+
+        });
+
+        $('#txtPrice, #txtQuantity, #txtAmount').change(function () {
+
+            var sum = 0;
+            $('#txtQuantity').text(sum.toFixed(2));
+            $('#txtPrice').text(sum.toFixed(2));
+            $('#txtAmount').text(sum.toFixed(2));
+            $('#txtTotAmt').text(sum.toFixed(2));
+
+            var a = parseFloat($('#txtQuantity').val()).toFixed(2);
+            var b = parseFloat($('#txtPrice').val()).toFixed(2);
+            var c = parseFloat($('#IGST').val()).toFixed(2);
+            var d = parseFloat($('#CGST').val()).toFixed(2);
+            var e = parseFloat($('#SGST').val()).toFixed(2);
+
+            if (c == "NaN" || c == "") {
+                c = 0;
+            }
+            if (d == "NaN" || d == "") {
+                d = 0;
+            }
+            if (e == "NaN" || e == "") {
+                e = 0;
+            }
+
+            var txtAmount = (a * b).toFixed(2);
+            $('#txtAmount').val(txtAmount);
+
+            var txtTotAmt = parseFloat(txtAmount) + parseFloat(c) + parseFloat(d) + parseFloat(e);
+            var Total = txtTotAmt.toFixed(2);
+            $('#txtTotAmt').val(Total);
+
+            //calculateTotal();
+        });
+
+        $('#txtTAX').change(function () {
+            calculateGST();
+        });
+
+        function calculateGST() {
+            var CompanyID = $('#CompanyID').val();
+            var ClientID = $('#ClientID').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Invoice/GetCGT_Status",
+                data: '{CompanyID: ' + CompanyID + ', ClientID: ' + ClientID + ' }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response == 1) {
+                        var GSTId = document.getElementById("txtTAX");
+                        var GSTChosen = GSTId.options[GSTId.selectedIndex].value;
+                        var a = GSTChosen.replace('%', '');
+                        // var a = $("#txtTAX option:selected").text().replace('%', '');
+                        var b = (a / 2) + " %";
+                        $('#CGST_Per').val(b);
+                        $('#SGST_Per').val(b);
+                        calculateTotal();
+                    }
+                    else {
+                        var GSTId = document.getElementById("txtTAX");
+                        var GSTChosen = GSTId.options[GSTId.selectedIndex].value;
+                        //  var a = GSTChosen.replace('%', '');
+                        //var a = $("#txtTAX option:selected").text().replace('%', '');
+                        // var a = parseFloat($('#txtTAX').text()).toFixed(0.3);
+                        $('#IGST_Per').val(GSTChosen);
+                        calculateTotal();
+                    }
+                },
+                failure: function (response) {
+                    //alert(response.responseText);
+                },
+                error: function (response) {
+                    // alert(response.responseText);
                 }
-                window.location.href = "/Invoice/Index";
-                // }
             });
-            function saveOrder(data) {
-                //debugger;
-                return $.ajax({
-                    type: 'POST',
-                    url: '/Invoice/Create',
-                    data: data,
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                })
+        }
+
+        function calculateTotal() {
+
+            var sum = 0;
+
+            var a = 0; var b = 0; var f = 0; var p = 0;
+
+            a = parseFloat($('#txtAmount').val()).toFixed(2);
+            b = $('#CGST_Per').val().replace('%', '');
+            f = $('#SGST_Per').val().replace('%', '');
+            p = $('#IGST_Per').val().replace('%', '');
+
+            if (a == "NaN" || a == "") {
+                a = 0;
             }
-            function UpdateOrder(data) {
-                return $.ajax({
-                    type: 'POST',
-                    url: '/Invoice/Edit',
-                    data: data,
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                })
+            if (b == "NaN" || b == "") {
+                b = 0;
             }
+            if (f == "NaN" || f == "") {
+                f = 0;
+            }
+            if (p == "NaN" || p == "") {
+                p = 0;
+            }
+            var c = parseFloat((a * b) / 100).toFixed(2);
+            var g = parseFloat((a * f) / 100).toFixed(2);
+            var q = parseFloat((a * p) / 100).toFixed(2);
+            var d = parseFloat(parseFloat(a) + parseFloat(c) + parseFloat(g) + parseFloat(q)).toFixed(2);
 
+            $('#CGST').val(c);
+            $('#SGST').val(g);
+            $('#IGST').val(q);
+            $('#txtTotAmt').val(d);
+        }
 
-            //$('#IGST').change(function () {
-            //    var sum = 0;
-            //    $('#Amount').text(sum.toFixed(2));
-            //    $('#TotAmt').text(sum.toFixed(2));
-            //    $('#IGST').text(sum.toFixed(2));
-            //    var a = parseFloat($('#Amount').val()).toFixed(2);
-            //    var b = parseFloat($('#IGST').val()).toFixed(2);
-            //    var c = parseFloat((a * b) / 100).toFixed(2);
-            //    var d = parseFloat(parseFloat(a) + parseFloat(c)).toFixed(2);
-            //    $('#IGSTAmt').val(c);
-            //    $('#TotAmt').val(d);
-            //    calculateTotal();
-            //});
-            //$('#CGST_Per').change(function () {
+        function editRow(r) {
+            var table = document.getElementById('detailsTable');
+            var i = r.parentNode.parentNode.rowIndex;
 
-            //    var sum = 0;
-            //    $('#txtAmount').text(sum.toFixed(2));
-            //    $('#txtTotAmt').text(sum.toFixed(2));
-            //    $('#CGST_Per').text(sum.toFixed(2));
-            //    var e = $('#CGST').val();
-            //    if (e == "") {
-            //        e = 0;
+            //var InvoiceItemID = $("#detailsTable tbody tr td:eq(0)").html();
+            var InvoiceItemID = table.rows[i].cells[0].innerHTML
+            var Description = table.rows[i].cells[1].innerHTML;
+            var Quantity = table.rows[i].cells[2].innerHTML;
+            var Rate = table.rows[i].cells[3].innerHTML;
+            var Tax = table.rows[i].cells[4].innerHTML;
+            var Amount = table.rows[i].cells[5].innerHTML;
+            var IGSTRate = table.rows[i].cells[6].innerHTML;
+            var IGST_Amt = table.rows[i].cells[7].innerHTML;
+            var CGSTRate = table.rows[i].cells[8].innerHTML;
+            var CGST_Amt = table.rows[i].cells[9].innerHTML;
+            var SGSTRate = table.rows[i].cells[10].innerHTML;
+            var SGST_Amt = table.rows[i].cells[11].innerHTML;
+            var Total_Amt = table.rows[i].cells[12].innerHTML;
+
+            $('#edit_row_index').val(i);
+            $('#txtDescription').val(Description);
+            $('#txtQuantity').val(Quantity);
+            $('#txtPrice').val(Rate);
+            $('#txtTAX').val(Tax);
+            $('#txtAmount').val(Amount),
+            $("#Quantity").val(Quantity);
+            $("#IGST_Per").val(IGSTRate),
+            $("#IGST").val(IGST_Amt),
+            $("#CGST_Per").val(CGSTRate),
+            $("#CGST").val(CGST_Amt),
+            $("#SGST_Per").val(SGSTRate),
+            $("#SGST").val(SGST_Amt),
+            $("#txtTotAmt").val(Total_Amt),
+
+            $("#loginModal").modal('show');
+            $('#addToList').hide();
+            $("#editToList").show();
+        }
+
+        function deleteRow(r) {
+            var i = r.parentNode.parentNode.rowIndex;
+            document.getElementById("detailsTable").deleteRow(i);
+            calculateSum();
+        }
+
+        function DiscountAmount() {
+            blankme("#AdditionalDiscount");
+            blankme("#GrandTotal");
+            var b = parseFloat($("#AdditionalDiscount").val());
+            if (isNaN(b)) return;
+            var a = parseFloat($('#SubTotal').text()).toFixed(2); $('#GrandTotal').text(a - b)
+        }
+
+        $('#AdditionalDiscount').change(function () {
+            calculateSum();
+        });
+
+        function calculateSum() {
+            var sum = 0;
+            $(".amount").each(function () {
+                var value = $(this).text();
+                if (!isNaN(value) && value.length !== 0) { sum += parseFloat(value) }
+            });
+            if (sum == 0.0) {
+                $('#AdditionalDiscount').text("0");
+                $('#GrandTotal').text("0")
+            }
+            $('#SubTotal').text(sum.toFixed(2));
+            $('#GrandTotal').text(sum.toFixed(2));
+            var b = parseFloat($('#AdditionalDiscount').val()).toFixed(2);
+            if (isNaN(b)) return;
+            var a = parseFloat($('#SubTotal').text()).toFixed(2);
+            $('#GrandTotal').text(a - b)
+        };
+
+        // Add to List
+        $("#addToList").click(function (e) {
+            e.preventDefault();
+            debugger;
+            //if (add_validation()) {
+            var productId = "0";
+            var description = $("#txtDescription").val();
+            var quantity = $("#txtQuantity").val();
+            var price = $("#txtPrice").val();
+            var TAX = $("#txtTAX").val();
+            var Amount = $("#txtAmount").val();
+
+            if ($("#IGST_Per").val() == null || $("#IGST_Per").val() == "")
+            { var IGSTRate = 0; }
+            else
+            { var IGSTRate = $("#IGST_Per").val(); }
+
+            if ($("#IGST").val() == null || $("#IGST").val() == "")
+            { var IGSTAmt = 0; }
+            else
+            { var IGSTAmt = $("#IGST").val(); }
+
+            if ($("#CGST_Per").val() == null || $("#CGST_Per").val() == "")
+            { var CGSTRate = 0; }
+            else
+            { var CGSTRate = $("#CGST_Per").val(); }
+
+            if ($("#CGST").val() == null || $("#CGST").val() == "")
+            { var CGSTAmt = 0; }
+            else
+            { var CGSTAmt = $("#CGST").val(); }
+
+            if ($("#SGST_Per").val() == null || $("#SGST_Per").val() == "")
+            { var SGSTRate = 0; }
+            else
+            { var SGSTRate = $("#SGST_Per").val(); }
+
+            if ($("#SGST").val() == null || $("#SGST").val() == "")
+            { var SGSTAmt = 0; }
+            else
+            { var SGSTAmt = $("#SGST").val(); }
+
+            var TotAmt = $("#txtTotAmt").val();
+            var detailsTableBody = $("#detailsTable tbody");
+            var productItem = '<tr> <td style="display:none;">' + productId +
+                '</td><td>' + description +
+                '</td><td>' + quantity +
+                '</td><td>' + price +
+                '</td><td>' + TAX +
+                '</td><td class="">' + (parseFloat(price) * parseInt(quantity)).toFixed(2) +
+                '</td><td>' + IGSTRate +
+                '</td><td>' + IGSTAmt +
+                '</td><td>' + CGSTRate +
+                '</td><td>' + CGSTAmt +
+                '</td><td>' + SGSTRate +
+                '</td><td>' + SGSTAmt +
+                '</td><td class="amount">' + TotAmt +
+                '</td><td> <input type="button" name="Editbutton" value="Edit" class="btn btn-success" onclick="editRow(this)"> <input type="button" name="Deletebutton" value="Delete" class="btn btn-success" onclick="deleteRow(this)">'
+            '</td></tr>';
+            detailsTableBody.append(productItem);
+            $("#Editbutton").show();
+            $("#Deletebutton").show();
+            $('#txtDescription').val('');
+            $('#txtQuantity').val('');
+            $('#txtPrice').val('');
+            $('#txtTAX').val('0 %');
+            calculateSum();
+            $("#Quantity").val('');
+            $("#IGST_Per").val('');
+            $("#IGST").val('');
+            $("#CGST_Per").val('');
+            $("#CGST").val('');
+            $("#SGST_Per").val('');
+            $("#SGST").val('');
+            $("#TotAmt").val('');
+            $("#txtTotAmt").val('');
+            $("#txtAmount").val('');
+
+            //blankme("SubTotal");
+            //blankme("GrandTotal")
+            //}
+        });
+        // Edit to List
+        $("#editToList").click(function (e) {
+            e.preventDefault();
+            debugger;
+            //if (add_validation()) {
+            var productId = "0",
+                description = $("#txtDescription").val(),
+                quantity = $("#txtQuantity").val(),
+                price = $("#txtPrice").val(),
+                TAX = $("#txtTAX").val(),
+                Amount = $("#txtAmount").val(),
+                IGSTRate = $("#IGST_Per").val(),
+                IGSTAmt = $("#IGST").val(),
+                CGSTRate = $("#CGST_Per").val(),
+                CGSTAmt = $("#CGST").val(),
+                SGSTRate = $("#SGST_Per").val(),
+                SGSTAmt = $("#SGST").val(),
+                TotAmt = $("#txtTotAmt").val(),
+                detailsTableBody = $("#detailsTable tbody");
+
+            var table = document.getElementById('detailsTable');
+            var i = $("#edit_row_index").val();
+            table.rows[i].cells[0].innerHTML = productId;
+            table.rows[i].cells[1].innerHTML = description;
+            table.rows[i].cells[2].innerHTML = quantity;
+            table.rows[i].cells[3].innerHTML = price;
+            table.rows[i].cells[4].innerHTML = TAX;
+            table.rows[i].cells[5].innerHTML = Amount;
+            table.rows[i].cells[6].innerHTML = IGSTRate;
+            table.rows[i].cells[7].innerHTML = IGSTAmt;
+            table.rows[i].cells[8].innerHTML = CGSTRate;
+            table.rows[i].cells[9].innerHTML = CGSTAmt;
+            table.rows[i].cells[10].innerHTML = SGSTRate;
+            table.rows[i].cells[11].innerHTML = SGSTAmt;
+            table.rows[i].cells[12].innerHTML = TotAmt;
+
+            $('#txtDescription').val('');
+            $('#txtQuantity').val('');
+            $('#txtPrice').val('');
+            $('#txtTAX').val('0 %');
+            calculateSum();
+            $("#Quantity").val('');
+            $("#IGST_Per").val(''),
+            $("#IGST").val(''),
+            $("#CGST_Per").val(''),
+            $("#CGST").val(''),
+            $("#SGST_Per").val(''),
+            $("#SGST").val(''),
+            $("#TotAmt").val(''),
+            $("#txtTotAmt").val('')
+            $("#txtAmount").val('');
+
+            $('#addToList').show();
+            $("#editToList").hide();
+
+            //blankme("SubTotal");
+            //blankme("GrandTotal")
+            //}
+        });
+
+        function InvoiceSave_changes() {
+            debugger;
+            var orderArr = [];
+            orderArr.length = 0;
+            $.each($("#detailsTable tbody tr"),
+                function () {
+                    orderArr.push({
+                        InvoiceItemID: $(this).find('td:eq(0)').html(),
+                        Description: $(this).find('td:eq(1)').html(),
+                        Quantity: ($(this).find('td:eq(2)')).html(),
+                        Rate: ($(this).find('td:eq(3)')).html(),
+                        Tax: $(this).find('td:eq(4)').html(),
+                        Amount: $(this).find('td:eq(5)').html(),
+                        IGSTRate: $(this).find('td:eq(6)').html().replace('%', ''),
+                        IGST_Amt: $(this).find('td:eq(7)').html(),
+                        CGSTRate: ($(this).find('td:eq(8)')).html().replace('%', ''),
+                        CGST_Amt: $(this).find('td:eq(9)').html(),
+                        SGSTRate: ($(this).find('td:eq(10)')).html().replace('%', ''),
+                        SGST_Amt: $(this).find('td:eq(11)').html(),
+                        Total_Amt: $(this).find('td:eq(12)').html()
+                    })
+                });
+            var formdata = JSON.stringify({
+                InvoiceID: 0,
+                CompanyID: $("#CompanyID").val(),
+                Invoice_Type: $("#Invoice_Type").val(),
+                AddUserID: $("#AddUserID").val(),
+                InvoiceNo: $("#InvoiceNo").val(),
+                InvoiceDate: $("#InvoiceDate").val(),
+                AddDate: $("#AddDate").val(),
+                ClientID: $("#ClientID").val(),
+                ClientName: $("#ClientID").find("option:selected").text(),
+                ClientAddress: $("#ClientAddress").val(),
+                ClientContactNo: $("#ClientContactNo").val(),
+                ProjectID: $("#ProjectID").val(),
+                ClientGSTIN: $("#ClientGSTIN").val(),
+                ClientEMail: $("#ClientEMail").val(),
+                Payment_Method: $("#Payment_Method").val(),
+                InvoiceStatus: $("#InvoiceStatus").val(),
+                AdditionalDiscount: parseFloat($('#AdditionalDiscount').val()).toFixed(2),
+                Notes: $("#Notes").val(),
+                GrandTotal: parseFloat($('#GrandTotal').text()).toFixed(2),
+                ArchiveUserID: $("#AddUserID").val(),
+                ArchiveDate: $("#AddDate").val(),
+                Items: orderArr,
+                calltype: 'ajax'
+            });
+            saveOrder(formdata);
+            //var rtnval = "";
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Invoice/Create",
+            //    data: formdata,
+            //    contentType: "application/json; charset=utf-8",
+            //    datatype: "Json",
+            //    success: function (response) {
+            //        if (response == 'success') {
+            //            window.location = "/Invoice/Index";
+            //            //rtnval = false;
+            //        }
+            //        //else if (response == 'failure') {
+            //        //   // window.location.href = "/Invoice/Create";
+            //        //    //rtnval = true;
+            //        //}
+            //        //console.log(data);
+            //        //window.location.href = "/Invoice/Index";
             //    }
-            //    var a = parseFloat($('#txtAmount').val()).toFixed(2);
-            //    var b = parseFloat($('#CGST_Per').val()).toFixed(2);
-            //    var c = parseFloat((a * b) / 100).toFixed(2);
-            //    var d = parseFloat(parseFloat(e) + parseFloat(a) + parseFloat(c)).toFixed(2);
-            //    $('#CGST').val(c);
-            //    $('#txtTotAmt').val(d);
-            //});
-            //$('#SGST').change(function () {
-            //    var sum = 0;
-            //    $('#Amount').text(sum.toFixed(2));
-            //    $('#TotAmt').text(sum.toFixed(2));
-            //    $('#SGST').text(sum.toFixed(2));
-            //    var e = $('#CGSTAmt').val();
-            //    if (e == "") {
-            //        e = 0;
-            //    }
-            //    var a = parseFloat($('#Amount').val()).toFixed(2);
-            //    var b = parseFloat($('#SGST').val()).toFixed(2);
-            //    var c = parseFloat((a * b) / 100).toFixed(2);
-            //    var d = parseFloat(parseFloat(e) + parseFloat(a) + parseFloat(c)).toFixed(2);
-            //    $('#SGSTAmt').val(c);
-            //    $('#TotAmt').val(d);
-            //});
-        </script>
-    }
+            //})
+            //if (calltype == "notajax")
+            //{
+            //    window.location.href = "/Invoice/Create";
+            //}
+            //return rtnval;
+        }
+        //Function for Save Order
+        function saveOrder(formdata) {
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: "/Invoice/Create",
+                //dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: formdata,
+                //success: function (response) {
+                //    alert(response.result);
+                //    //  $('#BtnInvoiceSave').one('click', clickHandler);
+                //    if (response == 'success') {
+                //        window.location = "/Invoice/Index";
+                //    }
+                //}
+            })
+
+        };
+        //var clickHandler = function (e) {
+        //    debugger;
+        //    var a = "";
+        //    var orderArr = [];
+        //    orderArr.length = 0;
+        //    $.each($("#detailsTable tbody tr"),
+        //        function () {
+        //            orderArr.push({
+        //                InvoiceItemID: $(this).find('td:eq(0)').html(),
+        //                Description: $(this).find('td:eq(1)').html(),
+        //                Quantity: ($(this).find('td:eq(2)')).html(),
+        //                Rate: ($(this).find('td:eq(3)')).html(),
+        //                Tax: $(this).find('td:eq(4)').html(),
+        //                Amount: $(this).find('td:eq(5)').html(),
+        //                IGSTRate: $(this).find('td:eq(6)').html().replace('%', ''),
+        //                IGST_Amt: $(this).find('td:eq(7)').html(),
+        //                CGSTRate: ($(this).find('td:eq(8)')).html().replace('%', ''),
+        //                CGST_Amt: $(this).find('td:eq(9)').html(),
+        //                SGSTRate: ($(this).find('td:eq(10)')).html().replace('%', ''),
+        //                SGST_Amt: $(this).find('td:eq(11)').html(),
+        //                Total_Amt: $(this).find('td:eq(12)').html()
+        //            })
+        //        });
+        //    var formdata = JSON.stringify({
+        //        InvoiceID: 0,
+        //        CompanyID: $("#CompanyID").val(),
+        //        Invoice_Type: $("#Invoice_Type").val(),
+        //        AddUserID: $("#AddUserID").val(),
+        //        InvoiceNo: $("#InvoiceNo").val(),
+        //        InvoiceDate: $("#InvoiceDate").val(),
+        //        AddDate: $("#AddDate").val(),
+        //        ClientID: $("#ClientID").val(),
+        //        ClientName: $("#ClientID").find("option:selected").text(),
+        //        ClientAddress: $("#ClientAddress").val(),
+        //        ClientContactNo: $("#ClientContactNo").val(),
+        //        ProjectID: $("#ProjectID").val(),
+        //        ClientGSTIN: $("#ClientGSTIN").val(),
+        //        ClientEMail: $("#ClientEMail").val(),
+        //        Payment_Method: $("#Payment_Method").val(),
+        //        InvoiceStatus: $("#InvoiceStatus").val(),
+        //        AdditionalDiscount: parseFloat($('#AdditionalDiscount').val()).toFixed(2),
+        //        Notes: $("#Notes").val(),
+        //        GrandTotal: parseFloat($('#GrandTotal').text()).toFixed(2),
+        //        ArchiveUserID: $("#AddUserID").val(),
+        //        ArchiveDate: $("#AddDate").val(),
+        //        Items: orderArr,
+        //        calltype: 'ajax'
+        //    });
+        //    $.ajax({
+        //        url: "/Invoice/Create",
+        //        type: 'POST',
+        //        data: formdata,
+        //        async: false,
+        //        dataType: 'json',
+        //        //   enctype: 'multipart/form-data',
+        //        contentType: 'application/json; charset=utf-8',
+        //        cache: false,
+        //        success: function (response) {
+        //            $('#BtnInvoiceSave').one('click', clickHandler);
+        //            if (response == '') {
+        //                a = response;
+        //                //// data.redirect contains the string URL to redirect to
+        //                //$('#BtnInvoiceSave').one('click', clickHandler);
+
+
+        //            }
+        //        },
+        //        error: function () { }
+        //    });
+        //    //if (a == "")
+        //    //    window.location = "/Invoice/Index";
+        //    e.stopImmediatePropagation();
+        //    return false;
+        //}
+        //$('#BtnInvoiceSave').one('click', clickHandler);
+    </script>
+}
 

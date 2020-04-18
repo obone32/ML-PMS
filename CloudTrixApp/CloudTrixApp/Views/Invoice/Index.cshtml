@@ -1,4 +1,4 @@
-@*@using PagedList;
+@using PagedList;
 @using PagedList.Mvc;
 @model PagedList.IPagedList<CloudTrixApp.Models.Invoice>
 
@@ -19,12 +19,12 @@
             <li class="active">Invoice List</li>
         </ol>
     </section>
-    <div class="wraper container-fluid ">
+    <section class="content">
         <div class="row">
-            <div class="col col-md-11">
+            <div class="col col-sm-11">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Invoice List </h3>
+                        <h3 class="panel-title">Invoice List</h3>
                     </div>
                     <div class="panel-body">
                         @using (Html.BeginForm("Index", "Invoice", FormMethod.Get))
@@ -66,7 +66,7 @@
                         <hr />
                         <div class="table-responsive">
                             <table class="table">
-                                <tr class="bg-warning">
+                                <tr class="bg-danger">
                                     <th>
                                         @Html.ActionLink("Invoice No", "Index", new { sortOrder = ViewData["InvoiceNoSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
@@ -74,20 +74,12 @@
                                         @Html.ActionLink("Invoice Date", "Index", new { sortOrder = ViewData["InvoiceDateSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
                                     <th>
-                                        @Html.ActionLink("Project Name", "Index", new { sortOrder = ViewData["ProjectIDSortParm"], SearchText = ViewData["SearchText"] })
-                                    </th>
-                                    <th>
                                         @Html.ActionLink("Client Name", "Index", new { sortOrder = ViewData["ClientNameSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
                                     <th>
-                                        @Html.ActionLink("Client G S T I N", "Index", new { sortOrder = ViewData["ClientGSTINSortParm"], SearchText = ViewData["SearchText"] })
+                                        @Html.ActionLink("Grand Total", "Index", new { sortOrder = ViewData["GrandTotalSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
-                                    <th>
-                                        @Html.ActionLink("Contact No", "Index", new { sortOrder = ViewData["ClientContactNoSortParm"], SearchText = ViewData["SearchText"] })
-                                    </th>
-                                    <th>
-                                        @Html.ActionLink("E Mail", "Index", new { sortOrder = ViewData["ClientEMailSortParm"], SearchText = ViewData["SearchText"] })
-                                    </th>
+
                                     <th></th>
                                 </tr>
 
@@ -101,37 +93,30 @@
                                             @Html.DisplayFor(modelItem => item.InvoiceDate)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Project.ProjectName)
-                                        </td>
-                                        <td>
                                             @Html.DisplayFor(modelItem => item.ClientName)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ClientGSTIN)
+                                            @Html.DisplayFor(modelItem => item.GrandTotal)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ClientContactNo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ClientEMail)
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Edit", "Edit", new
-                                   {
-                                       InvoiceID = item.InvoiceID
-                                   }) |
-                                            @Html.ActionLink("Details", "Details", new
-                                   {
-                                       InvoiceID = item.InvoiceID
-                                   }) |
-                                            @Html.ActionLink("Delete", "Delete", new
-                                   {
-                                       InvoiceID = item.InvoiceID
-                                   })
+                                            <a href="@Url.Action("Edit", "Invoice", new { InvoiceID = item.InvoiceID })" class="label bg-green">
+                                                <i class="fa fa-edit">  Edit</i>
+                                            </a>
+                                            |
+                                            <a href="@Url.Action("Details", "Invoice", new { InvoiceID = item.InvoiceID })" class="label bg-yellow">
+                                                <i class="fa fa-info">  Details</i>
+                                            </a>
+                                            |
+                                            <a href="@Url.Action("Delete", "Invoice", new { InvoiceID = item.InvoiceID })" class="label bg-red">
+                                                <i class="fa fa-eraser">  Delete</i>
+                                            </a>
+                                            |
+                                            <a href="@Url.Action("GeneratePDF", "Invoice", new { InvoiceID = item.InvoiceID })" class="label bg-red">
+                                                <i class="fa fa-eraser">  Print</i>
+                                            </a>
                                         </td>
                                     </tr>
                                 }
-
                             </table>
                         </div>
                         <div class="table-responsive">
@@ -147,141 +132,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>*@
-
-@model IEnumerable<CloudTrixApp.Models.Invoice>
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<div class="content-wrapper">
-    <section class="content-header">
-        <h1>
-
-            <small></small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Invoice</a></li>
-            <li class="active">Invoice List</li>
-        </ol>
     </section>
-
-<div class="wraper container-fluid">
-    <div class="page-title">
-        @*@if (ViewBag.IsAdd != null && ViewBag.IsAdd == true)
-        {*@
-            <a href="@Url.Action("Create", "Invoice")" class="btn btn-primary pull-left">New Invoice </a>
-            <br />
-        @*}*@
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"> Invoice List </h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <table class="table table-hover table-bordered table-responsive" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.InvoiceNo)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.InvoiceDate)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.ClientName)
-                                        </th>
-                                       
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.GrandTotal)
-                                        </th>
-                                        <th>action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.InvoiceNo)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.InvoiceDate)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ClientName)
-                                            </td>
-                                          
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.GrandTotal)
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-purple dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="true">
-                                                        action <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li>
-                                                            <a href="@Url.Action("Edit", "Invoice", new { InvoiceID = item.InvoiceID })"><i class="fa fa-edit"></i> Edit</a>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </div>
-                                                @*@if (ViewBag.IsAdd != null && ViewBag.IsAdd == true)
-                                                {
-
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-purple dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="true">
-                                                            action <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu" role="menu">
-                                                            <li>
-                                                                <a href="@Url.Action("EditInvoice", "Admin", new { InvoiceId = item.Id })"><i class="fa fa-edit"></i> Edit</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("DeletePurcahse", "Admin", new { InvoiceId = item.Id })" onclick="return confirm('Are you sure you want to Remove this Sale ?')"> <i class="fa fa-remove"></i> Delete</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("InvoiceInvoice", "Admin", new { InvoiceId = item.Id, style = 1 })"><i class="fa fa-print"></i> Invoice 1</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("InvoiceInvoice", "Admin", new { InvoiceId = item.Id, style = 2 })"><i class="fa fa-print"> </i> Invoice 2</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                }*@
-
-                                              
-                                            </td>
-                                        </tr>
-
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-    </div>
-@section scripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-
-        });
-
-    </script>
+@section Scripts {
+   
 }
-
-
-

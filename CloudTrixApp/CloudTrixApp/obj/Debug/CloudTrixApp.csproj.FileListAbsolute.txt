@@ -379,4 +379,17 @@ C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\de\PdfShar
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\de\PdfSharp.Charting.resources.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.pdb
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Syncfusion.Compression.Base.dll
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Syncfusion.Licensing.dll
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Syncfusion.Pdf.Base.dll
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Syncfusion.Compression.Base.xml
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Syncfusion.Pdf.Base.xml
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Syncfusion.HtmlConverter.Base.dll
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Syncfusion.HtmlConverter.Base.xml
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Rotativa.Core.dll
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\Rotativa.MVC.dll
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\itextsharp.dll
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\RazorPDF.dll
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\itextsharp.xml
+C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\bin\itextsharp.pdfa.dll
 C:\Users\SHINDE\Documents\GitHub\ML-PMS\CloudTrixApp\CloudTrixApp\obj\Debug\CloudTrixApp.csprojResolveAssemblyReference.cache

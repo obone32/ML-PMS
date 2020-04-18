@@ -15,8 +15,8 @@ namespace CloudTrixApp
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            CloudTrixApp.App_Start.BundleConfig.RegisterBundles(BundleTable.Bundles);
+           
         }
     }
 }

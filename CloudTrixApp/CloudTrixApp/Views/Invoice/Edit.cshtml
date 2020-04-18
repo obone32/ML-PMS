@@ -40,25 +40,32 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="CompanyName"> Company Name :</label>
-                                            @Html.DropDownList("CompanyID", null, "Select Company Name", new { @class = "form-control clsCustomer", @id = "CompanyID", @autocomplete = "off" })
+                                            @Html.DropDownListFor(m => m.CompanyID, null, "Select Company Name", new { @class = "form-control clsCustomer", @id = "CompanyID", @autocomplete = "off" })
+                                            @Html.ValidationMessageFor(m => m.CompanyID, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label for="Invoice_Type"> Invoice Type : </label>
-                                            @Html.DropDownList("Invoice_Type", new List<SelectListItem>
+                                            <label for="InvoiceType"> Invoice Type :</label>
+                                            @*<select id="InvoiceType" class="form-control">
+                                                    <option>Select</option>
+                                                    <option>Tax Invoice</option>
+                                                    <option>Proforma Invoice</option>
+                                                </select>*@
+                                            @Html.DropDownListFor(m => m.Invoice_Type, new List<SelectListItem>
                                         {
-                                            new SelectListItem() {Text = "Tax Invoice", Value="Tax Invoice"},
-                                            new SelectListItem() {Text = "Proforma Invoice", Value="Proforma Invoice"},
-                                        }, "Select Invoice Type", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                            new SelectListItem() {Text = "Tax Invoice", Value="TaxInvoice"},
+                                            new SelectListItem() {Text = "Proforma Invoice", Value="ProformaInvoice"},
+                                        }, "Select Payment", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                            @Html.ValidationMessageFor(m => m.Invoice_Type, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="AddUserID"> Created By :</label>
                                             @*@Html.TextBox("AddUserID", User.Identity.Name.Split('|')[0], new { @class = "form-control", @placeholder = "", @id = "AddUserID", @style = "width : 100%", autocomplete = "off", @readonly = "readonly" })*@
-                                            @Html.TextBox("AddUserID", User.Identity.Name.Split('|')[0], new { @class = "form-control  ", @placeholder = "Created by ", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.TextBox("AddUserID", User.Identity.Name.Split('|')[1], new { @class = "form-control  ", @placeholder = "Created by ", autocomplete = "off", @readonly = "readonly" })
+
                                         </div>
                                     </div>
                                 </div>
@@ -67,7 +74,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="InvoiceNo"> Invoice No : </label>
-                                            @Html.TextBox("InvoiceNo", null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.TextBoxFor(m => m.InvoiceNo, null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off", @readonly = "readonly" })
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -87,7 +94,8 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="ClientID"> Client Name : </label>
-                                            @Html.DropDownList("ClientID", null, "Select Client Name", new { @class = "form-control clsCustomer", @id = "ClientID", @autocomplete = "off" })
+                                            @Html.DropDownListFor(m => m.ClientID, null, "Select Client Name", new { @class = "form-control clsCustomer", @id = "ClientID", @autocomplete = "off" })
+                                            @Html.ValidationMessageFor(m => m.ClientID, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -108,10 +116,9 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="ProjectID"> Project Name :</label>
-                                            @Html.DropDownList("ProjectID", null, "Select Project Name", new { @class = "form-control  ", @id = "ProjectID", @placeholder = "Project Name ", autocomplete = "off" })
-                                            @*<select id="ProjectID" class="form-control">
-                                                    <option value="">Select Project</option>
-                                                </select>*@
+                                            @Html.DropDownListFor(m => m.ProjectID, null, "Select Project Name", new { @class = "form-control  ", @placeholder = "Project Name ", autocomplete = "off" })
+
+                                            @*@Html.ValidationMessageFor(m => m.ProjectID, "", new { @class = "text-danger" })*@
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -130,10 +137,10 @@
 
                                 @* Modal PopUp for adding New Item Details*@
                                 <div class="container-fluid">
-                                    <button type="button" id="btnShowModal" class="btn btn-success">Add New Item To List</button>
+                                    <button type="button" id="btnShowModal" class="btn btn-success" data-toggle="modal" data-target="#loginModal">Add New Item To List</button>
                                     &nbsp;&nbsp;&nbsp;
-                                    <small id="error_SubTotal" class="form-text error_msg">Atleast add one item</small>
-
+                                    @*<small id="error_SubTotal" class="form-text error_msg">Atleast add one item</small>*@
+                                    @Html.ValidationMessage("CustomError")
                                 </div>
                                 <div class="modal fade" tabindex="-1" id="loginModal" data-keyboard="false" data-backdrop="static">
                                     @*<div class="modal-dialog modal-lg">*@
@@ -286,11 +293,11 @@
                                                                 <td>@Items.Rate</td>
                                                                 <td>@Items.Tax</td>
                                                                 <td>@Items.Amount</td>
-                                                                <td>@string.Format("{0:N0}",Items.IGSTRate)%</td>
+                                                                <td>@string.Format("{0:N0}", Items.IGSTRate)%</td>
                                                                 <td>@Items.IGST_Amt</td>
-                                                                <td>@string.Format("{0:N0}",Items.CGSTRate)%</td>
+                                                                <td>@string.Format("{0:N0}", Items.CGSTRate)%</td>
                                                                 <td>@Items.CGST_Amt</td>
-                                                                <td>@string.Format("{0:N0}",Items.SGSTRate)%</td>
+                                                                <td>@string.Format("{0:N0}", Items.SGSTRate)%</td>
                                                                 <td>@Items.SGST_Amt</td>
                                                                 <td class="amount">@Items.Total_Amt </td>
                                                                 <td style="width:20px"><input type="button" name="Editbutton" value="Edit" class="btn btn-success" onclick="editRow(this)"> <input type="button" name="Deletebutton" value="Delete" class="btn btn-success" onclick="deleteRow(this)"></td>
@@ -328,27 +335,29 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="Payment"> Payment Method : </label>
-                                            @Html.DropDownList("Payment_Method", new List<SelectListItem>
+                                            @Html.DropDownListFor(m => m.Payment_Method, new List<SelectListItem>
                                         {
                                             new SelectListItem() {Text = "Cash", Value="Cash"},
                                             new SelectListItem() {Text = "Check", Value="Check"},
                                         }, "Select Payment", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                            @Html.ValidationMessageFor(m => m.Payment_Method, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="Status"> Status : </label>
-                                            @Html.DropDownList("InvoiceStatus", new List<SelectListItem>
+                                            @Html.DropDownListFor(m => m.InvoiceStatus, new List<SelectListItem>
                                         {
                                             new SelectListItem() {Text = "Due", Value="Due"},
                                             new SelectListItem() {Text = "Paid", Value="Paid"},
                                         }, "Select Status", new { @class = "form-control", onchange = "blankme(this.id)" })
+                                            @Html.ValidationMessageFor(m => m.InvoiceStatus, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="AdditionalDiscount"> Discount : </label>
-                                            @Html.TextBox("AdditionalDiscount", null, new { @class = "form-control", @id = "AdditionalDiscount", @type = "number", @placeholder = "Discount Amount ", onchange = "DiscountAmount()" })
+                                            <label for="Discount"> Discount : </label>
+                                            @Html.TextBoxFor(m => m.AdditionalDiscount, null, new { @class = "form-control", @type = "number", @placeholder = "Discount Amount ", onchange = "DiscountAmount()" })
                                         </div>
                                     </div>
                                 </div>
@@ -356,17 +365,22 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="Notes"> Notes: </label>
-                                            @Html.TextArea("Notes", new { @class = "form-control ", @rows = "2", @placeholder = "Enter Notes" })
+                                            @Html.TextAreaFor(m => m.Notes, new { @class = "form-control ", @rows = "2", @placeholder = "Enter Notes" })
                                         </div>
                                     </div>
                                     <div class="col-md-4"></div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="GrandTotal"> Grand Total : </label>
-                                            @Html.TextBox("GrandTotal", null, new { @class = "form-control", @placeholder = "", @id = "GrandTotal", autocomplete = "off", @readonly = "readonly" })
-                                            @*<h5 id="GrandTotal" class="form-control"> </h5>*@
-                                            <small id="error_GrandTotal" class="form-text error_msg">Total is empty</small>
+                                            <label for="GrandTotal"> Grand Total :</label>
+                                            <h5 id="GrandTotal" class="form-control"> </h5>
+                                            @Html.ValidationMessageFor(m => m.GrandTotal, "", new { @class = "text-danger" })
+                                            @*     <small id="error_GrandTotal" class="form-text error_msg">Total is empty</small>*@
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+
                                     </div>
                                 </div>
                                 <div class="container-fluid">
@@ -697,24 +711,7 @@
         function calculateTotal() {
 
             var sum = 0;
-            //$('#txtAmount').text(sum.toFixed(2));
-            //$('#txtTotAmt').text(sum.toFixed(2));
-            //$('#CGST_Per').text(sum.toFixed(2));
-            //$('#SGST_Per').text(sum.toFixed(2));
-            //$('#IGST_Per').text(sum.toFixed(2));
-            //alert($('#txtAmount').text(sum.toFixed(2)));
-            //var e = $('#CGST_Per').val();
-            //if (e == "") {
-            //    e = 0;
-            //}
-            //var e = $('#SGST_Per').val();
-            //if (e == "") {
-            //    e = 0;
-            //}
-            //var e = $('#IGST_Per').val();
-            //if (e == "") {
-            //    e = 0;
-            //}
+
             var a = 0; var b = 0; var f = 0; var p = 0;
 
             a = parseFloat($('#txtAmount').val()).toFixed(2);
@@ -789,16 +786,12 @@
             document.getElementById("detailsTable").deleteRow(i);
             calculateSum();
         }
+
         function DiscountAmount() {
-            //blankme("#AdditionalDiscount");
-            //blankme("#GrandTotal");
             var b = parseFloat($("#AdditionalDiscount").val());
-            if (isNaN(b))
-                b = 0;
-            var a = parseFloat($('#SubTotal').text()).toFixed(2);
-            var c = a - b;
-            $('#GrandTotal').val(c);
+            var a = parseFloat($('#SubTotal').text()).toFixed(2); $('#GrandTotal').text(a - b)
         }
+
         $('#AdditionalDiscount').change(function () {
             calculateSum();
         });
@@ -815,13 +808,9 @@
             $('#SubTotal').text(sum.toFixed(2));
             $('#GrandTotal').text(sum.toFixed(2));
             var b = parseFloat($('#AdditionalDiscount').val()).toFixed(2);
-            // alert($('#AdditionalDiscount').val());
-            if (isNaN(b))
-                b = 0;
+            if (isNaN(b)) return;
             var a = parseFloat($('#SubTotal').text()).toFixed(2);
-            var c = a - b;
-            $('#GrandTotal').val(c);
-            // alert($('#GrandTotal').text());
+            $('#GrandTotal').text(a - b)
         };
 
         // Add to List
@@ -934,7 +923,7 @@
                 Items: orderArr
             });
             console.log(data);
-         
+
 
             if (this.id == "BtnInvoiceEdit") {
                 UpdateOrder(data);
