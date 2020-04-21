@@ -87,13 +87,15 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="InvoiceDate"> InvoiceDate :</label>
-                                            @Html.TextBox("InvoiceDate", DateTime.Now.Date.ToShortDateString(), new { @class = "form-control datepicker", @placeholder = "Enter Invoice Date", autocomplete = "off" })
+                                            @*@Html.TextBox("InvoiceDate", DateTime.Now.Date.ToShortDateString(), new { @class = "form-control datepicker", @placeholder = "Enter Invoice Date", autocomplete = "off" })*@
+                                            @Html.TextBoxFor(x => x.InvoiceDate, new { @Value = @DateTime.Now.Date.ToLongDateString(), @class = "form-control datepicker", @placeholder = "Enter Invoice Date", autocomplete = "off" })
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="AddDate"> AddDate :</label>
-                                            @Html.TextBox("AddDate", DateTime.Now, new { @class = "form-control datepicker ", autocomplete = "off", @readonly = "readonly" })
+                                            @*@Html.TextBox("AddDate", DateTime.Now, new { @class = "form-control datepicker ", autocomplete = "off", @readonly = "readonly" })*@
+                                            @Html.TextBoxFor(x => x.AddDate, new { @Value = @DateTime.Now.Date.ToLongDateString(), @class = "form-control datepicker ", autocomplete = "off", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -400,7 +402,7 @@
         $(document).ready(function () {
 
             $("#InvoiceDate").datepicker({
-                format: 'mm/dd/yyyy',
+                format: 'dd/MM/yyyy',
                 startDate: new Date('2020-1-5'),
                 endDate: new Date('2040-12-31')
             });
@@ -954,81 +956,7 @@
             })
 
         };
-        //var clickHandler = function (e) {
-        //    debugger;
-        //    var a = "";
-        //    var orderArr = [];
-        //    orderArr.length = 0;
-        //    $.each($("#detailsTable tbody tr"),
-        //        function () {
-        //            orderArr.push({
-        //                InvoiceItemID: $(this).find('td:eq(0)').html(),
-        //                Description: $(this).find('td:eq(1)').html(),
-        //                Quantity: ($(this).find('td:eq(2)')).html(),
-        //                Rate: ($(this).find('td:eq(3)')).html(),
-        //                Tax: $(this).find('td:eq(4)').html(),
-        //                Amount: $(this).find('td:eq(5)').html(),
-        //                IGSTRate: $(this).find('td:eq(6)').html().replace('%', ''),
-        //                IGST_Amt: $(this).find('td:eq(7)').html(),
-        //                CGSTRate: ($(this).find('td:eq(8)')).html().replace('%', ''),
-        //                CGST_Amt: $(this).find('td:eq(9)').html(),
-        //                SGSTRate: ($(this).find('td:eq(10)')).html().replace('%', ''),
-        //                SGST_Amt: $(this).find('td:eq(11)').html(),
-        //                Total_Amt: $(this).find('td:eq(12)').html()
-        //            })
-        //        });
-        //    var formdata = JSON.stringify({
-        //        InvoiceID: 0,
-        //        CompanyID: $("#CompanyID").val(),
-        //        Invoice_Type: $("#Invoice_Type").val(),
-        //        AddUserID: $("#AddUserID").val(),
-        //        InvoiceNo: $("#InvoiceNo").val(),
-        //        InvoiceDate: $("#InvoiceDate").val(),
-        //        AddDate: $("#AddDate").val(),
-        //        ClientID: $("#ClientID").val(),
-        //        ClientName: $("#ClientID").find("option:selected").text(),
-        //        ClientAddress: $("#ClientAddress").val(),
-        //        ClientContactNo: $("#ClientContactNo").val(),
-        //        ProjectID: $("#ProjectID").val(),
-        //        ClientGSTIN: $("#ClientGSTIN").val(),
-        //        ClientEMail: $("#ClientEMail").val(),
-        //        Payment_Method: $("#Payment_Method").val(),
-        //        InvoiceStatus: $("#InvoiceStatus").val(),
-        //        AdditionalDiscount: parseFloat($('#AdditionalDiscount').val()).toFixed(2),
-        //        Notes: $("#Notes").val(),
-        //        GrandTotal: parseFloat($('#GrandTotal').text()).toFixed(2),
-        //        ArchiveUserID: $("#AddUserID").val(),
-        //        ArchiveDate: $("#AddDate").val(),
-        //        Items: orderArr,
-        //        calltype: 'ajax'
-        //    });
-        //    $.ajax({
-        //        url: "/Invoice/Create",
-        //        type: 'POST',
-        //        data: formdata,
-        //        async: false,
-        //        dataType: 'json',
-        //        //   enctype: 'multipart/form-data',
-        //        contentType: 'application/json; charset=utf-8',
-        //        cache: false,
-        //        success: function (response) {
-        //            $('#BtnInvoiceSave').one('click', clickHandler);
-        //            if (response == '') {
-        //                a = response;
-        //                //// data.redirect contains the string URL to redirect to
-        //                //$('#BtnInvoiceSave').one('click', clickHandler);
 
-
-        //            }
-        //        },
-        //        error: function () { }
-        //    });
-        //    //if (a == "")
-        //    //    window.location = "/Invoice/Index";
-        //    e.stopImmediatePropagation();
-        //    return false;
-        //}
-        //$('#BtnInvoiceSave').one('click', clickHandler);
     </script>
 }
 

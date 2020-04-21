@@ -20,10 +20,13 @@ namespace CloudTrixApp.Models
         //[Display(Name = "Invoice No")]
         public String InvoiceNo { get; set; }
 
-        [Required]
+
         //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //[Display(Name = "Invoice Date")]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)].
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Invoice Date")]
         public DateTime InvoiceDate { get; set; }
 
         // [Required]
@@ -70,17 +73,17 @@ namespace CloudTrixApp.Models
         //  [Display(Name = "Add User I D")]
         public Int32? AddUserID { get; set; }
 
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //[Display(Name = "Add Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Add Date")]
         public DateTime? AddDate { get; set; }
 
         //   [Display(Name = "Archive User I D")]
         public Int32? ArchiveUserID { get; set; }
 
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //[Display(Name = "Archive Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Archive Date")]
         public DateTime? ArchiveDate { get; set; }
 
         [Required(ErrorMessage = "Grand Total is empty.")]
