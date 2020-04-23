@@ -402,11 +402,15 @@
         $(document).ready(function () {
 
             $("#InvoiceDate").datepicker({
-                format: 'dd/MM/yyyy',
+                format: 'dd/MMM/yyyy',
                 startDate: new Date('2020-1-5'),
                 endDate: new Date('2040-12-31')
             });
-
+            $("#InvoiceDate").datepicker({
+                onSelect: function (dateText) {
+                    format: 'dd/MMM/yyyy'
+                }
+            });
             $("#btnShowModal").click(function () {
                 var CompanyID = $('#CompanyID').val();
                 var ClientID = $('#ClientID').val();

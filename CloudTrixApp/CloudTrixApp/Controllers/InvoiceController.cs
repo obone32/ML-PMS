@@ -1000,35 +1000,35 @@ namespace CloudTrixApp.Controllers
             //oInvoice.InvoiceID = System.Convert.ToInt32(Invoice.InvoiceID);
             //oInvoice = InvoiceData.Select_Record(Invoice);
 
-            //if (ModelState.IsValid)
-            //{
-            bool bSucess = false;
-            bSucess = InvoiceData.Update(Invoice);
-            if (Invoice.Items != null)
+            if (ModelState.IsValid)
             {
-                foreach (var item in Invoice.Items)
+                bool bSucess = false;
+                bSucess = InvoiceData.Update(Invoice);
+                if (Invoice.Items != null)
                 {
-                    item.InvoiceID = Invoice.InvoiceID;
-                    if (item.InvoiceItemID == 0)
+                    foreach (var item in Invoice.Items)
                     {
-                        InvoiceItemData.Add(item);
-                    }
-                    else
-                    {
-                        InvoiceItemData.Update(item);
+                        item.InvoiceID = Invoice.InvoiceID;
+                        if (item.InvoiceItemID == 0)
+                        {
+                            InvoiceItemData.Add(item);
+                        }
+                        else
+                        {
+                            InvoiceItemData.Update(item);
 
+                        }
                     }
                 }
+                if (bSucess == true)
+                {
+                    return RedirectToAction("Index", "Invoice");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Can Not Update");
+                }
             }
-            if (bSucess == true)
-            {
-                return RedirectToAction("Index", "Invoice");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Can Not Update");
-            }
-            //}
             // ComboBox
             ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
             ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName", Invoice.ClientID);
