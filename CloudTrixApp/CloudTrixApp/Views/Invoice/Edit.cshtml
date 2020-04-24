@@ -786,7 +786,10 @@
             $("#editToList").show();
         }
         function deleteRow(r) {
+
             var i = r.parentNode.parentNode.rowIndex;
+            //var table = document.getElementById('detailsTable');
+            //var InvoiceItemID = table.rows[i].cells[0].innerHTML;
             document.getElementById("detailsTable").deleteRow(i);
             calculateSum();
         }

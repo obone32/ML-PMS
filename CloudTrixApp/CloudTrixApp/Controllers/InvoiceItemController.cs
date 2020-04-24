@@ -264,16 +264,16 @@ namespace CloudTrixApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool bSucess = false;
-                bSucess = InvoiceItemData.Add(InvoiceItem);
-                if (bSucess == true)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Can Not Insert");
-                }
+                //bool bSucess = false;
+                //bSucess = InvoiceItemData.Add(InvoiceItem);
+                //if (bSucess == true)
+                //{
+                //    return RedirectToAction("Index");
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "Can Not Insert");
+                //}
             }
             // ComboBox
             ViewData["InvoiceID"] = new SelectList(InvoiceItem_InvoiceData.List(), "InvoiceID", "InvoiceID", InvoiceItem.InvoiceID);

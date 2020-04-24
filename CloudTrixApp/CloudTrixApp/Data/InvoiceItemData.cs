@@ -225,7 +225,7 @@ namespace CloudTrixApp.Data
             return InvoiceItemList;
         }
 
-        public static bool Add(InvoiceItem InvoiceItem)
+        public static int Add(InvoiceItem InvoiceItem)
         {
             SqlConnection connection = PMMSData.GetConnection();
             string insertProcedure = "[InvoiceItemInsert]";
@@ -310,16 +310,16 @@ namespace CloudTrixApp.Data
                 int count = System.Convert.ToInt32(insertCommand.Parameters["@ReturnValue"].Value);
                 if (count > 0)
                 {
-                    return true;
+                    return count;
                 }
                 else
                 {
-                    return false;
+                    return 0;
                 }
             }
             catch (Exception ex)
             {
-                return false;
+                return 0;
             }
             finally
             {
@@ -401,6 +401,29 @@ namespace CloudTrixApp.Data
                 //{
                 //    return false;
                 //}
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public static bool DeleteInvoiceItemID(string InvoiceItemID, int InvoiceID)
+        {
+            SqlConnection connection = PMMSData.GetConnection();
+            string deleteProcedure = "[InvoiceItemIDDelete]";
+            SqlCommand deleteCommand = new SqlCommand(deleteProcedure, connection);
+            deleteCommand.CommandType = CommandType.StoredProcedure;
+            deleteCommand.Parameters.AddWithValue("@NotDeleteID", InvoiceItemID);
+            deleteCommand.Parameters.AddWithValue("@InvoiceID", InvoiceID);
+            try
+            {
+                connection.Open();
+                deleteCommand.ExecuteNonQuery();
+                return true;
             }
             catch (Exception ex)
             {

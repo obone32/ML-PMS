@@ -860,11 +860,19 @@ namespace CloudTrixApp.Controllers
                 foreach (var item in Invoice.Items)
                 {
                     item.InvoiceID = invoiceID;
-                    bSucess = InvoiceItemData.Add(item);
+                    int ID = 0;
+                    ID = InvoiceItemData.Add(item);
+                    if (ID > 0)
+                    {
+                        bSucess = true;
+                    }
+                    else
+                    {
+                        bSucess = false;
+                    }
                 }
                 if (bSucess == true)
                 {
-
                     return RedirectToAction("Index");
                 }
                 else
@@ -1000,27 +1008,36 @@ namespace CloudTrixApp.Controllers
             //Invoice oInvoice = new Invoice();
             //oInvoice.InvoiceID = System.Convert.ToInt32(Invoice.InvoiceID);
             //oInvoice = InvoiceData.Select_Record(Invoice);
-
+            if (Invoice.Items == null)
+            {
+                ModelState.AddModelError("CustomError", "Add data in Item List.");
+            }
             if (ModelState.IsValid)
             {
                 bool bSucess = false;
                 bSucess = InvoiceData.Update(Invoice);
                 if (Invoice.Items != null)
                 {
+                    string NotDeleteID = "";
                     foreach (var item in Invoice.Items)
                     {
                         item.InvoiceID = Invoice.InvoiceID;
                         if (item.InvoiceItemID == 0)
                         {
-                            InvoiceItemData.Add(item);
+                            int id = InvoiceItemData.Add(item);
+                            NotDeleteID = NotDeleteID + id +  ",";
                         }
                         else
                         {
                             InvoiceItemData.Update(item);
-
                         }
+                        if (item.InvoiceItemID > 0)
+                            NotDeleteID = NotDeleteID + item.InvoiceItemID + ",";
                     }
+                    if (NotDeleteID != "")
+                        InvoiceItemData.DeleteInvoiceItemID(NotDeleteID.Substring(0, NotDeleteID.Length - 1), Invoice.InvoiceID);
                 }
+
                 if (bSucess == true)
                 {
                     return RedirectToAction("Index", "Invoice");
@@ -1477,6 +1494,7 @@ namespace CloudTrixApp.Controllers
         {
             return new ActionAsPdf("PrintInvoice", new { InvoiceID = InvoiceID });
         }
+
     }
 }
 
