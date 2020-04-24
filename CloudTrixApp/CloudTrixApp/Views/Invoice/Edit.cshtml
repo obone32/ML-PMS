@@ -75,6 +75,7 @@
                                             <label for="InvoiceNo"> Invoice No : </label>
                                             @Html.TextBoxFor(m => m.InvoiceNo, null, new { @class = "form-control", @placeholder = "Invoice No", autocomplete = "off", @readonly = "readonly" })
                                         </div>
+
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
@@ -823,19 +824,43 @@
             debugger;
             //if (add_validation()) {
             var productId = "0",
-                description = $("#txtDescription").val(),
-                quantity = $("#txtQuantity").val(),
-                price = $("#txtPrice").val(),
-                TAX = $("#txtTAX").val(),
-                Amount = $("#txtAmount").val(),
-                IGSTRate = $("#IGST_Per").val(),
-                IGSTAmt = $("#IGST").val(),
-                CGSTRate = $("#CGST_Per").val(),
-                CGSTAmt = $("#CGST").val(),
-                SGSTRate = $("#SGST_Per").val(),
-                SGSTAmt = $("#SGST").val(),
-                TotAmt = $("#txtTotAmt").val(),
-                detailsTableBody = $("#detailsTable tbody");
+                description = $("#txtDescription").val();
+            quantity = $("#txtQuantity").val();
+            price = $("#txtPrice").val();
+            TAX = $("#txtTAX").val();
+            Amount = $("#txtAmount").val();
+            if ($("#IGST_Per").val() == null || $("#IGST_Per").val() == "")
+            { var IGSTRate = 0; }
+            else
+            { var IGSTRate = $("#IGST_Per").val(); }
+
+            if ($("#IGST").val() == null || $("#IGST").val() == "")
+            { var IGSTAmt = 0; }
+            else
+            { var IGSTAmt = $("#IGST").val(); }
+
+            if ($("#CGST_Per").val() == null || $("#CGST_Per").val() == "")
+            { var CGSTRate = 0; }
+            else
+            { var CGSTRate = $("#CGST_Per").val(); }
+
+            if ($("#CGST").val() == null || $("#CGST").val() == "")
+            { var CGSTAmt = 0; }
+            else
+            { var CGSTAmt = $("#CGST").val(); }
+
+            if ($("#SGST_Per").val() == null || $("#SGST_Per").val() == "")
+            { var SGSTRate = 0; }
+            else
+            { var SGSTRate = $("#SGST_Per").val(); }
+
+            if ($("#SGST").val() == null || $("#SGST").val() == "")
+            { var SGSTAmt = 0; }
+            else
+            { var SGSTAmt = $("#SGST").val(); }
+
+            TotAmt = $("#txtTotAmt").val(),
+            detailsTableBody = $("#detailsTable tbody");
             var productItem = '<tr> <td style="display:none;">' + productId +
                 '</td><td>' + description +
                 '</td><td>' + quantity +

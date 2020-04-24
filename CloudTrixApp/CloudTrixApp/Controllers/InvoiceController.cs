@@ -986,6 +986,7 @@ namespace CloudTrixApp.Controllers
             ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName", Invoice.ClientID);
             ViewData["CompanyID"] = new SelectList(Invoice_CompanyData.List(), "CompanyID", "CompanyName", Invoice.CompanyID);
 
+
             return View(Invoice);
         }
 
